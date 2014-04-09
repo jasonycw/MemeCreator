@@ -3,25 +3,49 @@ package cs4295.memecreator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class WelcomeScreenAcivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
         ActionBar actionBar = getActionBar();
         actionBar.hide();
+        
+        //Transparent bar on android 4.4 or above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, 
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // Translucent navigation bar
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, 
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        
+        setContentView(R.layout.activity_welcome_screen);
+        
+        //If there is no instance, use the normal layout
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.welcomeScreenActivity, new PlaceholderFragment())
                     .commit();
+        }
+        //Pass the image to the next activity
+        else
+        {
+        	
         }
     }
 
