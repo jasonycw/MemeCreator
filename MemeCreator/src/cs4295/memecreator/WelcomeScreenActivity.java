@@ -6,25 +6,20 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class WelcomeScreenActivity extends Activity {
 	private static int LOAD_IMAGE_RESULTS = 1;
-	private ImageView image;
 	private WelcomeScreenActivity selfRef;
 
 	@Override
@@ -47,7 +42,6 @@ public class WelcomeScreenActivity extends Activity {
 		}
 
 		setContentView(R.layout.activity_welcome_screen);
-		image = (ImageView) findViewById(R.id.image);
 		selfRef = this;
 		// If there is no instance, use the normal layout
 		if (savedInstanceState == null) {
@@ -87,7 +81,7 @@ public class WelcomeScreenActivity extends Activity {
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-//					Toast.makeText(getActivity(), "Clicked Image",Toast.LENGTH_SHORT).show();
+					// Toast.makeText(getActivity(), "Clicked Image",Toast.LENGTH_SHORT).show();
 					
 					// Call the action picker for selecting image
 					Intent i = new Intent(
@@ -112,13 +106,10 @@ public class WelcomeScreenActivity extends Activity {
 				Cursor cursor = getContentResolver().query(pickedImage, filePath, null, null, null);
 				cursor.moveToFirst();
 				String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-
-					// image.setImageBitmap(BitmapFactory
-					// .decodeFile(imagePath));
+				cursor.close();
 				
 				// Forward the image path to the next activity
 				forwardImagePath(imagePath, SaveResultImageActivity.class);
-				cursor.close();
 			}
 		}
 	}
