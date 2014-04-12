@@ -4,6 +4,8 @@
     <string name="app_name">MemeCreator</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_save_result_image">SaveResultImageActivity</string>
+    <string name="title_activity_save_result_image">Save Meme</string>
+    <string name="error_no_image">No image is found!</string>
+    <string name="getUserFile">Access user file storage</string>
 
 </resources>
