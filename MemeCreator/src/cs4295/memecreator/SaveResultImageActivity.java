@@ -20,20 +20,23 @@ import android.widget.ImageView;
 
 public class SaveResultImageActivity extends Activity {
 	private ImageView resultImage;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ActionBar actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(Color
-				.parseColor("#503C3C3C")));
-		actionBar.setHomeButtonEnabled(true);
 		setContentView(R.layout.activity_save_result_image);
+		
+		// Set the actioin bar style
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#503C3C3C")));
+		actionBar.setHomeButtonEnabled(true);
 
 		// Transparent bar on android 4.4 or above
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			Window window = getWindow();
 			// Translucent status bar
-			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+			window.setFlags(
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// Translucent navigation bar
 			window.setFlags(
@@ -44,13 +47,13 @@ public class SaveResultImageActivity extends Activity {
 		// Get the intent and set the image path to be the result image
 		Intent i = getIntent();
 		String imagePath = i.getStringExtra("cs4295.memcreator.imagePath");
-		resultImage = (ImageView)this.findViewById(R.id.resultImage);
-		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));;
+		resultImage = (ImageView) this.findViewById(R.id.resultImage);
+		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+		;
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.save_result_image, menu);
 		return true;
@@ -65,7 +68,7 @@ public class SaveResultImageActivity extends Activity {
 		case R.id.action_settings:
 			return true;
 		case android.R.id.home:
-			// app icon in action bar clicked; goto parent activity.
+			// When the action bar icon on the top right is clicked, finish this activity
 			this.finish();
 			return true;
 		default:
@@ -82,10 +85,8 @@ public class SaveResultImageActivity extends Activity {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(
-					R.layout.fragment_save_result_image, container, false);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_save_result_image, container, false);
 			return rootView;
 		}
 	}

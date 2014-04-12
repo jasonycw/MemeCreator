@@ -37,7 +37,8 @@ public class WelcomeScreenActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			Window window = getWindow();
 			// Translucent status bar
-			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+			window.setFlags(
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// Translucent navigation bar
 			window.setFlags(
@@ -57,8 +58,15 @@ public class WelcomeScreenActivity extends Activity {
 		}
 		// Pass the image to the next activity
 		else {
-
 		}
+	}
+
+	// Method for forwarding a image path to the next class
+	private void forwardImagePath(String imagePath, Class<?> targetClass) {
+		// Put the image path to the intent with the variable name "cs4295.memcreator.imagePath"
+		Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
+		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
+		startActivity(forward);
 	}
 
 	/**
@@ -72,23 +80,19 @@ public class WelcomeScreenActivity extends Activity {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(
-					R.layout.fragment_welcome_screen_acivity, container, false);
-			welcomeScreenImage = (ImageView) rootView
-					.findViewById(R.id.welcomeScreenImage);
-			welcomeScreenImage
-					.setImageResource(R.drawable.welcome_screen_image);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_welcome_screen_acivity, container, false);
+			welcomeScreenImage = (ImageView) rootView.findViewById(R.id.welcomeScreenImage);
+			welcomeScreenImage.setImageResource(R.drawable.welcome_screen_image);
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					Toast.makeText(getActivity(), "Clicked Image",
-							Toast.LENGTH_SHORT).show();
+//					Toast.makeText(getActivity(), "Clicked Image",Toast.LENGTH_SHORT).show();
+					
+					// Call the action picker for selecting image
 					Intent i = new Intent(
 							Intent.ACTION_PICK,
 							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
 					startActivityForResult(i, LOAD_IMAGE_RESULTS);
 				}
 			});
@@ -96,28 +100,24 @@ public class WelcomeScreenActivity extends Activity {
 			return rootView;
 		}
 
+		// Method that will be call when the action pick is completed
 		public void onActivityResult(int requestCode, int resultCode,
 				Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
 
-			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
-					&& data != null) {
+			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
+				// Get the image path of the image
 				Uri pickedImage = data.getData();
 				String[] filePath = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(pickedImage,
-						filePath, null, null, null);
+				Cursor cursor = getContentResolver().query(pickedImage, filePath, null, null, null);
 				cursor.moveToFirst();
+				String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
 
-				String imagePath = cursor.getString(cursor
-						.getColumnIndex(filePath[0]));
-				// image.setImageBitmap(BitmapFactory
-				// .decodeFile(imagePath));
-
-				Intent forward = new Intent(selfRef,
-						SaveResultImageActivity.class);
-				forward.putExtra("cs4295.memcreator.imagePath", imagePath);
-				startActivity(forward);
+					// image.setImageBitmap(BitmapFactory
+					// .decodeFile(imagePath));
+				
+				// Forward the image path to the next activity
+				forwardImagePath(imagePath, SaveResultImageActivity.class);
 				cursor.close();
 			}
 		}
