@@ -16,7 +16,9 @@
             android:id="@+id/resultImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
     </RelativeLayout>
 

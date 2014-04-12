@@ -25,6 +25,7 @@ public class SaveResultImageActivity extends Activity {
 		// Set the actioin bar style
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#503C3C3C")));
+		actionBar.setIcon(R.drawable.back_icon);
 		actionBar.setHomeButtonEnabled(true);
 
 		// Transparent bar on android 4.4 or above
