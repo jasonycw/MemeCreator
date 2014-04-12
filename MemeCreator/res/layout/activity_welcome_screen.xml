@@ -8,19 +8,18 @@
     tools:context="cs4295.memecreator.WelcomeScreenAcivity"
     tools:ignore="MergeRootFrame" >
 
-   <ImageView
-    android:id="@+id/image"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:src="@drawable/ic_launcher" />
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_launcher" />
 
-   <ImageView
-       android:id="@+id/imagebutton"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:src="@drawable/ic_launcher" />
-   
+    <!-- <ImageView -->
+    <!-- android:id="@+id/imagebutton" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:src="@drawable/ic_launcher" /> -->
+
 </FrameLayout>
-

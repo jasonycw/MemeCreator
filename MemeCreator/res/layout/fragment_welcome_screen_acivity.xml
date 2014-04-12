@@ -8,15 +8,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cs4295.memecreator.WelcomeScreenAcivity$PlaceholderFragment" >
 
-<<<<<<< HEAD
     <ImageView
         android:id="@+id/welcomeScreenImage"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        
-        android:paddingBottom="?android:attr/actionBarSize"/>
-=======
- 
->>>>>>> afdda8d63b5e24db0d78d799a83596aabb8d2686
-
-</RelativeLayout>
+        android:paddingBottom="?android:attr/actionBarSize" />
+</RelativeLayout>
