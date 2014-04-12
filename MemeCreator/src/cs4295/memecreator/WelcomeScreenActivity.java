@@ -83,6 +83,9 @@ public class WelcomeScreenActivity extends Activity {
 				public void onClick(View arg0) {
 					// Toast.makeText(getActivity(), "Clicked Image",Toast.LENGTH_SHORT).show();
 					
+					// Prevent multiple click
+					welcomeScreenImage.setEnabled(false);
+					
 					// Call the action picker for selecting image
 					Intent i = new Intent(
 							Intent.ACTION_PICK,
@@ -95,10 +98,12 @@ public class WelcomeScreenActivity extends Activity {
 		}
 
 		// Method that will be call when the action pick is completed
-		public void onActivityResult(int requestCode, int resultCode,
-				Intent data) {
+		public void onActivityResult(int requestCode, int resultCode, Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
-
+			// Re-enable the button after result
+			welcomeScreenImage.setEnabled(true);
+			
+			// If the result is okay
 			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
 				// Get the image path of the image
 				Uri pickedImage = data.getData();
