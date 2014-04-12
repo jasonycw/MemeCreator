@@ -3,6 +3,8 @@ package cs4295.memecreator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -14,9 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 public class SaveResultImageActivity extends Activity {
-
+	private ImageView resultImage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,10 +41,11 @@ public class SaveResultImageActivity extends Activity {
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+		// Get the intent and set the image path to be the result image
+		Intent i = getIntent();
+		String imagePath = i.getStringExtra("cs4295.memcreator.imagePath");
+		resultImage = (ImageView)this.findViewById(R.id.resultImage);
+		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));;
 	}
 
 	@Override

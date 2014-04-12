@@ -116,7 +116,7 @@ public class WelcomeScreenActivity extends Activity {
 
 				Intent forward = new Intent(selfRef,
 						SaveResultImageActivity.class);
-				forward.putExtra("imagePath", imagePath);
+				forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 				startActivity(forward);
 				cursor.close();
 			}
