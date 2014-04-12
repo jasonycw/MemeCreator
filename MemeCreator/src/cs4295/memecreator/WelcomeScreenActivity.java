@@ -46,14 +46,14 @@ public class WelcomeScreenActivity extends Activity {
 		}
 
 		setContentView(R.layout.activity_welcome_screen);
-		image = (ImageView)findViewById(R.id.image);
+		image = (ImageView) findViewById(R.id.image);
 		selfRef = this;
 		// If there is no instance, use the normal layout
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.welcomeScreenActivity, new PlaceholderFragment())
 					.commit();
-			
+
 		}
 		// Pass the image to the next activity
 		else {
@@ -108,13 +108,16 @@ public class WelcomeScreenActivity extends Activity {
 					Intent i = new Intent(
 							Intent.ACTION_PICK,
 							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
 					startActivityForResult(i, LOAD_IMAGE_RESULTS);
 				}
 			});
 
 			return rootView;
 		}
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		public void onActivityResult(int requestCode, int resultCode,
+				Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
 
 			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
@@ -122,15 +125,19 @@ public class WelcomeScreenActivity extends Activity {
 				Uri pickedImage = data.getData();
 				String[] filePath = { MediaStore.Images.Media.DATA };
 
-				Cursor cursor = getContentResolver().query(pickedImage, filePath,
-						null, null, null);
+				Cursor cursor = getContentResolver().query(pickedImage,
+						filePath, null, null, null);
 				cursor.moveToFirst();
 
 				String imagePath = cursor.getString(cursor
 						.getColumnIndex(filePath[0]));
-				image.setImageBitmap(BitmapFactory
-						.decodeFile(imagePath));
+				// image.setImageBitmap(BitmapFactory
+				// .decodeFile(imagePath));
 
+				Intent forward = new Intent(selfRef,
+						SaveResultImageActivity.class);
+				forward.putExtra("imagePath", imagePath);
+				startActivity(forward);
 				cursor.close();
 			}
 		}
