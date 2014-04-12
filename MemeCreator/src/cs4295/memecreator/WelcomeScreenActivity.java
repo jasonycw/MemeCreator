@@ -1,6 +1,5 @@
 package cs4295.memecreator;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -84,8 +83,7 @@ public class WelcomeScreenActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	@SuppressLint("ValidFragment")
-	public class PlaceholderFragment extends Fragment {
+	public static class PlaceholderFragment extends Fragment {
 		private ImageView welcomeScreenImage;
 
 		public PlaceholderFragment() {
@@ -111,28 +109,30 @@ public class WelcomeScreenActivity extends Activity {
 					startActivityForResult(i, LOAD_IMAGE_RESULTS);
 				}
 			});
-
 			return rootView;
 		}
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
-			super.onActivityResult(requestCode, resultCode, data);
+	}
 
-			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
-					&& data != null) {
-				Uri pickedImage = data.getData();
-				String[] filePath = { MediaStore.Images.Media.DATA };
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 
-				Cursor cursor = getContentResolver().query(pickedImage, filePath,
-						null, null, null);
-				cursor.moveToFirst();
+		if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
+				&& data != null) {
+			Uri pickedImage = data.getData();
+			String[] filePath = { MediaStore.Images.Media.DATA };
 
-				String imagePath = cursor.getString(cursor
-						.getColumnIndex(filePath[0]));
-				image.setImageBitmap(BitmapFactory
-						.decodeFile(imagePath));
+			Cursor cursor = getContentResolver().query(pickedImage, filePath,
+					null, null, null);
+			cursor.moveToFirst();
 
-				cursor.close();
-			}
+			String imagePath = cursor.getString(cursor
+					.getColumnIndex(filePath[0]));
+			image.setImageBitmap(BitmapFactory
+					.decodeFile(imagePath));
+
+			cursor.close();
 		}
 	}
+
 }
