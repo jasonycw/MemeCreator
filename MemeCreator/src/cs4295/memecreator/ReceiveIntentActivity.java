@@ -53,23 +53,4 @@ public class ReceiveIntentActivity extends Activity {
 		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 		startActivity(forward);
 	}
-	
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_receive_intent, container,
-					false);
-			return rootView;
-		}
-	}
-
 }

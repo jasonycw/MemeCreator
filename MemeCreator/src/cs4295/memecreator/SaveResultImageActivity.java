@@ -56,15 +56,15 @@ public class SaveResultImageActivity extends Activity {
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 		
-	// Get the intent and set the image path to be the result image
+		// Get the intent and set the image path to be the result image
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
 		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-		
 		tempImage = BitmapFactory.decodeFile(imagePath);
+		
+		// Share button on click
 		Button share = (Button) findViewById(R.id.shareButton);
-		Button save = (Button) findViewById(R.id.saveButton);
 		share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -90,6 +90,9 @@ public class SaveResultImageActivity extends Activity {
 				}
 			}
 		});	
+		
+		// Save button on click 
+		Button save = (Button) findViewById(R.id.saveButton);
 		save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -98,31 +101,34 @@ public class SaveResultImageActivity extends Activity {
 			}
 		});		
 	}
+	
+	// Method to show notification when sharing is failed
 	private void show(){
-		Toast.makeText(this, "Can't not share", 2000).show();
+		Toast.makeText(this, "Sorry, share failed", 2000).show();
 	}
+	
+	// Method to save the image
 	private void saveImage(Bitmap image, String fileName) {
 
 	    File direct = new File(Environment.getExternalStorageDirectory() + "/Meme Creator");
 
-	    if (!direct.exists()) {
-	        File memeDirectory = new File("/sdcard/Meme Creator/");
-	        memeDirectory.mkdirs();
-	      }
+		if (!direct.exists()) {
+			File memeDirectory = new File("/sdcard/Meme Creator/");
+			memeDirectory.mkdirs();
+		}
 
-	        File file = new File(new File("/sdcard/Meme Creator/"), fileName);
-	        if (file.exists())
-	            file.delete();
-	        try {
-	            FileOutputStream out = new FileOutputStream(file);
-	            image.compress(Bitmap.CompressFormat.PNG, 100, out);
-	            out.flush();
-	            out.close();
-	            Toast.makeText(this, fileName+ " save at /sdcard/Meme Creator/", 2000).show();;
-
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+		File file = new File(new File("/sdcard/Meme Creator/"), fileName);
+		if (file.exists())
+			file.delete();
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			image.compress(Bitmap.CompressFormat.PNG, 100, out);
+			out.flush();
+			out.close();
+			Toast.makeText(this,fileName + " is saved at /sdcard/Meme Creator/", 2000).show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
