@@ -1,21 +1,35 @@
 package cs4295.memecreator;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SaveResultImageActivity extends Activity {
 	private ImageView resultImage;
+	private Bitmap tempImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,7 @@ public class SaveResultImageActivity extends Activity {
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#503C3C3C")));
 		actionBar.setIcon(R.drawable.back_icon);
 		actionBar.setHomeButtonEnabled(true);
+		
 
 		// Transparent bar on android 4.4 or above
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -40,14 +55,76 @@ public class SaveResultImageActivity extends Activity {
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
-
-		// Get the intent and set the image path to be the result image
-		Intent i = getIntent();
-		String imagePath = i.getStringExtra("cs4295.memcreator.imagePath");
+		
+	// Get the intent and set the image path to be the result image
+		Intent shareIntent = getIntent();
+		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
 		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-	}
+		
+		tempImage = BitmapFactory.decodeFile(imagePath);
+		Button share = (Button) findViewById(R.id.shareButton);
+		Button save = (Button) findViewById(R.id.saveButton);
+		share.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
 
+				// Build the intent
+				Uri uriToImage = Uri.parse(android.provider.MediaStore.Images.Media.
+						insertImage(SaveResultImageActivity.this.getContentResolver(), tempImage, null, null));
+				Intent imageIntent = new Intent(Intent.ACTION_SEND);
+				imageIntent.setType("image/*");
+				imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+
+				// Verify it resolves
+				PackageManager packageManager = getPackageManager();
+				List<ResolveInfo> activities = packageManager.queryIntentActivities(imageIntent, 0);
+				boolean isIntentSafe = activities.size() > 0;
+
+				// Start an activity if it's safe
+				if (isIntentSafe) {
+					startActivity(Intent.createChooser(imageIntent, "Share images to.."));
+				}
+				else {
+					show();
+				}
+			}
+		});	
+		save.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				//save Image in Internal with own Folder
+				saveImage(tempImage,"name.png");
+			}
+		});		
+	}
+	private void show(){
+		Toast.makeText(this, "Can't not share", 2000).show();
+	}
+	private void saveImage(Bitmap image, String fileName) {
+
+	    File direct = new File(Environment.getExternalStorageDirectory() + "/Meme Creator");
+
+	    if (!direct.exists()) {
+	        File memeDirectory = new File("/sdcard/Meme Creator/");
+	        memeDirectory.mkdirs();
+	      }
+
+	        File file = new File(new File("/sdcard/Meme Creator/"), fileName);
+	        if (file.exists())
+	            file.delete();
+	        try {
+	            FileOutputStream out = new FileOutputStream(file);
+	            image.compress(Bitmap.CompressFormat.PNG, 100, out);
+	            out.flush();
+	            out.close();
+	            Toast.makeText(this, fileName+ " save at /sdcard/Meme Creator/", 2000).show();;
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
