@@ -8,10 +8,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cs4295.memecreator.WelcomeScreenAcivity$PlaceholderFragment" >
 
-    <ImageView
-        android:id="@+id/welcomeScreenImage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:paddingBottom="?android:attr/actionBarSize" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <cs4295.memecreator.ResizableImageView
+            android:id="@+id/welcomeScreenImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            android:src="@drawable/welcome_screen_image" />
+    </LinearLayout>
+
 </RelativeLayout>
