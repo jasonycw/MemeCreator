@@ -7,5 +7,6 @@
     <string name="title_activity_save_result_image">Back</string>
     <string name="error_no_image">No image is found!</string>
     <string name="getUserFile">Access user file storage</string>
+    <string name="title_activity_receive_intent">ReceiveIntentActivity</string>
 
 </resources>
