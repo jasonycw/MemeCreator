@@ -41,7 +41,7 @@ public class ReceiveIntentActivity extends Activity {
 		cursor.close();
 		// Forward the image path to the next activity
 		forwardImagePath(imagePath, SaveResultImageActivity.class);
-	
+		finish();
 	}
 	
 
