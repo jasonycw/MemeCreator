@@ -32,7 +32,6 @@ public class TouchManager {
 	}
 
 	public Vector2D moveDelta(int index) {
-
 		if (isPressed(index)) {
 			Vector2D previous = previousPoints[index] != null ? previousPoints[index] : points[index];
 			return Vector2D.subtract(points[index], previous);
@@ -40,6 +39,45 @@ public class TouchManager {
 		else {
 			return new Vector2D();
 		}
+	}
+	
+	public Vector2D moveDelta(){
+			Vector2D[] allPreviousPoints = new Vector2D[maxNumberOfTouchPoints];
+			Vector2D result = new Vector2D();
+			// Get the collection of all the previousPoints
+			for(int i = 0; i < maxNumberOfTouchPoints; ++i)
+				if (isPressed(i))
+					allPreviousPoints[i] = previousPoints[i] != null ? previousPoints[i] : points[i];
+			
+			float totalX,totalY,n;
+			Vector2D currentPoint, previousPoint;
+			
+			// Get the averaged previousPoint
+			totalX=0;
+			totalY=0;
+			n=0;
+			for(int i = 0; i < maxNumberOfTouchPoints; ++i)
+				if (isPressed(i)) {
+					totalX += allPreviousPoints[i].getX();
+					totalY += allPreviousPoints[i].getY();
+					n++;
+				}
+			previousPoint = new Vector2D(totalX/n, totalY/n);
+			
+			// Get the averaged currentPoint
+			totalX=0;
+			totalY=0;
+			n=0;
+			for(int i = 0; i < maxNumberOfTouchPoints; ++i)
+				if (isPressed(i)) {
+					totalX += points[i].getX();
+					totalY += points[i].getY();
+					n++;
+				}
+			currentPoint = new Vector2D(totalX/n, totalY/n);
+			
+			result = Vector2D.subtract(currentPoint, previousPoint);
+			return result;
 	}
 
 	private static Vector2D getVector(Vector2D a, Vector2D b) {
