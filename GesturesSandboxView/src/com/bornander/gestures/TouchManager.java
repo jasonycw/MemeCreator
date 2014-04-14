@@ -93,7 +93,7 @@ public class TouchManager {
 
 						}
 
-						if (Vector2D.subtract(points[index], newPoint).getLength() < 64)
+						if (Vector2D.subtract(points[index], newPoint).getLength() < 1064)
 							points[index].set(newPoint);
 					}
 				}
