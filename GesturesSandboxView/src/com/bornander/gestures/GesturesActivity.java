@@ -24,8 +24,7 @@ public class GesturesActivity extends Activity {
 		layout.setGravity(Gravity.CENTER);
 		
 
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.advert);
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.advert);
 		View view = new SandboxView(this, bitmap);
 		view.setLayoutParams(new LayoutParams(1024, 1024));
 
