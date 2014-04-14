@@ -100,11 +100,12 @@ public class SandboxView extends View implements OnTouchListener {
 				position.add(touchManager.moveDelta(0));
 			}
 			else {
-				if (touchManager.getPressCount() == 2) {
-					vca = touchManager.getPoint(0);
-					vpa = touchManager.getPreviousPoint(0);
-					vcb = touchManager.getPoint(1);
-					vpb = touchManager.getPreviousPoint(1);
+				for(int i=0;i<touchManager.getPressCount();i++)
+				{
+					vca = touchManager.getPoint(i);
+					vpa = touchManager.getPreviousPoint(i);
+					vcb = touchManager.getPoint(i+1);
+					vpb = touchManager.getPreviousPoint(i+1);
 
 					Vector2D current = touchManager.getVector(0, 1);
 					Vector2D previous = touchManager.getPreviousVector(0, 1);
@@ -117,6 +118,23 @@ public class SandboxView extends View implements OnTouchListener {
 
 					angle -= Vector2D.getSignedAngleBetween(current, previous);
 				}
+//				if (touchManager.getPressCount() == 2) {
+//					vca = touchManager.getPoint(0);
+//					vpa = touchManager.getPreviousPoint(0);
+//					vcb = touchManager.getPoint(1);
+//					vpb = touchManager.getPreviousPoint(1);
+//
+//					Vector2D current = touchManager.getVector(0, 1);
+//					Vector2D previous = touchManager.getPreviousVector(0, 1);
+//					float currentDistance = current.getLength();
+//					float previousDistance = previous.getLength();
+//
+//					if (previousDistance != 0) {
+//						scale *= currentDistance / previousDistance;
+//					}
+//
+//					angle -= Vector2D.getSignedAngleBetween(current, previous);
+//				}
 			}
 
 			invalidate();
