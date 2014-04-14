@@ -12,6 +12,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -62,8 +63,13 @@ public class SaveResultImageActivity extends Activity {
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
 		Log.i("imagePath",imagePath);
+
 		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-		tempImage = resultImage.getDrawingCache();
+		resultImage.setDrawingCacheEnabled(true);
+		resultImage.buildDrawingCache();
+		
+		//tempImage = Bitmap.createBitmap(resultImage.getDrawingCache());
+		tempImage = ((BitmapDrawable)resultImage.getDrawable()).getBitmap();
 		
 		
 		
