@@ -148,7 +148,9 @@ public class TouchManager {
 
 						}
 						
-						points[index].set(newPoint);
+						// Sanity check, if it moves by too much then ignore it
+						if (Vector2D.subtract(points[index], newPoint).getLength() >0)
+							points[index].set(newPoint);
 					}
 				}
 				else {

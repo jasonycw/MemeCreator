@@ -14,9 +14,9 @@ import com.bornander.math.Vector2D;
 
 public class SandboxView extends View implements OnTouchListener {
 
-	private final Bitmap bitmap;
-	private final int width;
-	private final int height;
+	private Bitmap bitmap;
+	private int width;
+	private int height;
 	private Matrix transform = new Matrix();
 
 	private Vector2D position = new Vector2D();
@@ -35,14 +35,17 @@ public class SandboxView extends View implements OnTouchListener {
 	public SandboxView(Context context, Bitmap bitmap) {
 		super(context);
 
-		this.bitmap = bitmap;
-		this.width = bitmap.getWidth();
-		this.height = bitmap.getHeight();
+		setBitmap(bitmap);
 
 		setOnTouchListener(this);
 	}
-
-
+	
+	public void setBitmap(Bitmap bitmap){
+		this.bitmap = bitmap;
+		this.width = bitmap.getWidth();
+		this.height = bitmap.getHeight();
+	}
+	
 	private static float getDegreesFromRadians(float angle) {
 		return (float)(angle * 180.0 / Math.PI);
 	}
