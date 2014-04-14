@@ -122,7 +122,6 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	// Method to save the image
-	@SuppressLint("SdCardPath")
 	private void saveImage(Bitmap image, String fileName) {
 
 		//http://developer.android.com/guide/topics/data/data-storage.html#filesExternal
