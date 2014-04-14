@@ -72,7 +72,7 @@ public class SandboxView extends View implements OnTouchListener {
 			canvas.drawCircle(vca.getX(), vca.getY(), 64, paint);
 			paint.setColor(0xFF7F0000);
 			canvas.drawCircle(vcb.getX(), vcb.getY(), 64, paint);
-
+			
 			paint.setColor(0xFFFF0000);
 			canvas.drawLine(vpa.getX(), vpa.getY(), vpb.getX(), vpb.getY(), paint);
 			paint.setColor(0xFF00FF00);
