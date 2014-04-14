@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,8 +61,12 @@ public class SaveResultImageActivity extends Activity {
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
+		Log.i("imagePath",imagePath);
 		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-		tempImage = BitmapFactory.decodeFile(imagePath);
+		tempImage = resultImage.getDrawingCache();
+		
+		
+		
 		
 		// Share button on click
 		Button share = (Button) findViewById(R.id.shareButton);
@@ -70,6 +75,13 @@ public class SaveResultImageActivity extends Activity {
 			public void onClick(View arg0) {
 
 				// Build the intent
+				
+				File direct = new File(Environment.getExternalStorageDirectory() + "/Android/data/cs4295.memecreator");
+				if (!direct.exists()) {
+					File memeDirectory = new File("/sdcard/Android/data/cs4295.memecreator/");
+					memeDirectory.mkdirs();
+				}
+				
 				Uri uriToImage = Uri.parse(android.provider.MediaStore.Images.Media.
 						insertImage(SaveResultImageActivity.this.getContentResolver(), tempImage, null, null));
 				Intent imageIntent = new Intent(Intent.ACTION_SEND);
