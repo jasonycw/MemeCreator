@@ -18,10 +18,12 @@ public class TouchManager {
 		previousPoints = new Vector2D[maxNumberOfTouchPoints];
 	}
 
+	// Returns true if touch index is pressed
 	public boolean isPressed(int index) {
 		return points[index] != null;
 	}
 
+	// Returns the number of current touch points
 	public int getPressCount() {
 		int count = 0;
 		for(Vector2D point : points) {
@@ -31,6 +33,7 @@ public class TouchManager {
 		return count;
 	}
 
+	// Returns the delta between current and previous touch with index 'index'
 	public Vector2D moveDelta(int index) {
 		if (isPressed(index)) {
 			Vector2D previous = previousPoints[index] != null ? previousPoints[index] : points[index];
@@ -41,6 +44,7 @@ public class TouchManager {
 		}
 	}
 	
+	// Returns the delta between all current and previous touches
 	public Vector2D moveDelta(){
 			Vector2D[] allPreviousPoints = new Vector2D[maxNumberOfTouchPoints];
 			Vector2D result = new Vector2D();
@@ -80,6 +84,7 @@ public class TouchManager {
 			return result;
 	}
 
+	// Get the vector that is the difference with vector a and b
 	private static Vector2D getVector(Vector2D a, Vector2D b) {
 		if (a == null || b == null)
 			throw new RuntimeException("can't do this on nulls");
@@ -87,18 +92,22 @@ public class TouchManager {
 		return Vector2D.subtract(b, a);
 	}
 
+	// The the (x, y) point for touch index
 	public Vector2D getPoint(int index) {
 		return points[index] != null ? points[index] : new Vector2D();
 	}
 
+	// The the (x, y) point for previous touch index
 	public Vector2D getPreviousPoint(int index) {
 		return previousPoints[index] != null ? previousPoints[index] : new Vector2D();
 	}
 
+	// The the vector that is the difference between two simultenous touches
 	public Vector2D getVector(int indexA, int indexB) {
 		return getVector(points[indexA], points[indexB]);
 	}
 
+	// The the vector that is the difference between two previous simultenous touches
 	public Vector2D getPreviousVector(int indexA, int indexB) {
 		if (previousPoints[indexA] == null || previousPoints[indexB] == null)
 			return getVector(points[indexA], points[indexB]);
@@ -106,6 +115,14 @@ public class TouchManager {
 			return getVector(previousPoints[indexA], previousPoints[indexB]);
 	}
 
+//	 This method is responsible for inspecting the event and populating the backing arrays
+//	
+//	 The first thing to do is to figure out what kind of event this was, was caused by the 
+//	 user pressing the screen, dragging his/hers finger across the screen of was the finger 
+//	 lifted off the screen. 
+//	
+//	 This information is contained in the action, but a bit of bit masking is required in 
+//	 order to make sense of it.
 	public void update(MotionEvent event) {
 	   int actionCode = event.getAction() & MotionEvent.ACTION_MASK;
 
@@ -130,8 +147,9 @@ public class TouchManager {
 							previousPoints[index] = new Vector2D(newPoint);
 
 						}
-
-						if (Vector2D.subtract(points[index], newPoint).getLength() < 1064)
+						
+						// Sanity check, if it moves by too much then ignore it
+						if (Vector2D.subtract(points[index], newPoint).getLength() < 1000)
 							points[index].set(newPoint);
 					}
 				}
