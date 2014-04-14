@@ -36,12 +36,8 @@
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-<<<<<<< .merge_file_mkYpgC
-                <data android:mimeType="image/*"/>
-=======
 
                 <data android:mimeType="image/*" />
->>>>>>> .merge_file_rlRlHz
             </intent-filter>
         </activity>
         <activity
