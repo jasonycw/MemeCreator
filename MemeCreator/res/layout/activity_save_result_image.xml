@@ -21,7 +21,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
 
-            <cs4295.memecreator.ResizableImageView
+            <cs4295.customView.ResizableImageView
                 android:id="@+id/resultImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

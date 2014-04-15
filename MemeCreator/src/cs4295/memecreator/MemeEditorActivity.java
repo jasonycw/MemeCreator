@@ -11,18 +11,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import cs4295.gesture.SandboxView;
+import cs4295.customView.SandboxView;
 
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
@@ -53,27 +51,25 @@ public class MemeEditorActivity extends Activity {
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 		
-		// Get the intent and set the image path to be the result image
+		// Get the intent and get the image path to be the meme image
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
 		// Adding the SandboxView
 		LinearLayout layout = (LinearLayout)findViewById(R.id.memeEditorLayout);
-//		layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 		layout.setGravity(Gravity.CENTER);
-//		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),ID_OF_THE_DRAWABLE);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		sandboxView = new SandboxView(this, bitmap);
-		sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		layout.addView(sandboxView);
 		
 		// Adding save button
-		Button saveButton = new Button(this);
-		saveButton.setText(R.string.save);
-		layout.addView(saveButton);
+//		Button saveButton = new Button(this);
+//		saveButton.setText(R.string.save);
+//		layout.addView(saveButton);
 		
 		// Set save button on click method
-		saveButton.setOnClickListener(new OnClickListener(){
+		ImageView forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
+		forwardButtonImageView.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
 				Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
@@ -87,7 +83,6 @@ public class MemeEditorActivity extends Activity {
 				byte[] memeBitmapByteArray = byteArrayOutputStream.toByteArray();
 
 				forward.putExtra("cs4295.memcreator.memeBitmapByteArray",memeBitmapByteArray);
-//				forward.putExtras(extras);
 				startActivity(forward);
 				sandboxView.setDrawingCacheEnabled(false);
 			}});

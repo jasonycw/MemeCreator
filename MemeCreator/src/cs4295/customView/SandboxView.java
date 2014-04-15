@@ -1,4 +1,4 @@
-package cs4295.gesture;
+package cs4295.customView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-
+import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 
 public class SandboxView extends View implements OnTouchListener {
