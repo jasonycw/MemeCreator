@@ -25,8 +25,10 @@ public class ReceiveIntentActivity extends Activity {
 		// Get the intent that started this activity
 	    Intent intent = getIntent();
 	    Uri imageURI = null;//intent.getData();
-	    Log.e("URI:", intent.getData() + "");
-        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND)) {
+	    //useless, always return null
+//	    Log.e("URI:", intent.getData() + ""); 
+	    Log.e("URI information:", intent.getExtras().getParcelable(Intent.EXTRA_STREAM).toString());
+	    if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND)) {
             Bundle extras = intent.getExtras();
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
                 imageURI = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
@@ -34,17 +36,26 @@ public class ReceiveIntentActivity extends Activity {
         } else {
             imageURI = (Uri) intent.getParcelableExtra("image");
         }
-	    String[] filePath = { MediaStore.Images.Media.DATA };
-		Cursor cursor = getContentResolver().query(imageURI, filePath, null, null, null);
-		cursor.moveToFirst();
-		String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-		cursor.close();
+	    String imagePath;
+	    if(imageURI.toString().contains("file:///"))
+	    {
+	    	imagePath = imageURI.toString().substring(7);
+	    	Log.e("Path:", imagePath.toString());
+	    }
+	    else
+	    {
+	    	String[] filePath = { MediaStore.Images.Media.DATA };
+			Cursor cursor = getContentResolver().query(imageURI, filePath, null, null, null);
+			cursor.moveToFirst();
+			imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+			Log.e("Path:", imagePath.toString());
+			cursor.close();
+	    }
+	    
 		// Forward the image path to the next activity
 		forwardImagePath(imagePath, MemeEditorActivity.class);
 		finish();
 	}
-	
-
 
 	// Method for forwarding a image path to the next class
 	private void forwardImagePath(String imagePath, Class<?> targetClass) {

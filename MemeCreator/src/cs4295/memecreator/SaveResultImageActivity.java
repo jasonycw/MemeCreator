@@ -213,7 +213,6 @@ public class SaveResultImageActivity extends Activity {
 			MediaScannerConnectionClient client = 
 					      new MyMediaScannerConnectionClient(
 					            getApplicationContext(), file, null);
-
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
