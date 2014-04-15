@@ -63,10 +63,20 @@ public class SaveResultImageActivity extends Activity {
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent
 				.getStringExtra("cs4295.memcreator.imagePath");
+		
+//		Uri memeBitmapUri = shareIntent.getParcelableExtra("cs4295.memcreator.memeBitmapURI");
+//		Bundle extras = shareIntent.getExtras();
+		byte[] memeBitmapByteArray = getIntent().getByteArrayExtra("cs4295.memcreator.memeBitmapByteArray");
+		Bitmap memeBitmap = BitmapFactory.decodeByteArray(memeBitmapByteArray, 0, memeBitmapByteArray.length);
+		
+		// Set result image
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
-		Log.i("imagePath", imagePath);
-
-		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+//		if(memeBitmap!=null){
+//			Log.i("memeBitmapUri",memeBitmapUri.getPath());
+			resultImage.setImageBitmap(memeBitmap);
+//		}
+//		else
+//			resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
 		resultImage.setDrawingCacheEnabled(true);
 		resultImage.buildDrawingCache();
 
