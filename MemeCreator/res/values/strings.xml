@@ -9,5 +9,6 @@
     <string name="getUserFile">Access user file storage</string>
     <string name="title_activity_receive_intent">Create Meme</string>
     <string name="title_activity_meme_editor">MemeEditorActivity</string>
+    <string name="save">save</string>
 
 </resources>

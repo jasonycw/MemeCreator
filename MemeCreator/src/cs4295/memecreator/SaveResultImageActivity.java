@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -19,7 +21,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,12 +29,14 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 public class SaveResultImageActivity extends Activity {
 	private ImageView resultImage;
 	private Bitmap tempImage;
+	final Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +66,20 @@ public class SaveResultImageActivity extends Activity {
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent
 				.getStringExtra("cs4295.memcreator.imagePath");
+		
+//		Uri memeBitmapUri = shareIntent.getParcelableExtra("cs4295.memcreator.memeBitmapURI");
+//		Bundle extras = shareIntent.getExtras();
+		byte[] memeBitmapByteArray = getIntent().getByteArrayExtra("cs4295.memcreator.memeBitmapByteArray");
+		Bitmap memeBitmap = BitmapFactory.decodeByteArray(memeBitmapByteArray, 0, memeBitmapByteArray.length);
+		
+		// Set result image
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
-		Log.i("imagePath", imagePath);
-
-		resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+//		if(memeBitmap!=null){
+//			Log.i("memeBitmapUri",memeBitmapUri.getPath());
+			resultImage.setImageBitmap(memeBitmap);
+//		}
+//		else
+//			resultImage.setImageBitmap(BitmapFactory.decodeFile(imagePath));
 		resultImage.setDrawingCacheEnabled(true);
 		resultImage.buildDrawingCache();
 
@@ -111,11 +124,60 @@ public class SaveResultImageActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// save Image in Internal with own Folder
-				saveImage(tempImage, "name.png");
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(context); 
+				
+				//set title
+				builder.setTitle("Save Image");
+				
+				// set default input value
+				final EditText input = new EditText(context); 
+				File direct = new File("/sdcard/DCIM/Meme/Media/");
+				int number = countImageNo(direct)+1;
+				input.setText("MemeImage " + number);
+				
+				// set dialog message
+				builder
+					.setMessage("Input Image Name")
+					.setCancelable(true)
+					.setView(input)
+					.setPositiveButton("Save",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close
+							// current activity
+							saveImage(tempImage, input.getText() + ".png");
+							finish();
+						}
+					  })
+					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, just close
+							// the dialog box and do nothing
+							dialog.cancel();
+						}
+					});
+	 
+					// create alert dialog
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
 			}
 		});
 	}
 
+	//Method to count the number of Image inside the file
+	private int countImageNo(File dir) {
+		// TODO Auto-generated method stub
+		try{
+			File[] files = dir.listFiles();
+			Log.i("File Number", " " + files.length);
+			return files.length; 
+		}
+		catch(Exception e){
+			
+		}
+		return 0;
+	}
+	
 	// Method to show notification when sharing is failed
 	private void show() {
 		Toast.makeText(this, "Sorry, share failed", 2000).show();
@@ -125,12 +187,13 @@ public class SaveResultImageActivity extends Activity {
 	private void saveImage(Bitmap image, String fileName) {
 
 		//http://developer.android.com/guide/topics/data/data-storage.html#filesExternal
-		File direct = new File(Environment.getExternalStoragePublicDirectory(
-	            Environment.DIRECTORY_PICTURES), "Meme");
+//		File direct = new File(Environment.getExternalStoragePublicDirectory(
+//	            Environment.DIRECTORY_PICTURES), "Hi");
 
+		File direct = new File("/sdcard/DCIM/Meme/Media/");
+		
 		if (!direct.exists()) {
-			File memeDirectory = new File("/sdcard/DCIM/Meme/Media/");
-			memeDirectory.mkdirs();
+			direct.mkdirs();
 		}
 
 		File file = new File(new File("/sdcard/DCIM/Meme/Media/"), fileName);

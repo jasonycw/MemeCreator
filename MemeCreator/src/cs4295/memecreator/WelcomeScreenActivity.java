@@ -58,7 +58,7 @@ public class WelcomeScreenActivity extends Activity {
 	// Method for forwarding a image path to the next class
 	private void forwardImagePath(String imagePath, Class<?> targetClass) {
 		// Put the image path to the intent with the variable name "cs4295.memcreator.imagePath"
-		Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
+		Intent forward = new Intent(selfRef, MemeEditorActivity.class);
 		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 		startActivity(forward);
 	}

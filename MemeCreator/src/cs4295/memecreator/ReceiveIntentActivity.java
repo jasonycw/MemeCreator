@@ -40,7 +40,7 @@ public class ReceiveIntentActivity extends Activity {
 		String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
 		cursor.close();
 		// Forward the image path to the next activity
-		forwardImagePath(imagePath, SaveResultImageActivity.class);
+		forwardImagePath(imagePath, MemeEditorActivity.class);
 		finish();
 	}
 	
@@ -49,7 +49,7 @@ public class ReceiveIntentActivity extends Activity {
 	// Method for forwarding a image path to the next class
 	private void forwardImagePath(String imagePath, Class<?> targetClass) {
 		// Put the image path to the intent with the variable name "cs4295.memcreator.imagePath"
-		Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
+		Intent forward = new Intent(selfRef, targetClass);
 		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 		startActivity(forward);
 	}

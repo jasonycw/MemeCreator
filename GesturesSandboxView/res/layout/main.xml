@@ -2,6 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:gravity="center" >
+
+    <com.bornander.gestures.SandboxView
+        android:id="@+id/sandbox"
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 
 </LinearLayout>

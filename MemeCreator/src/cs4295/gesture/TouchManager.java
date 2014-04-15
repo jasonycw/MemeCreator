@@ -1,8 +1,8 @@
-package com.bornander.gestures;
+package cs4295.gesture;
 
 import android.view.MotionEvent;
 
-import com.bornander.math.Vector2D;
+import cs4295.math.Vector2D;
 
 public class TouchManager {
 

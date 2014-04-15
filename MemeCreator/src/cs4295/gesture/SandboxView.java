@@ -1,4 +1,4 @@
-package com.bornander.gestures;
+package cs4295.gesture;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import com.bornander.math.Vector2D;
+import cs4295.math.Vector2D;
 
 public class SandboxView extends View implements OnTouchListener {
 
@@ -75,8 +75,8 @@ public class SandboxView extends View implements OnTouchListener {
 			inverse.mapPoints(touchPoint);
 			transform.postRotate(getDegreesFromRadians(angle),0,0);
 			
-			paint.setColor(0xFF00007F);
-			canvas.drawCircle(position.getX(),position.getY(), 64, paint);
+//			paint.setColor(0xFF00007F);
+//			canvas.drawCircle(position.getX(),position.getY(), 64, paint);
 		}else
 			transform.postRotate(getDegreesFromRadians(angle));
 		transform.postScale(scale, scale);
@@ -148,5 +148,4 @@ public class SandboxView extends View implements OnTouchListener {
 		}
 		return true;
 	}
-
 }
