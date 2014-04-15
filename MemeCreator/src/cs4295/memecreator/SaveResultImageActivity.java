@@ -17,10 +17,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaScannerConnection;
+import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -207,12 +208,46 @@ public class SaveResultImageActivity extends Activity {
 
 			Toast.makeText(this, fileName + " is saved at /sdcard/DCIM/Meme/Media/",
 					2000).show();
+			
+			//update the save image to gallery
+			MediaScannerConnectionClient client = 
+					      new MyMediaScannerConnectionClient(
+					            getApplicationContext(), file, null);
+
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+	//an instance of MediaScannerConnection(use for update gallery ) 
+	final class MyMediaScannerConnectionClient 
+	      implements MediaScannerConnectionClient {
+	 
+	   private String mFilename;
+	   private String mMimetype;
+	   private MediaScannerConnection mConn;
+	    
+	   public MyMediaScannerConnectionClient
+	         (Context ctx, File file, String mimetype) {
+	      this.mFilename = file.getAbsolutePath();
+	      mConn = new MediaScannerConnection(ctx, this);
+	      mConn.connect();
+	   }
+	   
+	   @Override
+	   public void onMediaScannerConnected() {
+	      mConn.scanFile(mFilename, mMimetype);
+	   }
+	    
+	   @Override
+	   public void onScanCompleted(String path, Uri uri) {
+	      mConn.disconnect();
+	   }     
+	}
 
+		
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
