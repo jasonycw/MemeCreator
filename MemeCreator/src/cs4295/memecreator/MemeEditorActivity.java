@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -60,6 +62,7 @@ public class MemeEditorActivity extends Activity {
 		layout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		sandboxView = new SandboxView(this, bitmap);
+		sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		layout.addView(sandboxView);
 		
 		// Adding save button
