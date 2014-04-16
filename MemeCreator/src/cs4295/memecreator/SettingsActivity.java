@@ -4,16 +4,16 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -40,6 +40,38 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onPostCreate(savedInstanceState);
 
 		setupSimplePreferencesScreen();
+		Preference pathSelector = findPreference("path");
+		pathSelector.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+
+		 private String m_chosenDir = "";
+	     private boolean m_newFolderEnabled = true;
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+            	
+            	DirectoryChooser DirectoryChooser = 
+                        new DirectoryChooser(SettingsActivity.this, 
+                            new DirectoryChooser.ChosenDirectoryListener() 
+                        {
+                            @Override
+                            public void onChosenDir(String chosenDir) 
+                            {
+                                m_chosenDir = chosenDir;
+                                Toast.makeText(
+                                		SettingsActivity.this, "Chosen directory: " + 
+                                  chosenDir, 2000).show();
+                            }
+                        }); 
+                        // Toggle new folder button enabling
+            			DirectoryChooser.setNewFolderEnabled(m_newFolderEnabled);
+                        // Load directory chooser dialog for initial 'm_chosenDir' directory.
+                        // The registered callback will be called upon final directory selection.
+            			DirectoryChooser.chooseDirectory(m_chosenDir);
+                        m_newFolderEnabled = ! m_newFolderEnabled;
+            	Log.i("cs", "scuuess");
+                return false;
+            }
+
+        });
 	}
 
 	/**

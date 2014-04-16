@@ -25,8 +25,6 @@
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
      <Preference
         android:defaultValue="-1"
-       
-        
         android:key="path"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
