@@ -52,6 +52,10 @@
             android:name="cs4295.memecreator.BrowserActivity"
             android:label="@string/title_activity_browser" >
         </activity>
+        <activity
+            android:name="cs4295.memecreator.FileExplorerActivity"
+            android:label="@string/title_activity_file_explorer" >
+        </activity>
     </application>
 
 </manifest>

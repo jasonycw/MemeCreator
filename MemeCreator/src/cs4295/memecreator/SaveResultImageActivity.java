@@ -98,9 +98,13 @@ public class SaveResultImageActivity extends Activity {
 				saveAndShare = setting.getBoolean("example_checkbox", false);
 
 				if (saveAndShare)
+				{
 					saveImageHelper();
-				// Build the intent
-				shareButtonPressed = true;
+				}
+				else
+				{
+					shareHelper();
+				}
 			}
 		});
 
