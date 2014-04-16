@@ -11,5 +11,6 @@
     <string name="title_activity_meme_editor">MemeEditorActivity</string>
     <string name="save">save</string>
     <string name="title_activity_browser">BrowserActivity</string>
+    <string name="title_activity_file_explorer">FileExplorerActivity</string>
 
 </resources>
