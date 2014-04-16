@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
+import cs4295.memecreator.R;
 
 public class SandboxView extends View implements OnTouchListener {
 
@@ -63,6 +64,8 @@ public class SandboxView extends View implements OnTouchListener {
 		}
 
 		Paint paint = new Paint();
+		paint.setColor(0xFF000000);
+		canvas.drawColor(R.color.black);
 
 		transform.reset();
 		transform.postTranslate(-width / 2.0f, -height / 2.0f);
