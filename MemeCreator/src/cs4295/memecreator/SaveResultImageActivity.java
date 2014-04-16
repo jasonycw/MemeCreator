@@ -44,6 +44,7 @@ public class SaveResultImageActivity extends Activity {
 	private SharedPreferences setting;
 	private boolean saveAndShare = false;
 	private boolean shareButtonPressed = false;
+	private String path = "/sdcard/DCIM/Meme/Media/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,8 @@ public class SaveResultImageActivity extends Activity {
 		resultImage.buildDrawingCache();
 
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
-
 		setting = PreferenceManager.getDefaultSharedPreferences(this);
+		path = setting.getString("example_text", "/sdcard/DCIM/Meme/Media/");
 
 		// Share button on click
 		Button share = (Button) findViewById(R.id.shareButton);
@@ -157,7 +158,7 @@ public class SaveResultImageActivity extends Activity {
 
 		// set default input value
 		final EditText input = new EditText(context);
-		File direct = new File("/sdcard/DCIM/Meme/Media/");
+		File direct = new File(path);
 		int number = countImageNo(direct) + 1;
 		input.setText("MemeImage " + number);
 
@@ -199,7 +200,6 @@ public class SaveResultImageActivity extends Activity {
 			Log.i("File Number", " " + files.length);
 			return files.length;
 		} catch (Exception e) {
-
 		}
 		return 0;
 	}
@@ -216,13 +216,13 @@ public class SaveResultImageActivity extends Activity {
 		// File direct = new File(Environment.getExternalStoragePublicDirectory(
 		// Environment.DIRECTORY_PICTURES), "Hi");
 
-		File direct = new File("/sdcard/DCIM/Meme/Media/");
+		File direct = new File(path);
 
 		if (!direct.exists()) {
 			direct.mkdirs();
 		}
 
-		File file = new File(new File("/sdcard/DCIM/Meme/Media/"), fileName);
+		File file = new File(new File(path), fileName);
 		if (file.exists())
 			file.delete();
 		try {
@@ -232,7 +232,7 @@ public class SaveResultImageActivity extends Activity {
 			out.close();
 
 			Toast.makeText(this,
-					fileName + " is saved at /sdcard/DCIM/Meme/Media/", 2000)
+					fileName + " is saved at " + path, 2000)
 					.show();
 
 			// update the save image to gallery

@@ -48,6 +48,10 @@
             android:name="cs4295.memecreator.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name="cs4295.memecreator.BrowserActivity"
+            android:label="@string/title_activity_browser" >
+        </activity>
     </application>
 
 </manifest>
