@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -32,12 +34,15 @@ import android.widget.LinearLayout;
 import cs4295.customView.SandboxView;
 
 public class MemeEditorActivity extends Activity {
-	private LinearLayout linlaHeaderProgress;
 	private MemeEditorActivity selfRef;
+	private LinearLayout linlaHeaderProgress;
+	float memeEditorLayoutWidth;
+	float memeEditorLayoutHeight;
+	LinearLayout memeEditorLayout;
 	private View sandboxView;
+	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
 	private String dataDir;
-	private Bitmap memeBitmap;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +90,28 @@ public class MemeEditorActivity extends Activity {
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
 		// Adding the SandboxView
-		LinearLayout layout = (LinearLayout)findViewById(R.id.memeEditorLayout);
-		layout.setGravity(Gravity.CENTER);
+		memeEditorLayout = (LinearLayout)findViewById(R.id.memeEditorLayout);
+		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		sandboxView = new SandboxView(this, bitmap);
 		sandboxView.setLayoutParams(new LayoutParams(720, 720));
-		layout.addView(sandboxView);
+		
+		// Scale sand box
+		ViewTreeObserver vto2 = memeEditorLayout.getViewTreeObserver();
+	    vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
+	        @Override   
+	        public void onGlobalLayout() {  
+	        	memeEditorLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);   
+	        	memeEditorLayoutWidth = memeEditorLayout.getHeight();
+	            memeEditorLayoutHeight = memeEditorLayout.getWidth();
+	            float scalingFactor = memeEditorLayoutWidth/720f;
+	    		Log.i("memeEditorLayoutWidth",Float.toString(memeEditorLayoutWidth));
+	    		Log.i("ScaleFactor",Float.toString(scalingFactor));
+	    		sandboxView.setScaleX(scalingFactor);
+	    		sandboxView.setScaleY(scalingFactor);
+	        }   
+	    });
+		memeEditorLayout.addView(sandboxView);
 		
 		// Set save button on click method
 		ImageView forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
@@ -103,6 +124,16 @@ public class MemeEditorActivity extends Activity {
 		});
 	}
 	
+//	@Override
+//	protected void onStart() {
+//		float scalingFactor = ((float)memeEditorLayout.getWidth())/720f;
+//		Log.i("layoutWidth",Float.toString(memeEditorLayout.getWidth()));
+//		Log.i("ScaleFactor",Float.toString(scalingFactor));
+//		sandboxView.setScaleX(scalingFactor);
+//		sandboxView.setScaleY(scalingFactor);
+//		super.onStart();
+//	}
+
 	@Override
 	protected void onPause() {
 		linlaHeaderProgress.setVisibility(View.GONE);

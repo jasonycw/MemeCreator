@@ -26,10 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:minHeight="5dp"
-                android:maxHeight="720dp"
-                android:minWidth="5dp"
-                android:maxWidth="720dp" />
+                android:background="@drawable/border"
+                android:padding="5dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -129,7 +129,6 @@ public class SandboxView extends View implements OnTouchListener {
 //		}
 	}
 
-
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		vca = null;
