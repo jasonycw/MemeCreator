@@ -38,6 +38,7 @@ public class SaveResultImageActivity extends Activity {
 	private ImageView resultImage;
 	private Bitmap tempImage;
 	final Context context = this;
+	private SaveResultImageActivity selfRef = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -261,6 +262,9 @@ public class SaveResultImageActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			Intent intent = new Intent(selfRef, SettingsActivity.class);
+			startActivity(intent);
+			
 			return true;
 		case android.R.id.home:
 			// When the action bar icon on the top right is clicked, finish this

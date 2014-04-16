@@ -44,6 +44,10 @@
             android:name="cs4295.memecreator.MemeEditorActivity"
             android:label="@string/title_activity_meme_editor" >
         </activity>
+        <activity
+            android:name="cs4295.memecreator.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
