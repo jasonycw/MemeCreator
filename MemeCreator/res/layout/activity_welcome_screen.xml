@@ -3,7 +3,7 @@
     android:id="@+id/welcomeScreenActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/dark_gray"
     android:paddingTop="?android:attr/actionBarSize"
     tools:context="cs4295.memecreator.WelcomeScreenAcivity"
     tools:ignore="MergeRootFrame" >
