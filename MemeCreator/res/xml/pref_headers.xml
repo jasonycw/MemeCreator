@@ -5,11 +5,6 @@
     <header
         android:fragment="cs4295.memecreator.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
-    <header
-        android:fragment="cs4295.memecreator.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
-    <header
-        android:fragment="cs4295.memecreator.SettingsActivity$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_data_sync" />
+
 
 </preference-headers>
