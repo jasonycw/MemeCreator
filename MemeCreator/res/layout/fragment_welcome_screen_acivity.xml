@@ -20,7 +20,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?android:attr/actionBarSize"
-            android:src="@drawable/welcome_screen_image2" />
+            android:src="@drawable/welcome_screen_image3" />
+
+        <ImageView
+            android:id="@+id/welcomeScreenSetting"
+            android:layout_width="112dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            android:src="@drawable/welcome_screen_setting" />
+
     </LinearLayout>
 
 </RelativeLayout>

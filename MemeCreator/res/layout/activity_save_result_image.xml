@@ -13,39 +13,58 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:orientation="vertical" >
 
             <cs4295.customView.ResizableImageView
                 android:id="@+id/resultImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@drawable/border"
                 android:padding="5dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_horizontal_margin" >
 
-                <Button
+                <cs4295.customView.ResizableImageView
                     android:id="@+id/shareButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Share" />
+                    android:layout_width="190dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="0dp"
+                    android:src="@drawable/meme_share_button" />
 
-                <Button
+                <!-- <Button -->
+                <!-- android:id="@+id/shareButton" -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:text="Share" /> -->
+
+
+                <!-- <Button -->
+                <!-- android:id="@+id/saveButton" -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:text="Save" /> -->
+
+                <cs4295.customView.ResizableImageView
                     android:id="@+id/saveButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Save" />
-            </LinearLayout>
+                    android:layout_width="190dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/meme_save_button" />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 

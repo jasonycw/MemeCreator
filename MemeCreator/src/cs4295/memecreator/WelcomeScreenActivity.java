@@ -25,6 +25,10 @@ public class WelcomeScreenActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_welcome_screen);
+		selfRef = this;
+		
+		// Hide action bar
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 
@@ -41,17 +45,12 @@ public class WelcomeScreenActivity extends Activity {
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 
-		setContentView(R.layout.activity_welcome_screen);
-		selfRef = this;
 		// If there is no instance, use the normal layout
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.welcomeScreenActivity, new PlaceholderFragment())
 					.commit();
 
-		}
-		// Pass the image to the next activity
-		else {
 		}
 	}
 
@@ -76,12 +75,12 @@ public class WelcomeScreenActivity extends Activity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_welcome_screen_acivity, container, false);
+			
+			// Set the onClick for teh main welcome screen image
 			welcomeScreenImage = (ImageView) rootView.findViewById(R.id.welcomeScreenImage);
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					// Toast.makeText(getActivity(), "Clicked Image",Toast.LENGTH_SHORT).show();
-					
 					// Prevent multiple click
 					welcomeScreenImage.setEnabled(false);
 					
@@ -92,7 +91,6 @@ public class WelcomeScreenActivity extends Activity {
 					startActivityForResult(i, LOAD_IMAGE_RESULTS);
 				}
 			});
-
 			return rootView;
 		}
 

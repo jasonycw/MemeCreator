@@ -36,12 +36,13 @@ import cs4295.customView.SandboxView;
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
 	private LinearLayout linlaHeaderProgress;
-	float memeEditorLayoutWidth;
-	float memeEditorLayoutHeight;
-	LinearLayout memeEditorLayout;
+	private float memeEditorLayoutWidth;
+	private float memeEditorLayoutHeight;
+	private LinearLayout memeEditorLayout;
 	private View sandboxView;
 	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
+	private File myDir;
 	private String dataDir;
 	
 	@Override
@@ -54,8 +55,7 @@ public class MemeEditorActivity extends Activity {
 		
 		// Set the actioin bar style
 		ActionBar actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(Color
-				.parseColor("#003C3C3C")));
+		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#003C3C3C")));
 		actionBar.setIcon(R.drawable.back_icon);
 		actionBar.setHomeButtonEnabled(true);
 
@@ -75,12 +75,13 @@ public class MemeEditorActivity extends Activity {
 		linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
 		linlaHeaderProgress.bringToFront();
 		
-		// Get the data directory
+		// Get the data directory for the app
 		PackageManager m = getPackageManager();
 		dataDir = getPackageName();
 		try {
 		    PackageInfo p = m.getPackageInfo(dataDir, 0);
 		    dataDir = p.applicationInfo.dataDir;
+		    myDir = new File(dataDir+"/cache");
 		} catch (NameNotFoundException e) {
 		    Log.w("yourtag", "Error Package name not found ", e);
 		}
@@ -89,18 +90,20 @@ public class MemeEditorActivity extends Activity {
 		Intent shareIntent = getIntent();
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
-		// Adding the SandboxView
+		// Create the SandboxView
 		memeEditorLayout = (LinearLayout)findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+		Log.i("path", bitmap.toString());
 		sandboxView = new SandboxView(this, bitmap);
 		sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		
-		// Scale sand box
+		// Scale the sand box and add it into the layout
 		ViewTreeObserver vto2 = memeEditorLayout.getViewTreeObserver();
 	    vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
 	        @Override   
-	        public void onGlobalLayout() {  
+	        public void onGlobalLayout() {
+	        	// For getting the width and height of a dynamic layout during onCreate
 	        	memeEditorLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);   
 	        	memeEditorLayoutWidth = memeEditorLayout.getHeight();
 	            memeEditorLayoutHeight = memeEditorLayout.getWidth();
@@ -124,26 +127,30 @@ public class MemeEditorActivity extends Activity {
 		});
 	}
 	
-//	@Override
-//	protected void onStart() {
-//		float scalingFactor = ((float)memeEditorLayout.getWidth())/720f;
-//		Log.i("layoutWidth",Float.toString(memeEditorLayout.getWidth()));
-//		Log.i("ScaleFactor",Float.toString(scalingFactor));
-//		sandboxView.setScaleX(scalingFactor);
-//		sandboxView.setScaleY(scalingFactor);
-//		super.onStart();
-//	}
-
 	@Override
 	protected void onPause() {
+		// Hide the progress bar
 		linlaHeaderProgress.setVisibility(View.GONE);
+		
+		// Try to delete cache if possible
+		Log.i("myDir", myDir.toString()+((myDir.exists())?"is Exist":"is not exist"));
+		if (myDir.exists())
+			if (myDir.delete())
+				Log.i("myDir", "myDir is deleted");
+			else
+				Log.i("myDir", "myDir is not deleted");
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO: delete cache
-//		if (cacheImage_forPassing.exists ()) cacheImage_forPassing.delete ();
+		// Try to delete cache if possible
+		Log.i("myDir", myDir.toString()+((myDir.exists())?" is Exist":" is not exist"));
+		if (myDir.exists())
+			if (myDir.delete())
+				Log.i("myDir", "myDir is deleted");
+			else
+				Log.i("myDir", "myDir is not deleted");
 		super.onDestroy();
 	}
 
@@ -174,12 +181,15 @@ public class MemeEditorActivity extends Activity {
 	
 	// save image to a specific places
 	private void saveImage() {
-		File myDir = new File(dataDir+"/cache");
-		
+		// Create the file path and file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String fname = timeStamp+".png";
 		cacheImage_forPassing = new File (myDir, fname);
-		if (cacheImage_forPassing.exists ()) cacheImage_forPassing.delete (); 
+		
+		// Remove duplicates
+		if (cacheImage_forPassing.exists ()) cacheImage_forPassing.delete ();
+		
+		// Try save the bitmap
 		try {
 			   FileOutputStream out = new FileOutputStream(cacheImage_forPassing);
 			   memeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -192,9 +202,8 @@ public class MemeEditorActivity extends Activity {
 		}
 	}
 	
-	// Asyn task for onclick
+	// Async task for onClick
 	class Forward extends AsyncTask<Object, Object, Object>{  
-		
 		// Before forwarding
         @Override  
         protected void onPreExecute() {  
