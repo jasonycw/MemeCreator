@@ -14,6 +14,8 @@
 
         <cs4295.customView.SquareLinearLayoutView
             android:id="@+id/memeEditorLayout"
+            android:background="@drawable/border"
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
