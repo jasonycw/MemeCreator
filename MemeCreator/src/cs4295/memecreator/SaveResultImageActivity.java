@@ -90,7 +90,7 @@ public class SaveResultImageActivity extends Activity {
 		path = setting.getString("example_text", "/sdcard/DCIM/Meme/Media/");
 
 		// Share button on click
-		Button share = (Button) findViewById(R.id.shareButton);
+		ImageView share = (ImageView) findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -109,7 +109,7 @@ public class SaveResultImageActivity extends Activity {
 		});
 
 		// Save button on click
-		Button save = (Button) findViewById(R.id.saveButton);
+		ImageView save = (ImageView) findViewById(R.id.saveButton);
 		save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
