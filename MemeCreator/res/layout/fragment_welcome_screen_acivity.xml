@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?android:attr/actionBarSize"
-            android:src="@drawable/welcome_screen_image" />
+            android:src="@drawable/welcome_screen_image2" />
     </LinearLayout>
 
 </RelativeLayout>

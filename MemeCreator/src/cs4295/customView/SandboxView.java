@@ -42,10 +42,33 @@ public class SandboxView extends View implements OnTouchListener {
 		setOnTouchListener(this);
 	}
 	
+	public SandboxView(Context context, Bitmap bitmap, int dp) {
+		super(context);
+
+		setBitmap(bitmap,dp);
+
+		setOnTouchListener(this);
+	}
+	
 	public void setBitmap(Bitmap bitmap){
 		this.bitmap = bitmap;
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
+	}
+	
+	public void setBitmap(Bitmap bitmap, int dp){
+		this.bitmap = bitmap;
+		
+		// Scaling
+		float scaleValue = scale;
+		if(bitmap.getWidth()>bitmap.getHeight())
+			scaleValue = ((float)dp)/bitmap.getWidth();
+		else
+			scaleValue = ((float)dp)/bitmap.getHeight();
+		
+		Log.i("scaleValue",Float.toString(scaleValue));
+		this.width = (int) (bitmap.getWidth()*scaleValue);
+		this.height = (int) (bitmap.getHeight()*scaleValue);
 	}
 	
 	private static float getDegreesFromRadians(float angle) {
@@ -65,7 +88,7 @@ public class SandboxView extends View implements OnTouchListener {
 
 		Paint paint = new Paint();
 		paint.setColor(0xFF000000);
-		canvas.drawColor(R.color.black);
+		canvas.drawColor(R.color.meme_background_color);
 
 		transform.reset();
 		transform.postTranslate(-width / 2.0f, -height / 2.0f);
@@ -87,22 +110,23 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
-		try {
-			paint.setColor(0xFF007F00);
-			canvas.drawCircle(vca.getX(), vca.getY(), 64, paint);
-			paint.setColor(0xFF7F0000);
-			canvas.drawCircle(vcb.getX(), vcb.getY(), 64, paint);
-			paint.setColor(0xFF00007F);
-			canvas.drawCircle(position.getX(),position.getY(), 64, paint);
-			
-			paint.setColor(0xFFFF0000);
-			canvas.drawLine(vpa.getX(), vpa.getY(), vpb.getX(), vpb.getY(), paint);
-			paint.setColor(0xFF00FF00);
-			canvas.drawLine(vca.getX(), vca.getY(), vcb.getX(), vcb.getY(), paint);
-		}
-		catch(NullPointerException e) {
-			// Just being lazy here...
-		}
+		// For debugging
+//		try {
+//			paint.setColor(0xFF007F00);
+//			canvas.drawCircle(vca.getX(), vca.getY(), 64, paint);
+//			paint.setColor(0xFF7F0000);
+//			canvas.drawCircle(vcb.getX(), vcb.getY(), 64, paint);
+//			paint.setColor(0xFF00007F);
+//			canvas.drawCircle(position.getX(),position.getY(), 64, paint);
+//			
+//			paint.setColor(0xFFFF0000);
+//			canvas.drawLine(vpa.getX(), vpa.getY(), vpb.getX(), vpb.getY(), paint);
+//			paint.setColor(0xFF00FF00);
+//			canvas.drawLine(vca.getX(), vca.getY(), vcb.getX(), vcb.getY(), paint);
+//		}
+//		catch(NullPointerException e) {
+//			// Just being lazy here...
+//		}
 	}
 
 
