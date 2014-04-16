@@ -40,7 +40,7 @@ public class ReceiveIntentActivity extends Activity {
 	    if(imageURI.toString().contains("file:///"))
 	    {
 	    	imagePath = imageURI.toString().substring(7);
-	    	Log.e("Path:", imagePath.toString());
+	    	imagePath = imagePath.replace("%20", " ");
 	    }
 	    else
 	    {
@@ -48,10 +48,9 @@ public class ReceiveIntentActivity extends Activity {
 			Cursor cursor = getContentResolver().query(imageURI, filePath, null, null, null);
 			cursor.moveToFirst();
 			imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-			Log.e("Path:", imagePath.toString());
 			cursor.close();
 	    }
-	    
+	    Log.i("Path", imagePath);
 		// Forward the image path to the next activity
 		forwardImagePath(imagePath, MemeEditorActivity.class);
 		finish();

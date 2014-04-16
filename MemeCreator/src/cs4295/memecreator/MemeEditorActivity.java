@@ -1,6 +1,8 @@
 package cs4295.memecreator;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -93,6 +96,7 @@ public class MemeEditorActivity extends Activity {
 		memeEditorLayout = (LinearLayout)findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+		Log.i("path", bitmap.toString());
 		sandboxView = new SandboxView(this, bitmap);
 		sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		
