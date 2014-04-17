@@ -62,7 +62,7 @@ public class ReceiveIntentActivity extends Activity {
 			// if cursor = null, that means the image is inside our Meme file
 			else
 			{
-//				imagePath = Environment.getExternalStorageDirectory().getPath() + File.separator + "DCIM/Meme/Media/temp.png";
+				imagePath = Environment.getExternalStorageDirectory().getPath() + File.separator + "DCIM/Meme/Media/temp.png";
 			}
 	    }
 	    
