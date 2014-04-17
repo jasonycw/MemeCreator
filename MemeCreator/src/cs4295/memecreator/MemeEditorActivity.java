@@ -94,16 +94,11 @@ public class MemeEditorActivity extends Activity {
 
 		// Get the intent and get the image path to be the meme image
 		Intent shareIntent = getIntent();
-<<<<<<< HEAD
-		String imagePath = shareIntent
-				.getStringExtra("cs4295.memcreator.imagePath");
 
-=======
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
 		Log.i("Happy", imagePath);
 		
->>>>>>> 0ad6e07e0ed499a65c718df34013414b9f1a0da7
 		// Create the SandboxView
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
