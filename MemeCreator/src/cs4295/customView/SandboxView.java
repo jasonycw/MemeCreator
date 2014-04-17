@@ -111,7 +111,7 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
-//		Typeface tf = Typeface.create("Impact",Typeface.BOLD);
+		// Add font to the canvase
 		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
 		Paint strokePaint = new Paint();
 		Paint textPaint = new Paint();
