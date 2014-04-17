@@ -2,6 +2,7 @@
 <resources>
 <!--     <color name="dark_gray">#FF008FCA</color> -->
  	<color name="dark_gray">@drawable/background</color>
+ 	<color name="transparent_gray">#4C2B2B2B</color>
     <color name="black">#FF2B2B2B</color>
     <color name="border_color">#FF000000</color>
     <color name="meme_background_color">#FF8E8E93</color>

@@ -56,17 +56,11 @@ public class SandboxView extends View implements OnTouchListener {
 	private Vector2D middlePoint = null;
 
 	private Bitmap backup_bitmap;
-
 	private int backup_width;
-
 	private int backup_height;
-
 	private Matrix backup_transform;
-
 	private Vector2D backup_position;
-
 	private float backup_scale;
-
 	private float backup_angle;
 
 	public SandboxView(Context context, Bitmap bitmap) {
@@ -90,11 +84,11 @@ public class SandboxView extends View implements OnTouchListener {
 	}
 	
 	private void backup(){
-		this.backup_bitmap = this.bitmap;
+		this.backup_bitmap = this.bitmap.copy(this.bitmap.getConfig(),true);
 		this.backup_width = this.width;
 		this.backup_height = this.height;
-		this.backup_transform = this.transform;
-		this.backup_position = this.position;
+		this.backup_transform = new Matrix(this.transform);
+		this.backup_position = new Vector2D(this.position);
 		this.backup_scale  = this.scale;
 		this.backup_angle  = this.angle;
 
