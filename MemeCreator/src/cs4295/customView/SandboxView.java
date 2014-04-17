@@ -34,6 +34,8 @@ public class SandboxView extends View implements OnTouchListener {
 	private boolean isInitialized = false;
 	private boolean showUpperText = false;
 	private boolean showLowerText = false;
+	private String upperText = "Nailed it!";
+	private String lowerText = "Fuck Yeah!";
 	
 	
 
@@ -84,6 +86,18 @@ public class SandboxView extends View implements OnTouchListener {
 	private static float getDegreesFromRadians(float angle) {
 		return (float)(angle * 180.0 / Math.PI);
 	}
+	
+	private int determineMaxTextSize(String str, float maxWidth, float maxHeight)
+	{
+	    int size = 0;       
+	    Paint paint = new Paint();
+
+	    do {
+	        paint.setTextSize(++ size);
+	    } while(paint.measureText(str) < maxWidth && paint.getFontMetrics().top<maxHeight);
+
+	    return size;
+	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -121,32 +135,43 @@ public class SandboxView extends View implements OnTouchListener {
 		canvas.drawBitmap(bitmap, transform, paint);
 
 		// Add font to the canvase
+		float upperTextSize = determineMaxTextSize(upperText,this.getWidth(),this.getHeight()/3);
+		float lowerTextSize = determineMaxTextSize(lowerText,this.getWidth(),this.getHeight()/3);
 		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
+		
 		Paint strokePaint = new Paint();
-		Paint textPaint = new Paint();
 		strokePaint.setDither(true);
         strokePaint.setColor(0xFF000000);
-        strokePaint.setTextSize(150);
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setStrokeJoin(Paint.Join.ROUND);
         strokePaint.setStrokeCap(Paint.Cap.ROUND);
         strokePaint.setStrokeWidth(7);
         strokePaint.setTextAlign(Paint.Align.CENTER);
         strokePaint.setTypeface(tf);
+        
+        Paint textPaint = new Paint();
         textPaint.setDither(true);
         textPaint.setColor(0xFFFFFFFF);
-        textPaint.setTextSize(150);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTypeface(tf);
+        
 		if(showUpperText)
 		{
-	        canvas.drawText("Android",300,200,textPaint);
-	        canvas.drawText("Android",300,200,strokePaint);
+			Paint text = textPaint;
+			text.setTextSize(upperTextSize);
+			Paint stroke = strokePaint;
+			stroke.setTextSize(upperTextSize);
+	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,text);
+	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,stroke);
 		}
 		if(showLowerText)
 		{
-	        canvas.drawText("Android",300,500,textPaint);
-	        canvas.drawText("Android",300,500,strokePaint);
+			Paint text = textPaint;
+			text.setTextSize(lowerTextSize);
+			Paint stroke = strokePaint;
+			stroke.setTextSize(lowerTextSize);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,textPaint);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,strokePaint);
 		}
         
 		// For debugging
