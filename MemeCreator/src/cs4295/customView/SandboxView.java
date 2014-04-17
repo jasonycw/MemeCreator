@@ -1,16 +1,19 @@
 package cs4295.customView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.EditText;
 import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
@@ -89,14 +92,16 @@ public class SandboxView extends View implements OnTouchListener {
 	
 	private int determineMaxTextSize(String str, float maxWidth, float maxHeight)
 	{
-	    int size = 0;       
-	    Paint paint = new Paint();
-
-	    do {
-	        paint.setTextSize(++ size);
-	    } while(paint.measureText(str) < maxWidth && paint.getFontMetrics().top<maxHeight);
-
-	    return size;
+		if (str != null) {
+			int size = 0;
+			Paint paint = new Paint();
+			do {
+				paint.setTextSize(++size);
+			} while (paint.measureText(str) < maxWidth
+					&& paint.getFontMetrics().top < maxHeight);
+			return size;
+		}
+		return 0;
 	}
 
 	@Override
@@ -134,11 +139,11 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
-		// Add font to the canvase
+		// Initialize the font size and font style
 		float upperTextSize = determineMaxTextSize(upperText,this.getWidth(),this.getHeight()/3);
 		float lowerTextSize = determineMaxTextSize(lowerText,this.getWidth(),this.getHeight()/3);
 		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
-		
+		// Initialize default paint style
 		Paint strokePaint = new Paint();
 		strokePaint.setDither(true);
         strokePaint.setColor(0xFF000000);
@@ -148,13 +153,12 @@ public class SandboxView extends View implements OnTouchListener {
         strokePaint.setStrokeWidth(7);
         strokePaint.setTextAlign(Paint.Align.CENTER);
         strokePaint.setTypeface(tf);
-        
         Paint textPaint = new Paint();
         textPaint.setDither(true);
         textPaint.setColor(0xFFFFFFFF);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTypeface(tf);
-        
+        // Add font to the canvas
 		if(showUpperText)
 		{
 			Paint text = textPaint;
@@ -218,7 +222,7 @@ public class SandboxView extends View implements OnTouchListener {
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
 					position.add(touchManager.moveDelta());
-					if(touchManager.moveDelta(0).getLength()>0)
+					if(touchManager.moveDelta(0).getLength()>1)
 						noTranslate = false;
 					
 					Vector2D current = touchManager.getVector(0, 1);
@@ -255,14 +259,58 @@ public class SandboxView extends View implements OnTouchListener {
 	}
 
 	private void onClick(float x, float y) {
-		// TODO Auto-generated method stub
 		Log.i("meme","OnClick is called");
 		Log.i("meme","X: "+x);
 		Log.i("meme","Y: "+y);
 		int divideRegion = 3;
-		if(y<this.getHeight()/divideRegion)
-			showUpperText = !showUpperText;
-		else if(y>this.getHeight()/divideRegion*(divideRegion-1))
-			showLowerText = !showLowerText;
+		final EditText input = new EditText(this.getContext());
+
+		if (y < this.getHeight() / divideRegion) {
+			new AlertDialog.Builder(this.getContext())
+					.setTitle(R.string.set_upper_text_dialog_title)
+					.setMessage(R.string.set_meme_text_dialog_message)
+					.setView(input)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Editable value = input.getText();
+									upperText = value.toString();
+									showUpperText = true;
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									upperText = null;
+									showUpperText = false;
+								}
+							}).show();
+//			showUpperText = !showUpperText;
+		} else if (y > this.getHeight() / divideRegion * (divideRegion - 1)) {
+//			showLowerText = !showLowerText;
+			new AlertDialog.Builder(this.getContext())
+					.setTitle(R.string.set_lower_text_dialog_title)
+					.setMessage(R.string.set_meme_text_dialog_message)
+					.setView(input)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Editable value = input.getText();
+									lowerText = value.toString();
+									showLowerText = true;
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									lowerText = null;
+									showLowerText = false;
+								}
+							}).show();
+		}
 	}
 }
