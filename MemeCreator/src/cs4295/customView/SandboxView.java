@@ -15,7 +15,7 @@ import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
 
-public class SandboxView extends View implements OnTouchListener,OnClickListener {
+public class SandboxView extends View implements OnTouchListener {
 	private SandboxView selfRef = this;
 	
 	private Bitmap bitmap;
@@ -30,8 +30,11 @@ public class SandboxView extends View implements OnTouchListener,OnClickListener
 	private TouchManager touchManager = new TouchManager(2);
 	private boolean onePress = true;
 	private boolean noTranslate = true;
-	private boolean isInitialized = false;
 	private long startTime;
+	private boolean isInitialized = false;
+	private boolean showUpperText = false;
+	private boolean showLowerText = false;
+	
 	
 
 	// Debug helpers to draw lines between the two touch points
@@ -135,8 +138,16 @@ public class SandboxView extends View implements OnTouchListener,OnClickListener
         textPaint.setTextSize(150);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTypeface(tf);
-        canvas.drawText("Android",300,200,textPaint);
-        canvas.drawText("Android",300,200,strokePaint);
+		if(showUpperText)
+		{
+	        canvas.drawText("Android",300,200,textPaint);
+	        canvas.drawText("Android",300,200,strokePaint);
+		}
+		if(showLowerText)
+		{
+	        canvas.drawText("Android",300,500,textPaint);
+	        canvas.drawText("Android",300,500,strokePaint);
+		}
         
 		// For debugging
 //		try {
@@ -156,20 +167,6 @@ public class SandboxView extends View implements OnTouchListener,OnClickListener
 //			// Just being lazy here...
 //		}
 	}
-
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		// TODO Auto-generated method stub
-//		 if (event.getAction() == MotionEvent.ACTION_DOWN) 
-//			startTime = System.nanoTime();
-//
-//		else if (event.getAction() == MotionEvent.ACTION_UP) {
-//			long elapseTime = System.nanoTime() - startTime;
-//			// do whatever u want with elapseTime now, its in nanoseconds
-//			Log.i("meme","onTouchEvent time"+elapseTime);
-//		}
-//		return super.onTouchEvent(event);
-//	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -225,17 +222,21 @@ public class SandboxView extends View implements OnTouchListener,OnClickListener
 			Log.i("meme", "onTouchEvent time: " + elapseTime+" nanoseconds");
 			Log.i("meme", (onePress)?"Only one touch point":"Two touch points");
 			if(elapseTime < 100000000 && onePress && noTranslate) 
-				selfRef.onClick(v);
+				selfRef.onClick(event.getX(),event.getY());
 			onePress = true;
 			noTranslate = true;
 		}
 		return true;
 	}
 
-	@Override
-	public void onClick(View arg0) {
+	private void onClick(float x, float y) {
 		// TODO Auto-generated method stub
 		Log.i("meme","OnClick is called");
+		Log.i("meme","X: "+x);
+		Log.i("meme","Y: "+y);
+		if(y<this.getHeight()/4)
+			showUpperText = true;
+		else if(y>this.getHeight()/4*3)
+			showLowerText = true;
 	}
-
 }
