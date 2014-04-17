@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,6 +111,27 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
+//		Typeface tf = Typeface.create("Impact",Typeface.BOLD);
+		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
+		Paint strokePaint = new Paint();
+		Paint textPaint = new Paint();
+		strokePaint.setDither(true);
+        strokePaint.setColor(0xFF000000);
+        strokePaint.setTextSize(150);
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setStrokeJoin(Paint.Join.ROUND);
+        strokePaint.setStrokeCap(Paint.Cap.ROUND);
+        strokePaint.setStrokeWidth(7);
+        strokePaint.setTextAlign(Paint.Align.CENTER);
+        strokePaint.setTypeface(tf);
+        textPaint.setDither(true);
+        textPaint.setColor(0xFFFFFFFF);
+        textPaint.setTextSize(150);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTypeface(tf);
+        canvas.drawText("Android",300,200,textPaint);
+        canvas.drawText("Android",300,200,strokePaint);
+        
 		// For debugging
 //		try {
 //			paint.setColor(0xFF007F00);
