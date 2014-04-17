@@ -8,12 +8,13 @@
     <string name="error_no_image">No image is found!</string>
     <string name="getUserFile">Access user file storage</string>
     <string name="title_activity_receive_intent">Create Meme</string>
-    <string name="title_activity_meme_editor">MemeEditorActivity</string>
+    <string name="title_activity_meme_editor">Back</string>
     <string name="save">save</string>
     <string name="title_activity_browser">BrowserActivity</string>
     <string name="title_activity_file_explorer">FileExplorerActivity</string>
     <string name="set_upper_text_dialog_title">Input Upper Text:</string>
     <string name="set_lower_text_dialog_title">Input Lower Text:</string>
     <string name="set_meme_text_dialog_message">Please input some funny phase.  :)</string>
+    <string name="meme_image_reset">Reset background image</string>
 
 </resources>

@@ -55,11 +55,26 @@ public class SandboxView extends View implements OnTouchListener {
 	private Vector2D vpb = null;
 	private Vector2D middlePoint = null;
 
+	private Bitmap backup_bitmap;
+
+	private int backup_width;
+
+	private int backup_height;
+
+	private Matrix backup_transform;
+
+	private Vector2D backup_position;
+
+	private float backup_scale;
+
+	private float backup_angle;
+
 	public SandboxView(Context context, Bitmap bitmap) {
 		super(context);
 
 		setBitmap(bitmap);
 		setPaints();
+		backup();
 		
 		setOnTouchListener(this);
 	}
@@ -69,8 +84,38 @@ public class SandboxView extends View implements OnTouchListener {
 
 		setBitmap(bitmap,dp);
 		setPaints();
+		backup();
 
 		setOnTouchListener(this);
+	}
+	
+	private void backup(){
+		this.backup_bitmap = this.bitmap;
+		this.backup_width = this.width;
+		this.backup_height = this.height;
+		this.backup_transform = this.transform;
+		this.backup_position = this.position;
+		this.backup_scale  = this.scale;
+		this.backup_angle  = this.angle;
+
+//		this.backup_ TouchManager touchManager = new TouchManager(2);
+//		this.backup_ boolean onePress = true;
+//		this.backup_ boolean noTranslate = true;
+//		private long startTime;
+//		this.backup_ boolean isInitialized = false;
+//		this.backup_ boolean showUpperText = false;
+//		this.backup_ boolean showLowerText = false;
+	}
+	
+	public void reset(){
+		this.bitmap = this.backup_bitmap;
+		this.width = this.backup_width;
+		this.height = this.backup_height;
+		this.transform = this.backup_transform;
+		this.position = this.backup_position;
+		this.scale  = this.backup_scale;
+		this.angle  = this.backup_angle;
+		this.invalidate();
 	}
 	
 	public void setPaints(){
@@ -111,6 +156,7 @@ public class SandboxView extends View implements OnTouchListener {
 		this.width = (int) (bitmap.getWidth()*scaleValue);
 		this.height = (int) (bitmap.getHeight()*scaleValue);
 	}
+	
 	
 	private static float getDegreesFromRadians(float angle) {
 		return (float)(angle * 180.0 / Math.PI);

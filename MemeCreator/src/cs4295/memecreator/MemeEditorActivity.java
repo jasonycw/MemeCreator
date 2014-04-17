@@ -40,7 +40,7 @@ public class MemeEditorActivity extends Activity {
 	private float memeEditorLayoutWidth;
 	private float memeEditorLayoutHeight;
 	private LinearLayout memeEditorLayout;
-	private View sandboxView;
+	private SandboxView sandboxView;
 	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
 	private File myDir;
@@ -168,6 +168,9 @@ public class MemeEditorActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
+		case R.id.reset_sandbox:
+			sandboxView.reset();
+			return true;
 		case R.id.action_settings:
 			return true;
 		case android.R.id.home:
