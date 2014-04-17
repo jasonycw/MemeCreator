@@ -9,13 +9,15 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
 
-public class SandboxView extends View implements OnTouchListener {
-
+public class SandboxView extends View implements OnTouchListener,OnClickListener {
+	private SandboxView selfRef = this;
+	
 	private Bitmap bitmap;
 	private int width;
 	private int height;
@@ -26,7 +28,11 @@ public class SandboxView extends View implements OnTouchListener {
 	private float angle = 0;
 
 	private TouchManager touchManager = new TouchManager(2);
+	private boolean onePress = true;
+	private boolean noTranslate = true;
 	private boolean isInitialized = false;
+	private long startTime;
+	
 
 	// Debug helpers to draw lines between the two touch points
 	private Vector2D vca = null;
@@ -39,7 +45,7 @@ public class SandboxView extends View implements OnTouchListener {
 		super(context);
 
 		setBitmap(bitmap);
-
+		
 		setOnTouchListener(this);
 	}
 	
@@ -151,6 +157,20 @@ public class SandboxView extends View implements OnTouchListener {
 //		}
 	}
 
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		// TODO Auto-generated method stub
+//		 if (event.getAction() == MotionEvent.ACTION_DOWN) 
+//			startTime = System.nanoTime();
+//
+//		else if (event.getAction() == MotionEvent.ACTION_UP) {
+//			long elapseTime = System.nanoTime() - startTime;
+//			// do whatever u want with elapseTime now, its in nanoseconds
+//			Log.i("meme","onTouchEvent time"+elapseTime);
+//		}
+//		return super.onTouchEvent(event);
+//	}
+
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		vca = null;
@@ -158,22 +178,26 @@ public class SandboxView extends View implements OnTouchListener {
 		vpa = null;
 		vpb = null;
 		middlePoint = null;
-
+		
 		try {
 			touchManager.update(event);
-			
 			if (touchManager.getPressCount() == 1) {
 				vca = touchManager.getPoint(0);
 				vpa = touchManager.getPreviousPoint(0);
 				position.add(touchManager.moveDelta(0));
+				if(touchManager.moveDelta(0).getLength()>0)
+					noTranslate = false;
 			}
 			else {
 				if (touchManager.getPressCount() == 2) {
+					onePress = false;
 					vca = touchManager.getPoint(0);
 					vpa = touchManager.getPreviousPoint(0);
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
 					position.add(touchManager.moveDelta());
+					if(touchManager.moveDelta(0).getLength()>0)
+						noTranslate = false;
 					
 					Vector2D current = touchManager.getVector(0, 1);
 					Vector2D previous = touchManager.getPreviousVector(0, 1);
@@ -194,6 +218,24 @@ public class SandboxView extends View implements OnTouchListener {
 		catch(Throwable t) {
 			// So lazy...
 		}
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+			startTime = System.nanoTime();
+		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			long elapseTime = System.nanoTime() - startTime;
+			Log.i("meme", "onTouchEvent time: " + elapseTime+" nanoseconds");
+			Log.i("meme", (onePress)?"Only one touch point":"Two touch points");
+			if(elapseTime < 100000000 && onePress && noTranslate) 
+				selfRef.onClick(v);
+			onePress = true;
+			noTranslate = true;
+		}
 		return true;
 	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		Log.i("meme","OnClick is called");
+	}
+
 }
