@@ -117,7 +117,6 @@ public class SaveResultImageActivity extends Activity {
 		setting = getSharedPreferences("path",Context.MODE_PRIVATE);
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
 		Log.i("preference", setting.toString());
-		Log.i("Path221", path);
 
 		// Share button on click
 		ImageView share = (ImageView) findViewById(R.id.shareButton);
@@ -153,12 +152,16 @@ public class SaveResultImageActivity extends Activity {
 	{
 		
 		saveTempImageForSharing();
-		uriToImage = Uri.parse(path + "/temp.png");
+//		uriToImage = Uri.parse(path + "/temp.png");
 		
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
-		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-
+//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+		File imageFileToShare = new File(path + "/temp.png");
+		 
+	    uriToImage = Uri.fromFile(imageFileToShare);
+	    imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+	 
 		// Verify it resolves
 		PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> activities = packageManager
@@ -167,7 +170,8 @@ public class SaveResultImageActivity extends Activity {
 		
 		saveTempImageForSharing();
 		
-        startActivity(imageIntent);
+//        startActivity(imageIntent);
+		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
 		
 	}
 
