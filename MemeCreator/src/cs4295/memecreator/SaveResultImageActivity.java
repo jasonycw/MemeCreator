@@ -151,7 +151,7 @@ public class SaveResultImageActivity extends Activity {
 		
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
-<<<<<<< HEAD
+
 //		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 		File imageFileToShare = new File(path + "/temp.png");
 		 
@@ -168,7 +168,7 @@ public class SaveResultImageActivity extends Activity {
 		
 //        startActivity(imageIntent);
 		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
-=======
+
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
 		File f = new File(new File(path), "temp.png");
@@ -185,7 +185,7 @@ public class SaveResultImageActivity extends Activity {
 
 		startActivity(Intent.createChooser(imageIntent, "Share Image"));
 		
->>>>>>> d22c504e285a525cc51e382bcbd1259d4bb75b5f
+
 		
 //		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 //
