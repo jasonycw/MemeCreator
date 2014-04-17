@@ -124,6 +124,7 @@ public class SaveResultImageActivity extends Activity {
 
 				saveAndShare = setting.getBoolean("example_checkbox", false);
 
+				shareButtonPressed = true;
 				if (saveAndShare)
 				{
 					saveImageHelper();
@@ -191,7 +192,10 @@ public class SaveResultImageActivity extends Activity {
 								// current activity
 								saveImage(tempImage, input.getText() + ".png");
 								if(shareButtonPressed)
+								{
 									shareHelper();
+									shareButtonPressed = false;
+								}
 								else
 									finish();
 							}
