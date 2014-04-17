@@ -9,13 +9,15 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
 
 public class SandboxView extends View implements OnTouchListener {
-
+	private SandboxView selfRef = this;
+	
 	private Bitmap bitmap;
 	private int width;
 	private int height;
@@ -26,7 +28,16 @@ public class SandboxView extends View implements OnTouchListener {
 	private float angle = 0;
 
 	private TouchManager touchManager = new TouchManager(2);
+	private boolean onePress = true;
+	private boolean noTranslate = true;
+	private long startTime;
 	private boolean isInitialized = false;
+	private boolean showUpperText = false;
+	private boolean showLowerText = false;
+	private String upperText = "Nailed it!";
+	private String lowerText = "Fuck Yeah!";
+	
+	
 
 	// Debug helpers to draw lines between the two touch points
 	private Vector2D vca = null;
@@ -39,7 +50,7 @@ public class SandboxView extends View implements OnTouchListener {
 		super(context);
 
 		setBitmap(bitmap);
-
+		
 		setOnTouchListener(this);
 	}
 	
@@ -74,6 +85,18 @@ public class SandboxView extends View implements OnTouchListener {
 	
 	private static float getDegreesFromRadians(float angle) {
 		return (float)(angle * 180.0 / Math.PI);
+	}
+	
+	private int determineMaxTextSize(String str, float maxWidth, float maxHeight)
+	{
+	    int size = 0;       
+	    Paint paint = new Paint();
+
+	    do {
+	        paint.setTextSize(++ size);
+	    } while(paint.measureText(str) < maxWidth && paint.getFontMetrics().top<maxHeight);
+
+	    return size;
 	}
 
 	@Override
@@ -112,25 +135,44 @@ public class SandboxView extends View implements OnTouchListener {
 		canvas.drawBitmap(bitmap, transform, paint);
 
 		// Add font to the canvase
+		float upperTextSize = determineMaxTextSize(upperText,this.getWidth(),this.getHeight()/3);
+		float lowerTextSize = determineMaxTextSize(lowerText,this.getWidth(),this.getHeight()/3);
 		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
+		
 		Paint strokePaint = new Paint();
-		Paint textPaint = new Paint();
 		strokePaint.setDither(true);
         strokePaint.setColor(0xFF000000);
-        strokePaint.setTextSize(150);
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setStrokeJoin(Paint.Join.ROUND);
         strokePaint.setStrokeCap(Paint.Cap.ROUND);
         strokePaint.setStrokeWidth(7);
         strokePaint.setTextAlign(Paint.Align.CENTER);
         strokePaint.setTypeface(tf);
+        
+        Paint textPaint = new Paint();
         textPaint.setDither(true);
         textPaint.setColor(0xFFFFFFFF);
-        textPaint.setTextSize(150);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTypeface(tf);
-        canvas.drawText("Android",300,200,textPaint);
-        canvas.drawText("Android",300,200,strokePaint);
+        
+		if(showUpperText)
+		{
+			Paint text = textPaint;
+			text.setTextSize(upperTextSize);
+			Paint stroke = strokePaint;
+			stroke.setTextSize(upperTextSize);
+	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,text);
+	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,stroke);
+		}
+		if(showLowerText)
+		{
+			Paint text = textPaint;
+			text.setTextSize(lowerTextSize);
+			Paint stroke = strokePaint;
+			stroke.setTextSize(lowerTextSize);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,textPaint);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,strokePaint);
+		}
         
 		// For debugging
 //		try {
@@ -158,22 +200,26 @@ public class SandboxView extends View implements OnTouchListener {
 		vpa = null;
 		vpb = null;
 		middlePoint = null;
-
+		
 		try {
 			touchManager.update(event);
-			
 			if (touchManager.getPressCount() == 1) {
 				vca = touchManager.getPoint(0);
 				vpa = touchManager.getPreviousPoint(0);
 				position.add(touchManager.moveDelta(0));
+				if(touchManager.moveDelta(0).getLength()>0)
+					noTranslate = false;
 			}
 			else {
 				if (touchManager.getPressCount() == 2) {
+					onePress = false;
 					vca = touchManager.getPoint(0);
 					vpa = touchManager.getPreviousPoint(0);
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
 					position.add(touchManager.moveDelta());
+					if(touchManager.moveDelta(0).getLength()>0)
+						noTranslate = false;
 					
 					Vector2D current = touchManager.getVector(0, 1);
 					Vector2D previous = touchManager.getPreviousVector(0, 1);
@@ -194,6 +240,29 @@ public class SandboxView extends View implements OnTouchListener {
 		catch(Throwable t) {
 			// So lazy...
 		}
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+			startTime = System.nanoTime();
+		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			long elapseTime = System.nanoTime() - startTime;
+			Log.i("meme", "onTouchEvent time: " + elapseTime+" nanoseconds");
+			Log.i("meme", (onePress)?"Only one touch point":"Two touch points");
+			if(elapseTime < 100000000 && onePress && noTranslate) 
+				selfRef.onClick(event.getX(),event.getY());
+			onePress = true;
+			noTranslate = true;
+		}
 		return true;
+	}
+
+	private void onClick(float x, float y) {
+		// TODO Auto-generated method stub
+		Log.i("meme","OnClick is called");
+		Log.i("meme","X: "+x);
+		Log.i("meme","Y: "+y);
+		int divideRegion = 3;
+		if(y<this.getHeight()/divideRegion)
+			showUpperText = !showUpperText;
+		else if(y>this.getHeight()/divideRegion*(divideRegion-1))
+			showLowerText = !showLowerText;
 	}
 }
