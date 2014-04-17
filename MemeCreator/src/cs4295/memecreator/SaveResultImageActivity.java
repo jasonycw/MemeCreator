@@ -80,38 +80,38 @@ public class SaveResultImageActivity extends Activity {
 			window.setFlags(
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-			
+
 			// Get the data directory for the app
 			PackageManager m = getPackageManager();
 			dataDir = getPackageName();
 			try {
-			    PackageInfo p = m.getPackageInfo(dataDir, 0);
-			    dataDir = p.applicationInfo.dataDir;
-			    myDir = new File(dataDir+"/cache");
+				PackageInfo p = m.getPackageInfo(dataDir, 0);
+				dataDir = p.applicationInfo.dataDir;
+				myDir = new File(dataDir + "/cache");
 			} catch (NameNotFoundException e) {
-			    Log.w("yourtag", "Error Package name not found ", e);
+				Log.w("yourtag", "Error Package name not found ", e);
 			}
-			
+
 		}
 
 		// Get the intent and set the image path to be the result image
 		Intent shareIntent = getIntent();
-		imagePath = shareIntent
-				.getStringExtra("cs4295.memcreator.imagePath");
+		imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 
-		imagePath = getIntent().getStringExtra("cs4295.memcreator.memeImageCache");
+		imagePath = getIntent().getStringExtra(
+				"cs4295.memcreator.memeImageCache");
 		Bitmap memeBitmap = BitmapFactory.decodeFile(imagePath);
 
 		// Set result image
 		resultImage = (ImageView) this.findViewById(R.id.resultImage);
-		
+
 		resultImage.setImageBitmap(memeBitmap);
 		resultImage.setDrawingCacheEnabled(true);
 		resultImage.buildDrawingCache();
 
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
-//		setting = PreferenceManager.getDefaultSharedPreferences(this);
-		setting = getSharedPreferences("path",Context.MODE_PRIVATE);
+		// setting = PreferenceManager.getDefaultSharedPreferences(this);
+		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
 		Log.i("preference", setting.toString());
 
@@ -122,16 +122,12 @@ public class SaveResultImageActivity extends Activity {
 			public void onClick(View arg0) {
 				// Disable share button to prevent multiple on click
 				share.setEnabled(false);
-				
+
 				saveAndShare = setting.getBoolean("example_checkbox", false);
 
-				shareButtonPressed = true;
-				if (saveAndShare)
-				{
+				if (saveAndShare) {
 					saveImageHelper();
-				}
-				else
-				{
+				} else {
 					shareHelper();
 				}
 			}
@@ -144,68 +140,66 @@ public class SaveResultImageActivity extends Activity {
 			public void onClick(View arg0) {
 				// Disable save button to prevent multiple on click
 				save.setEnabled(false);
-				
+
 				saveImageHelper();
 			}
 		});
 	}
-	
-	private void shareHelper()
-	{
-		
+
+	private void shareHelper() {
+
 		saveTempImageForSharing();
-//		uriToImage = Uri.parse(path + "/temp.png");
-		
+		// uriToImage = Uri.parse(path + "/temp.png");
+
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
 
-//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 		File imageFileToShare = new File(path + "/temp.png");
-		 
-	    uriToImage = Uri.fromFile(imageFileToShare);
-	    imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-	 
+
+		uriToImage = Uri.fromFile(imageFileToShare);
+		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+
 		// Verify it resolves
 		PackageManager packageManager = getPackageManager();
-		List<ResolveInfo> activities = packageManager
-				.queryIntentActivities(imageIntent, 0);
+		List<ResolveInfo> activities = packageManager.queryIntentActivities(
+				imageIntent, 0);
 		isIntentSafe = activities.size() > 0;
-		
+
 		saveTempImageForSharing();
-		
-//        startActivity(imageIntent);
-		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
+
+		// startActivity(imageIntent);
+		// startActivity(Intent.createChooser(imageIntent, "Share Image!"));
 
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
 		File f = new File(new File(path), "temp.png");
 		try {
-		    f.createNewFile();
-		    FileOutputStream fo = new FileOutputStream(f);
-		    fo.write(bytes.toByteArray());
-		} catch (IOException e) {                       
-		        e.printStackTrace();
+			f.createNewFile();
+			FileOutputStream fo = new FileOutputStream(f);
+			fo.write(bytes.toByteArray());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		Log.i("See Path ", uriToImage.toString());
 		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-		imageIntent.putExtra(Intent.EXTRA_TITLE, "my awesome caption in the EXTRA_TITLE field");
+		imageIntent.putExtra(Intent.EXTRA_TITLE,
+				"my awesome caption in the EXTRA_TITLE field");
 
 		startActivity(Intent.createChooser(imageIntent, "Share Image"));
-		
 
-		
-//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-//
-//		// Verify it resolves
-//		PackageManager packageManager = getPackageManager();
-//		List<ResolveInfo> activities = packageManager
-//				.queryIntentActivities(imageIntent, 0);
-//		isIntentSafe = activities.size() > 0;
-//		
-//		saveTempImageForSharing();
-//		
-//        startActivity(imageIntent);
-//		
+		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+		//
+		// // Verify it resolves
+		// PackageManager packageManager = getPackageManager();
+		// List<ResolveInfo> activities = packageManager
+		// .queryIntentActivities(imageIntent, 0);
+		// isIntentSafe = activities.size() > 0;
+		//
+		// saveTempImageForSharing();
+		//
+		// startActivity(imageIntent);
+		//
 	}
 
 	private void saveImageHelper() {
@@ -231,13 +225,7 @@ public class SaveResultImageActivity extends Activity {
 								// if this button is clicked, close
 								// current activity
 								saveImage(tempImage, input.getText() + ".png");
-								if(shareButtonPressed)
-								{
-									shareHelper();
-									shareButtonPressed = false;
-								}
-								else
-									finish();
+								shareHelper();
 							}
 						})
 				.setNegativeButton("Cancel",
@@ -292,8 +280,7 @@ public class SaveResultImageActivity extends Activity {
 			out.flush();
 			out.close();
 
-			Toast.makeText(this,
-					fileName + " is saved at " + path, 2000)
+			Toast.makeText(this, fileName + " is saved at " + path, 2000)
 					.show();
 
 			// update the save image to gallery
@@ -359,48 +346,51 @@ public class SaveResultImageActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	// Remove the temp Image used for sharing before
 	@Override
 	protected void onResume() {
 		// Re-enable the share and save buttons
 		share.setEnabled(true);
-		save.setEnabled(false);
-		
-		File temp = new File(new File(path), "temp.png");
-		
-		if(temp.exists())
-			temp.delete();
-		
-		super.onResume();
-	}
-	// Remove the temp Image used for sharing before
-	protected void onStart() {
+		save.setEnabled(true);
 
 		File temp = new File(new File(path), "temp.png");
-		
-		if(temp.exists())
-			temp.delete();
-		
+
+		// if (temp.exists())
+		// temp.delete();
+
+		super.onResume();
+	}
+
+	// Remove the temp Image used for sharing before
+	protected void onStart() {
+		// Re-enable the share and save buttons
+		share.setEnabled(true);
+		save.setEnabled(true);
+
+		File temp = new File(new File(path), "temp.png");
+
+		// if (temp.exists())
+		// temp.delete();
+
 		super.onStart();
 	}
+
 	// Remove the temp Image used for sharing before
 	@Override
 	protected void onDestroy() {
 		File temp = new File(new File(path), "temp.png");
-		
-		if(temp.exists())
-			temp.delete();	
-		
+
+		if (temp.exists())
+			temp.delete();
+
 		super.onDestroy();
 	}
-	
-	
-	// Save the image as a temp file and used for sharing later 
+
+	// Save the image as a temp file and used for sharing later
 	private void saveTempImageForSharing() {
 		// Create the file path and file name
-		
-		
+
 		File direct = new File(path);
 
 		if (!direct.exists()) {
@@ -414,7 +404,7 @@ public class SaveResultImageActivity extends Activity {
 			FileOutputStream out = new FileOutputStream(file);
 			tempImage.compress(Bitmap.CompressFormat.PNG, 100, out);
 			out.flush();
-			out.close();			
+			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
