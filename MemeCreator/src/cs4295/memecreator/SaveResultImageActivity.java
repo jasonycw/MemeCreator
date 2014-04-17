@@ -2,17 +2,24 @@ package cs4295.memecreator;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import cs4295.memecreator.MemeEditorActivity.Forward;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,6 +28,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,6 +53,13 @@ public class SaveResultImageActivity extends Activity {
 	private boolean saveAndShare = false;
 	private boolean shareButtonPressed = false;
 	private String path = "/sdcard/DCIM/Meme/Media/";
+	private boolean isIntentSafe;
+	private Intent imageIntent;
+	private Uri uriToImage;
+	private File cacheImage_forPassing;
+	private String dataDir;
+	private File myDir;
+	private String imagePath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +83,23 @@ public class SaveResultImageActivity extends Activity {
 			window.setFlags(
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+			
+			// Get the data directory for the app
+			PackageManager m = getPackageManager();
+			dataDir = getPackageName();
+			try {
+			    PackageInfo p = m.getPackageInfo(dataDir, 0);
+			    dataDir = p.applicationInfo.dataDir;
+			    myDir = new File(dataDir+"/cache");
+			} catch (NameNotFoundException e) {
+			    Log.w("yourtag", "Error Package name not found ", e);
+			}
+			
 		}
 
 		// Get the intent and set the image path to be the result image
 		Intent shareIntent = getIntent();
-		String imagePath = shareIntent
+		imagePath = shareIntent
 				.getStringExtra("cs4295.memcreator.imagePath");
 
 		imagePath = getIntent().getStringExtra("cs4295.memcreator.memeImageCache");
@@ -97,6 +124,7 @@ public class SaveResultImageActivity extends Activity {
 
 				saveAndShare = setting.getBoolean("example_checkbox", false);
 
+				shareButtonPressed = true;
 				if (saveAndShare)
 				{
 					saveImageHelper();
@@ -120,12 +148,11 @@ public class SaveResultImageActivity extends Activity {
 	
 	private void shareHelper()
 	{
-		Uri uriToImage = Uri
-				.parse(android.provider.MediaStore.Images.Media
-						.insertImage(SaveResultImageActivity.this
-								.getContentResolver(), tempImage, null,
-								null));
-		Intent imageIntent = new Intent(Intent.ACTION_SEND);
+		
+		saveTempImageForSharing();
+		uriToImage = Uri.parse(path + "/temp.png");
+		
+		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
 		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 
@@ -133,15 +160,12 @@ public class SaveResultImageActivity extends Activity {
 		PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> activities = packageManager
 				.queryIntentActivities(imageIntent, 0);
-		boolean isIntentSafe = activities.size() > 0;
-
-		// Start an activity if it's safe
-		if (isIntentSafe) {
-			startActivity(Intent.createChooser(imageIntent,
-					"Share images to.."));
-		} else {
-			show();
-		}
+		isIntentSafe = activities.size() > 0;
+		
+		saveTempImageForSharing();
+		
+        startActivity(imageIntent);
+		
 	}
 
 	private void saveImageHelper() {
@@ -168,7 +192,10 @@ public class SaveResultImageActivity extends Activity {
 								// current activity
 								saveImage(tempImage, input.getText() + ".png");
 								if(shareButtonPressed)
+								{
 									shareHelper();
+									shareButtonPressed = false;
+								}
 								else
 									finish();
 							}
@@ -290,6 +317,61 @@ public class SaveResultImageActivity extends Activity {
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	// Remove the temp Image used for sharing before
+	@Override
+	protected void onResume() {
+
+		File temp = new File(new File(path), "temp.png");
+		
+		if(temp.exists())
+			temp.delete();
+		
+		super.onResume();
+	}
+	// Remove the temp Image used for sharing before
+	protected void onStart() {
+
+		File temp = new File(new File(path), "temp.png");
+		
+		if(temp.exists())
+			temp.delete();
+		
+		super.onStart();
+	}
+	// Remove the temp Image used for sharing before
+	@Override
+	protected void onDestroy() {
+		File temp = new File(new File(path), "temp.png");
+		
+		if(temp.exists())
+			temp.delete();	
+		
+		super.onDestroy();
+	}
+	
+	
+	// Save the image as a temp file and used for sharing later 
+	private void saveTempImageForSharing() {
+		// Create the file path and file name
+		File direct = new File(path);
+
+		if (!direct.exists()) {
+			direct.mkdirs();
+		}
+
+		File file = new File(new File(path), "temp.png");
+		if (file.exists())
+			file.delete();
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			tempImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+			out.flush();
+			out.close();			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
