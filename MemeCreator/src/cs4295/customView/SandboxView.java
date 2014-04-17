@@ -121,11 +121,13 @@ public class SandboxView extends View implements OnTouchListener {
 		strokePaint.setStrokeWidth(7);
 		strokePaint.setTextAlign(Paint.Align.CENTER);
 		strokePaint.setTypeface(tf);
+		strokePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 		textPaint = new Paint();
 		textPaint.setDither(true);
 		textPaint.setColor(0xFFFFFFFF);
 		textPaint.setTextAlign(Paint.Align.CENTER);
 		textPaint.setTypeface(tf);
+		textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 	}
 
 	public void setBitmap(Bitmap bitmap) {
@@ -181,6 +183,7 @@ public class SandboxView extends View implements OnTouchListener {
 
 		Paint paint = new Paint();
 		paint.setColor(0xFF000000);
+		paint.setFlags(Paint.ANTI_ALIAS_FLAG);
 		canvas.drawColor(R.color.meme_background_color);
 
 		transform.reset();
