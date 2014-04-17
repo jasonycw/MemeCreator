@@ -43,8 +43,8 @@ public class SandboxView extends View implements OnTouchListener {
 	private Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
 	private Paint strokePaint;
 	private Paint textPaint;
-	float upperTextSize;
-	float lowerTextSize;
+	private float upperTextSize;
+	private float lowerTextSize;
 	
 	
 
@@ -58,10 +58,6 @@ public class SandboxView extends View implements OnTouchListener {
 	private Bitmap backup_bitmap;
 	private int backup_width;
 	private int backup_height;
-	private Matrix backup_transform;
-	private Vector2D backup_position;
-	private float backup_scale;
-	private float backup_angle;
 
 	public SandboxView(Context context, Bitmap bitmap) {
 		super(context);
@@ -87,28 +83,25 @@ public class SandboxView extends View implements OnTouchListener {
 		this.backup_bitmap = this.bitmap.copy(this.bitmap.getConfig(),true);
 		this.backup_width = this.width;
 		this.backup_height = this.height;
-		this.backup_transform = new Matrix(this.transform);
-		this.backup_position = new Vector2D(this.position);
-		this.backup_scale  = this.scale;
-		this.backup_angle  = this.angle;
-
-//		this.backup_ TouchManager touchManager = new TouchManager(2);
-//		this.backup_ boolean onePress = true;
-//		this.backup_ boolean noTranslate = true;
-//		private long startTime;
-//		this.backup_ boolean isInitialized = false;
-//		this.backup_ boolean showUpperText = false;
-//		this.backup_ boolean showLowerText = false;
 	}
 	
 	public void reset(){
-		this.bitmap = this.backup_bitmap;
+		this.bitmap = this.backup_bitmap.copy(this.backup_bitmap.getConfig(),true);
 		this.width = this.backup_width;
 		this.height = this.backup_height;
-		this.transform = this.backup_transform;
-		this.position = this.backup_position;
-		this.scale  = this.backup_scale;
-		this.angle  = this.backup_angle;
+		this.transform = new Matrix();
+		this.position = new Vector2D();
+		this.scale = 1;
+		this.angle = 0;
+		this.onePress = true;
+
+		this.noTranslate = true;
+		this.isInitialized = false;
+		// this.showUpperText = false;
+		// this.showLowerText = false;
+		// this.upperText = null;
+		// this.lowerText = null;
+
 		this.invalidate();
 	}
 	
