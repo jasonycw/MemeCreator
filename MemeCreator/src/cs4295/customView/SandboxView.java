@@ -1,20 +1,27 @@
 package cs4295.customView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.text.Editable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.EditText;
 import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
 
 public class SandboxView extends View implements OnTouchListener {
-
+	private SandboxView selfRef = this;
+	
 	private Bitmap bitmap;
 	private int width;
 	private int height;
@@ -25,7 +32,21 @@ public class SandboxView extends View implements OnTouchListener {
 	private float angle = 0;
 
 	private TouchManager touchManager = new TouchManager(2);
+	private boolean onePress = true;
+	private boolean noTranslate = true;
+	private long startTime;
 	private boolean isInitialized = false;
+	private boolean showUpperText = false;
+	private boolean showLowerText = false;
+	private String upperText = null;
+	private String lowerText = null;
+	private Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
+	private Paint strokePaint;
+	private Paint textPaint;
+	float upperTextSize;
+	float lowerTextSize;
+	
+	
 
 	// Debug helpers to draw lines between the two touch points
 	private Vector2D vca = null;
@@ -34,11 +55,21 @@ public class SandboxView extends View implements OnTouchListener {
 	private Vector2D vpb = null;
 	private Vector2D middlePoint = null;
 
+	private Bitmap backup_bitmap;
+	private int backup_width;
+	private int backup_height;
+	private Matrix backup_transform;
+	private Vector2D backup_position;
+	private float backup_scale;
+	private float backup_angle;
+
 	public SandboxView(Context context, Bitmap bitmap) {
 		super(context);
 
 		setBitmap(bitmap);
-
+		setPaints();
+		backup();
+		
 		setOnTouchListener(this);
 	}
 	
@@ -46,8 +77,57 @@ public class SandboxView extends View implements OnTouchListener {
 		super(context);
 
 		setBitmap(bitmap,dp);
+		setPaints();
+		backup();
 
 		setOnTouchListener(this);
+	}
+	
+	private void backup(){
+		this.backup_bitmap = this.bitmap.copy(this.bitmap.getConfig(),true);
+		this.backup_width = this.width;
+		this.backup_height = this.height;
+		this.backup_transform = new Matrix(this.transform);
+		this.backup_position = new Vector2D(this.position);
+		this.backup_scale  = this.scale;
+		this.backup_angle  = this.angle;
+
+//		this.backup_ TouchManager touchManager = new TouchManager(2);
+//		this.backup_ boolean onePress = true;
+//		this.backup_ boolean noTranslate = true;
+//		private long startTime;
+//		this.backup_ boolean isInitialized = false;
+//		this.backup_ boolean showUpperText = false;
+//		this.backup_ boolean showLowerText = false;
+	}
+	
+	public void reset(){
+		this.bitmap = this.backup_bitmap;
+		this.width = this.backup_width;
+		this.height = this.backup_height;
+		this.transform = this.backup_transform;
+		this.position = this.backup_position;
+		this.scale  = this.backup_scale;
+		this.angle  = this.backup_angle;
+		this.invalidate();
+	}
+	
+	public void setPaints(){
+		// Initialize default paint style
+		strokePaint = new Paint();
+		strokePaint.setDither(true);
+		strokePaint.setColor(0xFF000000);
+		strokePaint.setStyle(Paint.Style.STROKE);
+		strokePaint.setStrokeJoin(Paint.Join.ROUND);
+		strokePaint.setStrokeCap(Paint.Cap.ROUND);
+		strokePaint.setStrokeWidth(7);
+		strokePaint.setTextAlign(Paint.Align.CENTER);
+		strokePaint.setTypeface(tf);
+		textPaint = new Paint();
+		textPaint.setDither(true);
+		textPaint.setColor(0xFFFFFFFF);
+		textPaint.setTextAlign(Paint.Align.CENTER);
+		textPaint.setTypeface(tf);
 	}
 	
 	public void setBitmap(Bitmap bitmap){
@@ -71,8 +151,24 @@ public class SandboxView extends View implements OnTouchListener {
 		this.height = (int) (bitmap.getHeight()*scaleValue);
 	}
 	
+	
 	private static float getDegreesFromRadians(float angle) {
 		return (float)(angle * 180.0 / Math.PI);
+	}
+	
+	private int determineMaxTextSize(Paint paint, String str, float maxWidth, float maxHeight)
+	{
+		if (str != null) {
+			int size = 0;
+			Rect bounds = new Rect();
+			do {
+				paint.setTextSize(++size);
+				paint.getTextBounds(str, 0, str.length(), bounds);
+			} while (paint.measureText(str) < maxWidth
+					&&  bounds.height()< maxHeight);
+			return size;
+		}
+		return 0;
 	}
 
 	@Override
@@ -110,6 +206,24 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
+        // Add font to the canvas
+		if(showUpperText)
+		{
+			textPaint.setTextSize(upperTextSize);
+			strokePaint.setTextSize(upperTextSize);
+			Rect bounds = new Rect();
+			strokePaint.getTextBounds(upperText, 0, upperText.length(), bounds);
+	        canvas.drawText(upperText,this.getWidth()/2,bounds.height()+20,textPaint);
+	        canvas.drawText(upperText,this.getWidth()/2,bounds.height()+20,strokePaint);
+		}
+		if(showLowerText)
+		{
+			textPaint.setTextSize(lowerTextSize);
+			strokePaint.setTextSize(lowerTextSize);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()-30,textPaint);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()-30,strokePaint);
+		}
+        
 		// For debugging
 //		try {
 //			paint.setColor(0xFF007F00);
@@ -136,22 +250,26 @@ public class SandboxView extends View implements OnTouchListener {
 		vpa = null;
 		vpb = null;
 		middlePoint = null;
-
+		
 		try {
 			touchManager.update(event);
-			
 			if (touchManager.getPressCount() == 1) {
 				vca = touchManager.getPoint(0);
 				vpa = touchManager.getPreviousPoint(0);
 				position.add(touchManager.moveDelta(0));
+				if(touchManager.moveDelta(0).getLength()>0)
+					noTranslate = false;
 			}
 			else {
 				if (touchManager.getPressCount() == 2) {
+					onePress = false;
 					vca = touchManager.getPoint(0);
 					vpa = touchManager.getPreviousPoint(0);
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
 					position.add(touchManager.moveDelta());
+					if(touchManager.moveDelta(0).getLength()>2)
+						noTranslate = false;
 					
 					Vector2D current = touchManager.getVector(0, 1);
 					Vector2D previous = touchManager.getPreviousVector(0, 1);
@@ -172,6 +290,84 @@ public class SandboxView extends View implements OnTouchListener {
 		catch(Throwable t) {
 			// So lazy...
 		}
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+			startTime = System.nanoTime();
+		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			long elapseTime = System.nanoTime() - startTime;
+			Log.i("meme", "onTouchEvent time: " + elapseTime+" nanoseconds");
+			Log.i("meme", (onePress)?"Only one touch point":"Two touch points");
+			if(elapseTime < 100000000 && onePress && noTranslate) 
+				selfRef.onClick(event.getX(),event.getY());
+			onePress = true;
+			noTranslate = true;
+		}
 		return true;
+	}
+
+	private void onClick(float x, float y) {
+		Log.i("meme","OnClick is called");
+		Log.i("meme","X: "+x);
+		Log.i("meme","Y: "+y);
+		int divideRegion = 3;
+		final EditText input = new EditText(this.getContext());
+
+		// Upper text dialog
+		if (y < this.getHeight() / divideRegion) {
+			this.setEnabled(false);
+			new AlertDialog.Builder(this.getContext())
+					.setTitle(R.string.set_upper_text_dialog_title)
+					.setMessage(R.string.set_meme_text_dialog_message)
+					.setView(input)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Editable value = input.getText();
+									upperText = value.toString();
+									showUpperText = true;
+									// Determine the text sizes
+							        upperTextSize = determineMaxTextSize(strokePaint, upperText,selfRef.getWidth()*0.9f,selfRef.getHeight()/4);
+							        selfRef.setEnabled(true);
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									upperText = null;
+									showUpperText = false;
+									selfRef.setEnabled(true);
+								}
+							}).show();
+		} 
+		// Lower text dialog
+		else if (y > this.getHeight() / divideRegion * (divideRegion - 1)) {
+			this.setEnabled(false);
+			new AlertDialog.Builder(this.getContext())
+					.setTitle(R.string.set_lower_text_dialog_title)
+					.setMessage(R.string.set_meme_text_dialog_message)
+					.setView(input)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Editable value = input.getText();
+									lowerText = value.toString();
+									showLowerText = true;
+									// Determine the text sizes
+									lowerTextSize = determineMaxTextSize(strokePaint, lowerText,selfRef.getWidth()*0.9f,selfRef.getHeight()/4);
+									selfRef.setEnabled(true);
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									lowerText = null;
+									showLowerText = false;
+									selfRef.setEnabled(true);
+								}
+							}).show();
+		}
 	}
 }

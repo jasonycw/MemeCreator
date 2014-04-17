@@ -3,6 +3,14 @@
     tools:context="cs4295.memecreator.MemeEditorActivity" >
 
     <item
+        android:id="@+id/reset_sandbox"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_refresh"
+        android:orderInCategory="1"
+        android:showAsAction="ifRoom"
+        android:title="@string/meme_image_reset"
+        android:visible="true"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

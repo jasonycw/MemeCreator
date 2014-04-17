@@ -17,6 +17,16 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_change_save_path" />
+    
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_image_size"
+        android:inputType="number"
+        android:key="image_size"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_image_size" />
 
     <!--
          NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
@@ -24,8 +34,9 @@
     -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
      <Preference
-        android:defaultValue="-1"
-        android:key="path"
+        android:defaultValue="@string/pref_default_save_path"
+        android:summary="@string/pref_default_save_path"
+        android:key="image_path"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_change_save_path" />
