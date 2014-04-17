@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sample_meme">
+        <item>Nailed it!</item>
+        <item>WTF</item>
+        <item>OMG</item>
+        <item>FTW</item>
+        <item>wat</item>
+        <item>lol</item>
+        <item>NOT BAD</item>
+        <item>IMPOSSIBRU!!</item>
+        <item>SHUT UP!</item>
+        <item>U MAD?</item>
+        <item>U MAD? BRO!</item>
+        <item>WANTED</item>
+        <item>NOT EVEN MAD</item>
+        <item>OH COME ON!</item>
+        <item>DAMN</item>
+        <item>OH!</item>
+        <item>DEAL WITH IT</item>
+        <item>LIKE A BOSS</item>
+        <item>FUCK YEA</item>
+        <item>NO.</item>
+        <item>#WINNING</item>
+        <item>MOTHER OF GOD</item>
+        <item>CHALLENGE ACCEPTED</item>
+        <item>CHALLENGE DENIED</item>
+        <item>NO WAY!!!!!</item>
+        <item>DUDE!!!!!</item>
+        <item>NOBODY HAD A FUCKING IDEA</item>
+        <item>SILENT</item>
+        <item>SILENT BUT DEADLY</item>
+        <item>DEADLY</item>
+        <item>SUCCESS!</item>
+        <item>F%#@ THIS SHIT</item>
+        <item>SUCK IT</item>
+        <item>GENIUS</item>
+        <item>INTERNET</item>
+        <item>NOBODY CARES</item>
+        <item>ACCEPT IT</item>
+        <item>I DID IT</item>
+        <item>DA FUQ?</item>
+        <item>OMG!!!</item>
+        <item>HAPPENING!!!!</item>
+        <item>IT\'S HAPPENING</item>
+        <item>POKER FACE</item>
+        <item>LOLOLOLOLO      </item>
+        <item>INDEED</item>
+        <item>dafuq did i just read</item>
+        <item>It was awful</item>
+        <item>Nothing happened</item>
+        <item>OK…</item>
+        <item>GET A LIFE</item>
+        <item>404 ERROR</item>
+        <item>DUCK</item>
+        <item>YO!</item>
+        <item>YOU MUST</item>
+        <item>LOOK</item>
+        <item>CREATE A MEME</item>
+        <item>HAVE A LIFE</item>
+        <item>CLOSE ENOUGH</item>
+    </string-array>
+
+</resources>

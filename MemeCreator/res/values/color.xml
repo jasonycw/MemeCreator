@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--     <color name="dark_gray">#FF008FCA</color> -->
- 	<color name="dark_gray">@drawable/background</color>
+ 	<color name="dark_gray">@drawable/secondbackground</color>
  	<color name="transparent_gray">#4C2B2B2B</color>
     <color name="black">#FF2B2B2B</color>
     <color name="border_color">#FF000000</color>
