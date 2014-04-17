@@ -10,7 +10,8 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-        <item name="android:windowBackground">@color/dark_gray</item>
+<!--         <item name="android:windowBackground">@color/black</item> -->
+			<item name="android:windowBackground">@drawable/background</item>
     </style>
 
     <!-- Application theme. -->
