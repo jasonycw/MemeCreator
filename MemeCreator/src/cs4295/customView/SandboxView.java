@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.util.Log;
@@ -37,8 +38,13 @@ public class SandboxView extends View implements OnTouchListener {
 	private boolean isInitialized = false;
 	private boolean showUpperText = false;
 	private boolean showLowerText = false;
-	private String upperText = "Nailed it!";
-	private String lowerText = "Fuck Yeah!";
+	private String upperText = null;
+	private String lowerText = null;
+	private Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
+	private Paint strokePaint;
+	private Paint textPaint;
+	float upperTextSize;
+	float lowerTextSize;
 	
 	
 
@@ -53,6 +59,7 @@ public class SandboxView extends View implements OnTouchListener {
 		super(context);
 
 		setBitmap(bitmap);
+		setPaints();
 		
 		setOnTouchListener(this);
 	}
@@ -61,8 +68,27 @@ public class SandboxView extends View implements OnTouchListener {
 		super(context);
 
 		setBitmap(bitmap,dp);
+		setPaints();
 
 		setOnTouchListener(this);
+	}
+	
+	public void setPaints(){
+		// Initialize default paint style
+		strokePaint = new Paint();
+		strokePaint.setDither(true);
+		strokePaint.setColor(0xFF000000);
+		strokePaint.setStyle(Paint.Style.STROKE);
+		strokePaint.setStrokeJoin(Paint.Join.ROUND);
+		strokePaint.setStrokeCap(Paint.Cap.ROUND);
+		strokePaint.setStrokeWidth(7);
+		strokePaint.setTextAlign(Paint.Align.CENTER);
+		strokePaint.setTypeface(tf);
+		textPaint = new Paint();
+		textPaint.setDither(true);
+		textPaint.setColor(0xFFFFFFFF);
+		textPaint.setTextAlign(Paint.Align.CENTER);
+		textPaint.setTypeface(tf);
 	}
 	
 	public void setBitmap(Bitmap bitmap){
@@ -90,15 +116,16 @@ public class SandboxView extends View implements OnTouchListener {
 		return (float)(angle * 180.0 / Math.PI);
 	}
 	
-	private int determineMaxTextSize(String str, float maxWidth, float maxHeight)
+	private int determineMaxTextSize(Paint paint, String str, float maxWidth, float maxHeight)
 	{
 		if (str != null) {
 			int size = 0;
-			Paint paint = new Paint();
+			Rect bounds = new Rect();
 			do {
 				paint.setTextSize(++size);
+				paint.getTextBounds(str, 0, str.length(), bounds);
 			} while (paint.measureText(str) < maxWidth
-					&& paint.getFontMetrics().top < maxHeight);
+					&&  bounds.height()< maxHeight);
 			return size;
 		}
 		return 0;
@@ -139,43 +166,22 @@ public class SandboxView extends View implements OnTouchListener {
 
 		canvas.drawBitmap(bitmap, transform, paint);
 
-		// Initialize the font size and font style
-		float upperTextSize = determineMaxTextSize(upperText,this.getWidth(),this.getHeight()/3);
-		float lowerTextSize = determineMaxTextSize(lowerText,this.getWidth(),this.getHeight()/3);
-		Typeface tf = Typeface.createFromAsset(getContext().getAssets(),"impact.ttf");
-		// Initialize default paint style
-		Paint strokePaint = new Paint();
-		strokePaint.setDither(true);
-        strokePaint.setColor(0xFF000000);
-        strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setStrokeJoin(Paint.Join.ROUND);
-        strokePaint.setStrokeCap(Paint.Cap.ROUND);
-        strokePaint.setStrokeWidth(7);
-        strokePaint.setTextAlign(Paint.Align.CENTER);
-        strokePaint.setTypeface(tf);
-        Paint textPaint = new Paint();
-        textPaint.setDither(true);
-        textPaint.setColor(0xFFFFFFFF);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTypeface(tf);
         // Add font to the canvas
 		if(showUpperText)
 		{
-			Paint text = textPaint;
-			text.setTextSize(upperTextSize);
-			Paint stroke = strokePaint;
-			stroke.setTextSize(upperTextSize);
-	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,text);
-	        canvas.drawText(upperText,this.getWidth()/2,this.getHeight()/3,stroke);
+			textPaint.setTextSize(upperTextSize);
+			strokePaint.setTextSize(upperTextSize);
+			Rect bounds = new Rect();
+			strokePaint.getTextBounds(upperText, 0, upperText.length(), bounds);
+	        canvas.drawText(upperText,this.getWidth()/2,bounds.height()+20,textPaint);
+	        canvas.drawText(upperText,this.getWidth()/2,bounds.height()+20,strokePaint);
 		}
 		if(showLowerText)
 		{
-			Paint text = textPaint;
-			text.setTextSize(lowerTextSize);
-			Paint stroke = strokePaint;
-			stroke.setTextSize(lowerTextSize);
-	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,textPaint);
-	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()/3*2,strokePaint);
+			textPaint.setTextSize(lowerTextSize);
+			strokePaint.setTextSize(lowerTextSize);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()-30,textPaint);
+	        canvas.drawText(lowerText,this.getWidth()/2,this.getHeight()-30,strokePaint);
 		}
         
 		// For debugging
@@ -222,7 +228,7 @@ public class SandboxView extends View implements OnTouchListener {
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
 					position.add(touchManager.moveDelta());
-					if(touchManager.moveDelta(0).getLength()>1)
+					if(touchManager.moveDelta(0).getLength()>2)
 						noTranslate = false;
 					
 					Vector2D current = touchManager.getVector(0, 1);
@@ -265,7 +271,9 @@ public class SandboxView extends View implements OnTouchListener {
 		int divideRegion = 3;
 		final EditText input = new EditText(this.getContext());
 
+		// Upper text dialog
 		if (y < this.getHeight() / divideRegion) {
+			this.setEnabled(false);
 			new AlertDialog.Builder(this.getContext())
 					.setTitle(R.string.set_upper_text_dialog_title)
 					.setMessage(R.string.set_meme_text_dialog_message)
@@ -277,6 +285,9 @@ public class SandboxView extends View implements OnTouchListener {
 									Editable value = input.getText();
 									upperText = value.toString();
 									showUpperText = true;
+									// Determine the text sizes
+							        upperTextSize = determineMaxTextSize(strokePaint, upperText,selfRef.getWidth()*0.9f,selfRef.getHeight()/4);
+							        selfRef.setEnabled(true);
 								}
 							})
 					.setNegativeButton("Cancel",
@@ -285,11 +296,13 @@ public class SandboxView extends View implements OnTouchListener {
 										int whichButton) {
 									upperText = null;
 									showUpperText = false;
+									selfRef.setEnabled(true);
 								}
 							}).show();
-//			showUpperText = !showUpperText;
-		} else if (y > this.getHeight() / divideRegion * (divideRegion - 1)) {
-//			showLowerText = !showLowerText;
+		} 
+		// Lower text dialog
+		else if (y > this.getHeight() / divideRegion * (divideRegion - 1)) {
+			this.setEnabled(false);
 			new AlertDialog.Builder(this.getContext())
 					.setTitle(R.string.set_lower_text_dialog_title)
 					.setMessage(R.string.set_meme_text_dialog_message)
@@ -301,6 +314,9 @@ public class SandboxView extends View implements OnTouchListener {
 									Editable value = input.getText();
 									lowerText = value.toString();
 									showLowerText = true;
+									// Determine the text sizes
+									lowerTextSize = determineMaxTextSize(strokePaint, lowerText,selfRef.getWidth()*0.9f,selfRef.getHeight()/4);
+									selfRef.setEnabled(true);
 								}
 							})
 					.setNegativeButton("Cancel",
@@ -309,6 +325,7 @@ public class SandboxView extends View implements OnTouchListener {
 										int whichButton) {
 									lowerText = null;
 									showLowerText = false;
+									selfRef.setEnabled(true);
 								}
 							}).show();
 		}
