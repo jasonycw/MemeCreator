@@ -1,25 +1,22 @@
 package cs4295.memecreator;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
-
-import cs4295.memecreator.MemeEditorActivity.Forward;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -28,10 +25,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -156,6 +151,7 @@ public class SaveResultImageActivity extends Activity {
 		
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
+<<<<<<< HEAD
 //		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 		File imageFileToShare = new File(path + "/temp.png");
 		 
@@ -172,7 +168,37 @@ public class SaveResultImageActivity extends Activity {
 		
 //        startActivity(imageIntent);
 		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
+=======
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+		File f = new File(new File(path), "temp.png");
+		try {
+		    f.createNewFile();
+		    FileOutputStream fo = new FileOutputStream(f);
+		    fo.write(bytes.toByteArray());
+		} catch (IOException e) {                       
+		        e.printStackTrace();
+		}
+		Log.i("See Path ", uriToImage.toString());
+		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+		imageIntent.putExtra(Intent.EXTRA_TITLE, "my awesome caption in the EXTRA_TITLE field");
+
+		startActivity(Intent.createChooser(imageIntent, "Share Image"));
 		
+>>>>>>> d22c504e285a525cc51e382bcbd1259d4bb75b5f
+		
+//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+//
+//		// Verify it resolves
+//		PackageManager packageManager = getPackageManager();
+//		List<ResolveInfo> activities = packageManager
+//				.queryIntentActivities(imageIntent, 0);
+//		isIntentSafe = activities.size() > 0;
+//		
+//		saveTempImageForSharing();
+//		
+//        startActivity(imageIntent);
+//		
 	}
 
 	private void saveImageHelper() {
@@ -363,6 +389,8 @@ public class SaveResultImageActivity extends Activity {
 	// Save the image as a temp file and used for sharing later 
 	private void saveTempImageForSharing() {
 		// Create the file path and file name
+		
+		
 		File direct = new File(path);
 
 		if (!direct.exists()) {
