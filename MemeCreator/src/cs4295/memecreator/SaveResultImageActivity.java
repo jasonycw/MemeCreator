@@ -86,8 +86,11 @@ public class SaveResultImageActivity extends Activity {
 		resultImage.buildDrawingCache();
 
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
-		setting = PreferenceManager.getDefaultSharedPreferences(this);
-		path = setting.getString("example_text", "/sdcard/DCIM/Meme/Media/");
+//		setting = PreferenceManager.getDefaultSharedPreferences(this);
+		setting = getSharedPreferences("path",Context.MODE_PRIVATE);
+		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
+		Log.i("preference", setting.toString());
+		Log.i("Path221", path);
 
 		// Share button on click
 		ImageView share = (ImageView) findViewById(R.id.shareButton);
