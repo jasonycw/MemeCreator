@@ -12,5 +12,8 @@
     <string name="save">save</string>
     <string name="title_activity_browser">BrowserActivity</string>
     <string name="title_activity_file_explorer">FileExplorerActivity</string>
+    <string name="set_upper_text_dialog_title">Input Upper Text:</string>
+    <string name="set_lower_text_dialog_title">Input Lower Text:</string>
+    <string name="set_meme_text_dialog_message">Please input some funny phase.  :)</string>
 
 </resources>
