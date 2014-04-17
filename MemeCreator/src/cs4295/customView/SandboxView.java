@@ -234,9 +234,10 @@ public class SandboxView extends View implements OnTouchListener {
 		Log.i("meme","OnClick is called");
 		Log.i("meme","X: "+x);
 		Log.i("meme","Y: "+y);
-		if(y<this.getHeight()/4)
-			showUpperText = true;
-		else if(y>this.getHeight()/4*3)
-			showLowerText = true;
+		int divideRegion = 3;
+		if(y<this.getHeight()/divideRegion)
+			showUpperText = !showUpperText;
+		else if(y>this.getHeight()/divideRegion*(divideRegion-1))
+			showLowerText = !showLowerText;
 	}
 }
