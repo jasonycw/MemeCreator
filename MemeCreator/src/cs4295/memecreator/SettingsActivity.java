@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,13 +35,17 @@ public class SettingsActivity extends PreferenceActivity {
 	 * shown on tablets.
 	 */
 	private static final boolean ALWAYS_SIMPLE_PREFS = false;
+	SharedPreferences settings;
+	SharedPreferences.Editor editor;
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-
+		
+		settings = getSharedPreferences("path", Context.MODE_PRIVATE);
 		setupSimplePreferencesScreen();
-		Preference pathSelector = findPreference("path");
+		final Preference pathSelector = findPreference("image_path");
+		pathSelector.setSummary(settings.getString("image_path", "/sdcard/DCIM/Meme/Media/"));
 		pathSelector.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
 
 		 private String m_chosenDir = "";
@@ -55,7 +60,12 @@ public class SettingsActivity extends PreferenceActivity {
                             @Override
                             public void onChosenDir(String chosenDir) 
                             {
+                            	editor = settings.edit();
+                            	editor.putString("image_path", chosenDir);
+                            	editor.commit();
                                 m_chosenDir = chosenDir;
+                                pathSelector.setSummary(settings.getString("image_path", "/sdcard/DCIM/Meme/Media/"));
+                                Log.i("default value", pathSelector.getSummary().toString());
                                 Toast.makeText(
                                 		SettingsActivity.this, "Chosen directory: " + 
                                   chosenDir, 2000).show();
@@ -93,6 +103,9 @@ public class SettingsActivity extends PreferenceActivity {
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
 		bindPreferenceSummaryToValue(findPreference("example_text"));
+		bindPreferenceSummaryToValue(findPreference("image_size"));
+//		bindPreferenceSummaryToValue(findPreference("image_path"));
+		
 		
 	}
 
@@ -201,6 +214,8 @@ public class SettingsActivity extends PreferenceActivity {
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
 			bindPreferenceSummaryToValue(findPreference("example_text"));
+			bindPreferenceSummaryToValue(findPreference("image_size"));
+//			bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
 	}
 
