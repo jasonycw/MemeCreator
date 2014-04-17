@@ -21,7 +21,7 @@
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="@string/pref_default_image_size"
-        android:inputType="textCapWords"
+        android:inputType="number"
         android:key="image_size"
         android:maxLines="1"
         android:selectAllOnFocus="true"
