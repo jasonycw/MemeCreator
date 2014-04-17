@@ -55,6 +55,8 @@ public class SaveResultImageActivity extends Activity {
 	private String dataDir;
 	private File myDir;
 	private String imagePath;
+	private ImageView share;
+	private ImageView save;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +116,13 @@ public class SaveResultImageActivity extends Activity {
 		Log.i("preference", setting.toString());
 
 		// Share button on click
-		ImageView share = (ImageView) findViewById(R.id.shareButton);
+		share = (ImageView) findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-
+				// Disable share button to prevent multiple on click
+				share.setEnabled(false);
+				
 				saveAndShare = setting.getBoolean("example_checkbox", false);
 
 				shareButtonPressed = true;
@@ -134,10 +138,13 @@ public class SaveResultImageActivity extends Activity {
 		});
 
 		// Save button on click
-		ImageView save = (ImageView) findViewById(R.id.saveButton);
+		save = (ImageView) findViewById(R.id.saveButton);
 		save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				// Disable save button to prevent multiple on click
+				save.setEnabled(false);
+				
 				saveImageHelper();
 			}
 		});
@@ -356,7 +363,10 @@ public class SaveResultImageActivity extends Activity {
 	// Remove the temp Image used for sharing before
 	@Override
 	protected void onResume() {
-
+		// Re-enable the share and save buttons
+		share.setEnabled(true);
+		save.setEnabled(false);
+		
 		File temp = new File(new File(path), "temp.png");
 		
 		if(temp.exists())

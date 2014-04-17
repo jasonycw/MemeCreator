@@ -41,6 +41,7 @@ public class MemeEditorActivity extends Activity {
 	private float memeEditorLayoutHeight;
 	private LinearLayout memeEditorLayout;
 	private SandboxView sandboxView;
+	private ImageView forwardButtonImageView;
 	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
 	private File myDir;
@@ -129,10 +130,11 @@ public class MemeEditorActivity extends Activity {
 		memeEditorLayout.addView(sandboxView);
 
 		// Set save button on click method
-		ImageView forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
+		forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
 		forwardButtonImageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				forwardButtonImageView.setEnabled(false);
 				Forward forward = new Forward();
 				forward.execute();
 			}
@@ -143,6 +145,7 @@ public class MemeEditorActivity extends Activity {
 	protected void onPause() {
 		// Hide the progress bar
 		linlaHeaderProgress.setVisibility(View.GONE);
+		forwardButtonImageView.setEnabled(true);
 
 		// Try to delete cache if possible
 		Log.i("myDir", myDir.toString()
