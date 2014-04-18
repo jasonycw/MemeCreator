@@ -1,10 +1,8 @@
 package cs4295.memecreator;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -16,7 +14,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -28,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -114,7 +112,11 @@ public class SaveResultImageActivity extends Activity {
 		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
 		Log.i("preference", setting.toString());
-
+		
+		String photoUri = MediaStore.Images.Media.insertImage(
+		        getContentResolver(), tempImage, null, null);
+		uriToImage = Uri.parse(photoUri);
+		
 		// Share button on click
 		share = (ImageView) findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
@@ -148,45 +150,45 @@ public class SaveResultImageActivity extends Activity {
 
 	private void shareHelper() {
 
-		saveTempImageForSharing();
-		// uriToImage = Uri.parse(path + "/temp.png");
-
+		Log.i("path:", path);
+		Log.i("Uri:", uriToImage.toString());
+		
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
 
 		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-		File imageFileToShare = new File(path + "/temp.png");
+//		File imageFileToShare = new File(path + "/temp.png");
 
-		uriToImage = Uri.fromFile(imageFileToShare);
+//		uriToImage = Uri.fromFile(imageFileToShare);
 		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 
 		// Verify it resolves
-		PackageManager packageManager = getPackageManager();
-		List<ResolveInfo> activities = packageManager.queryIntentActivities(
-				imageIntent, 0);
-		isIntentSafe = activities.size() > 0;
+//		PackageManager packageManager = getPackageManager();
+//		List<ResolveInfo> activities = packageManager.queryIntentActivities(
+//				imageIntent, 0);
+//		isIntentSafe = activities.size() > 0;
 
-		saveTempImageForSharing();
+//		saveTempImageForSharing();
 
 		// startActivity(imageIntent);
-		// startActivity(Intent.createChooser(imageIntent, "Share Image!"));
-
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-		File f = new File(new File(path), "temp.png");
-		try {
-			f.createNewFile();
-			FileOutputStream fo = new FileOutputStream(f);
-			fo.write(bytes.toByteArray());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Log.i("See Path ", uriToImage.toString());
-		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-		imageIntent.putExtra(Intent.EXTRA_TITLE,
-				"my awesome caption in the EXTRA_TITLE field");
-
-		startActivity(Intent.createChooser(imageIntent, "Share Image"));
+		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
+		 
+//		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+//		File f = new File(new File(path), "temp.png");
+//		try {
+//			f.createNewFile();
+//			FileOutputStream fo = new FileOutputStream(f);
+//			fo.write(bytes.toByteArray());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		Log.i("See Path ", uriToImage.toString());
+//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+//		imageIntent.putExtra(Intent.EXTRA_TITLE,
+//				"my awesome caption in the EXTRA_TITLE field");
+//
+//		startActivity(Intent.createChooser(imageIntent, "Share Image"));
 
 		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 		//
@@ -379,11 +381,13 @@ public class SaveResultImageActivity extends Activity {
 	// Remove the temp Image used for sharing before
 	@Override
 	protected void onDestroy() {
-		File temp = new File(new File(path), "temp.png");
-
-		if (temp.exists())
-			temp.delete();
-
+//		File temp = new File(new File(path), "temp.png");
+//
+//		if (temp.exists())
+//			temp.delete();
+//	
+		Log.i("Delete URI", uriToImage.toString());
+		getContentResolver().delete(uriToImage, null,null);
 		super.onDestroy();
 	}
 
