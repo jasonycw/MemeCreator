@@ -5,6 +5,7 @@ import java.util.Random;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -319,14 +320,16 @@ public class SandboxView extends View implements OnTouchListener {
 		final EditText input = new EditText(this.getContext());
 		input.setHint(getRandomMeme());
 		input.setSelectAllOnFocus(true);
-		input.postDelayed(new Runnable(){
+		input.postDelayed(new Runnable() {
 			@Override
-			public void run(){
-				InputMethodManager keyboard = (InputMethodManager)selfRef.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-				keyboard.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			public void run() {
+				InputMethodManager keyboard = (InputMethodManager) selfRef
+						.getContext().getSystemService(
+								Context.INPUT_METHOD_SERVICE);
+				keyboard.showSoftInput(input, 0);
 			}
 		}, 200);
-		
+
 		// Upper text dialog
 		if (y < this.getHeight() / divideRegion) {
 			this.setEnabled(false);
@@ -336,6 +339,12 @@ public class SandboxView extends View implements OnTouchListener {
 					.setTitle(R.string.set_upper_text_dialog_title)
 					.setMessage(R.string.set_meme_text_dialog_message)
 					.setView(input)
+					.setOnCancelListener(new OnCancelListener() {
+						@Override
+						public void onCancel(DialogInterface arg0) {
+							selfRef.setEnabled(true);
+						}
+					})
 					.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -374,6 +383,12 @@ public class SandboxView extends View implements OnTouchListener {
 					.setTitle(R.string.set_lower_text_dialog_title)
 					.setMessage(R.string.set_meme_text_dialog_message)
 					.setView(input)
+					.setOnCancelListener(new OnCancelListener() {
+						@Override
+						public void onCancel(DialogInterface arg0) {
+							selfRef.setEnabled(true);
+						}
+					})
 					.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
