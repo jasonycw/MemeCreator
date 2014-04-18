@@ -6,4 +6,5 @@
     <color name="black">#FF2B2B2B</color>
     <color name="border_color">#FF000000</color>
     <color name="meme_background_color">#FF000000</color>
+    <color name="path_title_text_color">#FF33B5E5</color>
 </resources>

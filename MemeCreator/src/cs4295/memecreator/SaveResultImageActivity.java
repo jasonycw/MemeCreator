@@ -126,7 +126,10 @@ public class SaveResultImageActivity extends Activity {
 				share.setEnabled(false);
 //				setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
 //				saveAndShare = setting.getBoolean("example_checkbox", false);
-				shareHelper();
+				if(saveAndShare)
+					saveImageHelper();
+				else
+					shareHelper();
 			}
 		});
 
@@ -137,15 +140,14 @@ public class SaveResultImageActivity extends Activity {
 			public void onClick(View arg0) {
 				// Disable save button to prevent multiple on click
 				save.setEnabled(false);
-				saveImageHelper();
+				saveImageHelper2();
 			}
 		});
 	}
 
 	private void shareHelper() {
 		
-		if (saveAndShare) 
-			saveImageHelper();
+	
 		
 		Log.i("path:", path);
 		Log.i("Uri:", uriToImage.toString());
@@ -203,6 +205,50 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	private void saveImageHelper() {
+		
+		
+		Log.i("preference", setting.toString());
+				
+		// save Image in Internal with own Folder
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+		// set title
+		builder.setTitle("Save Image");
+
+		// set default input value
+		final EditText input = new EditText(context);
+		File direct = new File(path);
+		int number = countImageNo(direct) + 1;
+		input.setText("MemeImage " + number);
+
+		// set dialog message
+		builder.setMessage("Input Image Name")
+				.setCancelable(true)
+				.setView(input)
+				.setPositiveButton("Save",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, close
+								// current activity
+								saveImage(tempImage, input.getText() + ".png");
+								shareHelper();
+							}
+						})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+							}
+						});
+
+		// create alert dialog
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+	}
+	
+private void saveImageHelper2() {
 		
 		
 		Log.i("preference", setting.toString());
