@@ -7,11 +7,11 @@
         android:title="@string/pref_save_and_share" />
 
     
-   <!--  <CheckBoxPreference
+     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="example_checkbox"
-        android:summary="@string/pref_description_save_and_share"
-        and -->roid:title="@string/pref_save_and_share" />
+        android:key="First_Time_Tutorial"
+        android:summary="@string/pref_first_time_tutorial"
+        android:title="@string/pref_first_time_tutorial"/>
     
     
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
@@ -36,6 +36,14 @@
          dismiss it.
     -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+     <Preference
+        android:defaultValue="@string/pref_default_save_path"
+        android:summary="@string/pref_default_save_path"
+        android:key="image_path"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_change_save_path" />
+     
      <Preference
         android:defaultValue="@string/pref_default_save_path"
         android:summary="@string/pref_default_save_path"

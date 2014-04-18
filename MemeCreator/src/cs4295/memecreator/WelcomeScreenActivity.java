@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +29,7 @@ public class WelcomeScreenActivity extends Activity {
 	private LinearLayout tutorial;
 	private ImageView welcomeScreenImage;
 	private ImageView settingImageButton;
+	private boolean firsttimes;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +88,30 @@ public class WelcomeScreenActivity extends Activity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+
+			SharedPreferences prefre = PreferenceManager
+					.getDefaultSharedPreferences(WelcomeScreenActivity.this);
+			firsttimes = prefre.getBoolean("First_Time_Tutorial", true);
+			SharedPreferences.Editor editere = prefre.edit();
+
+			Log.i("FirstTime?", "Here: " + firsttimes);
+
 			View rootView = inflater.inflate(
 					R.layout.fragment_welcome_screen_acivity, container, false);
 
 			tutorial = (LinearLayout) rootView
 					.findViewById(R.id.welcome_screen_tutorial);
-			tutorial.bringToFront();
+			if (firsttimes) {
+				tutorial.bringToFront();
+				editere.putBoolean("First_Time_Tutorial", false);
+				editere.commit();
+				Log.i("ChangeFlag?", "Here: " + firsttimes);
+
+			} else {
+				tutorial.setVisibility(View.GONE);
+				tutorial.setEnabled(false);
+			}
+
 			tutorial.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {

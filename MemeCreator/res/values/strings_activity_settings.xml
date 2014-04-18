@@ -13,6 +13,7 @@
     <string name="pref_default_save_path">/sdcard/DCIM/Meme/Media/</string>
     <string name="pref_default_image_size">720</string>
     <string name="pref_title_image_size">Change Image size</string>
+    <string name="pref_first_time_tutorial">First Time Tutorial</string>
    <!--  <string name="pref_title_add_friends_to_messages">Add friends to messages</string> -->
 
    <!--  <string-array name="pref_example_list_titles">
