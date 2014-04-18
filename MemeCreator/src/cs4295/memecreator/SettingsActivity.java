@@ -104,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
 		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
-		bindPreferenceSummaryToValue(findPreference("example_text"));
+	
 		bindPreferenceSummaryToValue(findPreference("image_size"));
 //		bindPreferenceSummaryToValue(findPreference("image_path"));
 		
@@ -215,7 +215,7 @@ public class SettingsActivity extends PreferenceActivity {
 			// to their values. When their values change, their summaries are
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("example_text"));
+			
 			bindPreferenceSummaryToValue(findPreference("image_size"));
 //			bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
