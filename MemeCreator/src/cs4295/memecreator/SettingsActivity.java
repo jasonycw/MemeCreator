@@ -83,7 +83,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 				else 
 				{
 					Log.i("Come Here", "Yo");
-					
+					preference.setSummary(value.toString());
 					Log.i("AAAAAAAAAAAAe", "AAAAAA");
 					return true;
 				}
