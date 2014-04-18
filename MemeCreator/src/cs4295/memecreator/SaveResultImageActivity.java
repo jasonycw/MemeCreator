@@ -108,10 +108,7 @@ public class SaveResultImageActivity extends Activity {
 		resultImage.buildDrawingCache();
 
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
-		// setting = PreferenceManager.getDefaultSharedPreferences(this);
-		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
-		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
-		Log.i("preference", setting.toString());
+		
 		
 		// Prepare the sharing image here
 //		String photoUri = MediaStore.Images.Media.insertImage(
@@ -209,6 +206,12 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	private void saveImageHelper() {
+		
+		// setting = PreferenceManager.getDefaultSharedPreferences(this);
+				setting = getSharedPreferences("path", Context.MODE_PRIVATE);
+				path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
+				Log.i("preference", setting.toString());
+				
 		// save Image in Internal with own Folder
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
