@@ -55,7 +55,7 @@ public class SaveResultImageActivity extends Activity {
 	private String imagePath;
 	private ImageView share;
 	private ImageView save;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,9 +113,13 @@ public class SaveResultImageActivity extends Activity {
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
 		Log.i("preference", setting.toString());
 		
-		String photoUri = MediaStore.Images.Media.insertImage(
-		        getContentResolver(), tempImage, null, null);
-		uriToImage = Uri.parse(photoUri);
+		// Prepare the sharing image here
+//		String photoUri = MediaStore.Images.Media.insertImage(
+//		        getContentResolver(), tempImage, null, null);
+//		uriToImage = Uri.parse(photoUri);
+		saveTempImageForSharing();
+		File imageFileToShare = new File(path + "/temp.png");
+		uriToImage = Uri.fromFile(imageFileToShare);
 		
 		// Share button on click
 		share = (ImageView) findViewById(R.id.shareButton);
@@ -381,13 +385,13 @@ public class SaveResultImageActivity extends Activity {
 	// Remove the temp Image used for sharing before
 	@Override
 	protected void onDestroy() {
-//		File temp = new File(new File(path), "temp.png");
-//
-//		if (temp.exists())
-//			temp.delete();
-//	
-		Log.i("Delete URI", uriToImage.toString());
-		getContentResolver().delete(uriToImage, null,null);
+		File temp = new File(new File(path), "temp.png");
+
+		if (temp.exists())
+			temp.delete();
+	
+//		Log.i("Delete URI", uriToImage.toString());
+//		getContentResolver().delete(uriToImage, null,null);
 		super.onDestroy();
 	}
 

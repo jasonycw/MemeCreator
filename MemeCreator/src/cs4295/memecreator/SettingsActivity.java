@@ -53,6 +53,8 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
             	
+            	Toast.makeText(
+                		SettingsActivity.this, "Press back to go upper directory.", 2000).show();
             	DirectoryChooser DirectoryChooser = 
                         new DirectoryChooser(SettingsActivity.this, 
                             new DirectoryChooser.ChosenDirectoryListener() 
@@ -68,7 +70,7 @@ public class SettingsActivity extends PreferenceActivity {
                                 Log.i("default value", pathSelector.getSummary().toString());
                                 Toast.makeText(
                                 		SettingsActivity.this, "Chosen directory: " + 
-                                  chosenDir, 2000).show();
+                                  chosenDir, Toast.LENGTH_LONG).show();
                             }
                         }); 
                         // Toggle new folder button enabling
