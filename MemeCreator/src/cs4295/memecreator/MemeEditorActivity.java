@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import cs4295.customView.SandboxView;
 
 public class MemeEditorActivity extends Activity {
@@ -63,8 +65,11 @@ public class MemeEditorActivity extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color
 				.parseColor("#003C3C3C")));
-		actionBar.setIcon(R.drawable.back_icon);
+		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView yourTextView = (TextView)findViewById(titleId);
+		yourTextView.setTextColor(getResources().getColor(R.color.black));
 
 		// Transparent bar on android 4.4 or above
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -178,8 +183,8 @@ public class MemeEditorActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		sandboxView.setEnabled(true);
 		super.onResume();
+		sandboxView.setEnabled(true);
 	}
 
 	@Override

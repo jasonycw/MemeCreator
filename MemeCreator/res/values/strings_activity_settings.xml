@@ -8,7 +8,7 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
     <string name="pref_save_and_share">Save and Share</string>
-    <string name="pref_description_save_and_share">Hello World</string>
+    <string name="pref_description_save_and_share">Allow you to save before sharing</string>
     <string name="pref_change_save_path">Change Saving Path</string>
     <string name="pref_default_save_path">/sdcard/DCIM/Meme/Media/</string>
     <string name="pref_default_image_size">720</string>
