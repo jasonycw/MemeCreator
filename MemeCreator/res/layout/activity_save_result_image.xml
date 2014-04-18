@@ -3,7 +3,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_gray"
+    android:animateLayoutChanges="true"
+    android:background="@color/background_color"
     tools:context="cs4295.memecreator.SaveResultImageActivity"
     tools:ignore="MergeRootFrame" >
 
@@ -57,12 +58,14 @@
                 <!-- android:layout_height="wrap_content" -->
                 <!-- android:text="Save" /> -->
 
-<!--                     android:layout_width="190dp" -->
-<!--                     android:layout_height="75dp" -->
+
+                <!-- android:layout_width="190dp" -->
+                <!-- android:layout_height="75dp" -->
+
                 <cs4295.customView.ResizableImageView
                     android:id="@+id/saveButton"
-					android:layout_width="90dp"
-					android:layout_height="75dp"
+                    android:layout_width="90dp"
+                    android:layout_height="75dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/meme_save_button2" />

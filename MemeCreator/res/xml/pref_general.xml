@@ -18,7 +18,10 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="@string/pref_title_image_size" />
+        android:title="@string/pref_title_image_size" 
+        android:dialogTitle="Change Image Size" 
+        android:negativeButtonText="Cancel" 
+        android:positiveButtonText="OK"/>
 
     <!--
          NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to

@@ -90,13 +90,13 @@ public class WelcomeScreenActivity extends Activity {
 			tutorial.bringToFront();
 			tutorial.setOnClickListener(new OnClickListener(){
 				@Override
-				public void onClick(View arg0) {
+				public void onClick(View view) {
 					tutorial.setVisibility(View.GONE);
 					tutorial.setEnabled(false);
 				}
 			});
 			
-			// Set the onClick for the main welcome screen image
+			// Set the onClick for the setting image
 			settingImageButton = (ImageView) rootView
 					.findViewById(R.id.welcomeScreenSetting);
 			settingImageButton.setOnClickListener(new OnClickListener() {
@@ -107,6 +107,8 @@ public class WelcomeScreenActivity extends Activity {
 					startActivity(intent);
 				}
 			});
+			
+			// Set the oClick for the main welcome screen image
 			welcomeScreenImage = (ImageView) rootView
 					.findViewById(R.id.welcomeScreenImage);
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {

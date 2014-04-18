@@ -4,10 +4,13 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -27,7 +30,7 @@ import android.widget.Toast;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	/**
 	 * Determines whether to always show the simplified settings UI, where
 	 * settings are presented in a single list. When false, settings are shown
@@ -38,12 +41,56 @@ public class SettingsActivity extends PreferenceActivity {
 	SharedPreferences settings;
 	SharedPreferences.Editor editor;
 
+	private void restartActivity()
+	{
+		
+		Intent intent = getIntent();
+		finish();
+		startActivity(intent);
+	}
+	
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+	{
+		restartActivity();
+			
+	}
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		
 		settings = getSharedPreferences("path", Context.MODE_PRIVATE);
 		setupSimplePreferencesScreen();
+		
+		final EditTextPreference editText = (EditTextPreference) getPreferenceScreen().findPreference(
+	            "image_size");
+//		Dialog handler = editText.getDialog();
+		editText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+//				Log.i("Before", "124326413164tt31413");
+				Long value = Long.valueOf((String) newValue);
+//				Log.i("YOYOY", value.toString());
+				
+				if(value > 1080)
+				{
+					
+					Toast.makeText(SettingsActivity.this, "The number should smaller than 1080px", Toast.LENGTH_LONG).show();
+					return false;
+				}
+				else 
+				{
+					Log.i("Come Here", "Yo");
+					
+					Log.i("AAAAAAAAAAAAe", "AAAAAA");
+					return true;
+				}
+			}
+		});
+		
+
 		final Preference pathSelector = findPreference("image_path");
 		pathSelector.setSummary(settings.getString("image_path", "/sdcard/DCIM/Meme/Media/"));
 		pathSelector.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
@@ -82,8 +129,8 @@ public class SettingsActivity extends PreferenceActivity {
             	Log.i("cs", "scuuess");
                 return false;
             }
-
         });
+		
 	}
 
 	/**
@@ -161,6 +208,8 @@ public class SettingsActivity extends PreferenceActivity {
 				// the preference's 'entries' list.
 				ListPreference listPreference = (ListPreference) preference;
 				int index = listPreference.findIndexOfValue(stringValue);
+				
+				
 
 				// Set the summary to reflect the new value.
 				preference
@@ -219,6 +268,13 @@ public class SettingsActivity extends PreferenceActivity {
 			bindPreferenceSummaryToValue(findPreference("image_size"));
 //			bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
+//		@Override
+//		public void onResume()
+//		{
+//			
+//			bindPreferenceSummaryToValue(findPreference("image_size"));
+//			super.onResume();
+//		}
 	}
 
 }

@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -87,7 +86,7 @@ public class MemeEditorActivity extends Activity {
 		tutorial.bringToFront();
 		tutorial.setOnClickListener(new OnClickListener(){
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				tutorial.setVisibility(View.GONE);
 				tutorial.setEnabled(false);
 			}
@@ -110,10 +109,7 @@ public class MemeEditorActivity extends Activity {
 
 		// Get the intent and get the image path to be the meme image
 		Intent shareIntent = getIntent();
-
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
-		
-//		Log.i("Happy", imagePath);
 		
 		// Create the SandboxView
 		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
