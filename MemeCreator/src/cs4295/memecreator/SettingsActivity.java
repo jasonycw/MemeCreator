@@ -3,6 +3,7 @@ package cs4295.memecreator;
 import java.util.List;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
@@ -30,7 +32,8 @@ import android.widget.Toast;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
+public class SettingsActivity extends PreferenceActivity implements
+		OnSharedPreferenceChangeListener {
 	/**
 	 * Determines whether to always show the simplified settings UI, where
 	 * settings are presented in a single list. When false, settings are shown
@@ -41,47 +44,62 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	SharedPreferences settings;
 	SharedPreferences.Editor editor;
 
-	private void restartActivity()
-	{
-		
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			// When the action bar icon on the top right is clicked, finish this
+			// activity
+			this.finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void restartActivity() {
 		Intent intent = getIntent();
 		finish();
 		startActivity(intent);
 	}
-	
+
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-	{
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
 		restartActivity();
-			
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		
+
 		settings = getSharedPreferences("path", Context.MODE_PRIVATE);
 		setupSimplePreferencesScreen();
-		
-		final EditTextPreference editText = (EditTextPreference) getPreferenceScreen().findPreference(
-	            "image_size");
-//		Dialog handler = editText.getDialog();
+
+		final EditTextPreference editText = (EditTextPreference) getPreferenceScreen()
+				.findPreference("image_size");
+		// Dialog handler = editText.getDialog();
 		editText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			
+
 			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-//				Log.i("Before", "124326413164tt31413");
+			public boolean onPreferenceChange(Preference preference,
+					Object newValue) {
+				// Log.i("Before", "124326413164tt31413");
 				Long value = Long.valueOf((String) newValue);
-//				Log.i("YOYOY", value.toString());
-				
-				if(value > 1080)
-				{
-					
-					Toast.makeText(SettingsActivity.this, "The number should smaller than 1080px", Toast.LENGTH_LONG).show();
+				// Log.i("YOYOY", value.toString());
+
+				if (value > 1080) {
+
+					Toast.makeText(SettingsActivity.this,
+							"The number should smaller than 1080px",
+							Toast.LENGTH_LONG).show();
 					return false;
-				}
-				else 
-				{
+				} else {
 					Log.i("Come Here", "Yo");
 					preference.setSummary(value.toString());
 					Log.i("AAAAAAAAAAAAe", "AAAAAA");
@@ -89,48 +107,58 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 				}
 			}
 		});
-		
 
 		final Preference pathSelector = findPreference("image_path");
-		pathSelector.setSummary(settings.getString("image_path", "/sdcard/DCIM/Meme/Media/"));
-		pathSelector.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+		pathSelector.setSummary(settings.getString("image_path",
+				"/sdcard/DCIM/Meme/Media/"));
+		pathSelector
+				.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-		 private String m_chosenDir = "";
-	     private boolean m_newFolderEnabled = true;
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-            	
-            	Toast.makeText(
-                		SettingsActivity.this, "Press back to go upper directory.", 2000).show();
-            	DirectoryChooser DirectoryChooser = 
-                        new DirectoryChooser(SettingsActivity.this, 
-                            new DirectoryChooser.ChosenDirectoryListener() 
-                        {
-                            @Override
-                            public void onChosenDir(String chosenDir) 
-                            {
-                            	editor = settings.edit();
-                            	editor.putString("image_path", chosenDir);
-                            	editor.commit();
-                                m_chosenDir = chosenDir;
-                                pathSelector.setSummary(settings.getString("image_path", "/sdcard/DCIM/Meme/Media/"));
-                                Log.i("default value", pathSelector.getSummary().toString());
-                                Toast.makeText(
-                                		SettingsActivity.this, "Chosen directory: " + 
-                                  chosenDir, Toast.LENGTH_LONG).show();
-                            }
-                        }); 
-                        // Toggle new folder button enabling
-            			DirectoryChooser.setNewFolderEnabled(m_newFolderEnabled);
-                        // Load directory chooser dialog for initial 'm_chosenDir' directory.
-                        // The registered callback will be called upon final directory selection.
-            			DirectoryChooser.chooseDirectory(m_chosenDir);
-                        m_newFolderEnabled = ! m_newFolderEnabled;
-            	Log.i("cs", "scuuess");
-                return false;
-            }
-        });
-		
+					private String m_chosenDir = "";
+					private boolean m_newFolderEnabled = true;
+
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+
+						Toast.makeText(SettingsActivity.this,
+								"Press back to go upper directory.", 2000)
+								.show();
+						DirectoryChooser DirectoryChooser = new DirectoryChooser(
+								SettingsActivity.this,
+								new DirectoryChooser.ChosenDirectoryListener() {
+									@Override
+									public void onChosenDir(String chosenDir) {
+										editor = settings.edit();
+										editor.putString("image_path",
+												chosenDir);
+										editor.commit();
+										m_chosenDir = chosenDir;
+										pathSelector.setSummary(settings
+												.getString("image_path",
+														"/sdcard/DCIM/Meme/Media/"));
+										Log.i("default value", pathSelector
+												.getSummary().toString());
+										Toast.makeText(
+												SettingsActivity.this,
+												"Chosen directory: "
+														+ chosenDir,
+												Toast.LENGTH_LONG).show();
+									}
+								});
+						// Toggle new folder button enabling
+						DirectoryChooser
+								.setNewFolderEnabled(m_newFolderEnabled);
+						// Load directory chooser dialog for initial
+						// 'm_chosenDir' directory.
+						// The registered callback will be called upon final
+						// directory selection.
+						DirectoryChooser.chooseDirectory(m_chosenDir);
+						m_newFolderEnabled = !m_newFolderEnabled;
+						Log.i("cs", "scuuess");
+						return false;
+					}
+				});
+
 	}
 
 	/**
@@ -151,11 +179,10 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
-	
+
 		bindPreferenceSummaryToValue(findPreference("image_size"));
-//		bindPreferenceSummaryToValue(findPreference("image_path"));
-		
-		
+		// bindPreferenceSummaryToValue(findPreference("image_path"));
+
 	}
 
 	/** {@inheritDoc} */
@@ -208,16 +235,13 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 				// the preference's 'entries' list.
 				ListPreference listPreference = (ListPreference) preference;
 				int index = listPreference.findIndexOfValue(stringValue);
-				
-				
 
 				// Set the summary to reflect the new value.
 				preference
 						.setSummary(index >= 0 ? listPreference.getEntries()[index]
 								: null);
 
-			} 
-		else {
+			} else {
 				// For all other preferences, set the summary to the value's
 				// simple string representation.
 				preference.setSummary(stringValue);
@@ -264,17 +288,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// to their values. When their values change, their summaries are
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
-			
+
 			bindPreferenceSummaryToValue(findPreference("image_size"));
-//			bindPreferenceSummaryToValue(findPreference("image_path"));
+			// bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
-//		@Override
-//		public void onResume()
-//		{
-//			
-//			bindPreferenceSummaryToValue(findPreference("image_size"));
-//			super.onResume();
-//		}
+		// @Override
+		// public void onResume()
+		// {
+		//
+		// bindPreferenceSummaryToValue(findPreference("image_size"));
+		// super.onResume();
+		// }
 	}
 
 }

@@ -59,8 +59,8 @@ public class WelcomeScreenActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		settingImageButton.setEnabled(true);
 		super.onResume();
+		settingImageButton.setEnabled(true);
 	}
 
 	// Method for forwarding a image path to the next class
@@ -86,16 +86,17 @@ public class WelcomeScreenActivity extends Activity {
 			View rootView = inflater.inflate(
 					R.layout.fragment_welcome_screen_acivity, container, false);
 
-			tutorial = (LinearLayout)rootView.findViewById(R.id.welcome_screen_tutorial);
+			tutorial = (LinearLayout) rootView
+					.findViewById(R.id.welcome_screen_tutorial);
 			tutorial.bringToFront();
-			tutorial.setOnClickListener(new OnClickListener(){
+			tutorial.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					tutorial.setVisibility(View.GONE);
 					tutorial.setEnabled(false);
 				}
 			});
-			
+
 			// Set the onClick for the setting image
 			settingImageButton = (ImageView) rootView
 					.findViewById(R.id.welcomeScreenSetting);
@@ -107,7 +108,7 @@ public class WelcomeScreenActivity extends Activity {
 					startActivity(intent);
 				}
 			});
-			
+
 			// Set the oClick for the main welcome screen image
 			welcomeScreenImage = (ImageView) rootView
 					.findViewById(R.id.welcomeScreenImage);
