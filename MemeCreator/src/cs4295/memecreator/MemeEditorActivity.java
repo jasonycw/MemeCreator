@@ -7,7 +7,9 @@ import java.util.Date;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -36,6 +38,7 @@ import cs4295.customView.SandboxView;
 
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
+	private SharedPreferences setting;
 	private LinearLayout linlaHeaderProgress;
 	private float memeEditorLayoutWidth;
 	private float memeEditorLayoutHeight;
@@ -98,15 +101,19 @@ public class MemeEditorActivity extends Activity {
 
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
-		Log.i("Happy", imagePath);
+//		Log.i("Happy", imagePath);
 		
 		// Create the SandboxView
+		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
+		int memeSize = Integer.parseInt(setting.getString("image_size", "720"));
+		Log.i("meme","memeSize = "+memeSize);
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		Log.i("path", bitmap.toString());
 		sandboxView = new SandboxView(this, bitmap);
-		sandboxView.setLayoutParams(new LayoutParams(720, 720));
+//		sandboxView.setLayoutParams(new LayoutParams(720, 720));
+		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
 		// Scale the sand box and add it into the layout
 		ViewTreeObserver vto2 = memeEditorLayout.getViewTreeObserver();
