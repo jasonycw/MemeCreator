@@ -17,17 +17,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class WelcomeScreenActivity extends Activity {
 	private static int LOAD_IMAGE_RESULTS = 1;
 	private WelcomeScreenActivity selfRef;
+	private LinearLayout tutorial;
+	private ImageView welcomeScreenImage;
+	private ImageView settingImageButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome_screen);
 		selfRef = this;
-		
+
 		// Hide action bar
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
@@ -36,8 +40,7 @@ public class WelcomeScreenActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			Window window = getWindow();
 			// Translucent status bar
-			window.setFlags(
-					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// Translucent navigation bar
 			window.setFlags(
@@ -54,9 +57,16 @@ public class WelcomeScreenActivity extends Activity {
 		}
 	}
 
+	@Override
+	protected void onResume() {
+		settingImageButton.setEnabled(true);
+		super.onResume();
+	}
+
 	// Method for forwarding a image path to the next class
 	private void forwardImagePath(String imagePath, Class<?> targetClass) {
-		// Put the image path to the intent with the variable name "cs4295.memcreator.imagePath"
+		// Put the image path to the intent with the variable name
+		// "cs4295.memcreator.imagePath"
 		Intent forward = new Intent(selfRef, MemeEditorActivity.class);
 		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 		startActivity(forward);
@@ -67,23 +77,44 @@ public class WelcomeScreenActivity extends Activity {
 	 */
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
-		private ImageView welcomeScreenImage;
-
 		public PlaceholderFragment() {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_welcome_screen_acivity, container, false);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(
+					R.layout.fragment_welcome_screen_acivity, container, false);
+
+			tutorial = (LinearLayout)rootView.findViewById(R.id.welcome_screen_tutorial);
+			tutorial.bringToFront();
+			tutorial.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View arg0) {
+					tutorial.setVisibility(View.GONE);
+					tutorial.setEnabled(false);
+				}
+			});
 			
-			// Set the onClick for teh main welcome screen image
-			welcomeScreenImage = (ImageView) rootView.findViewById(R.id.welcomeScreenImage);
+			// Set the onClick for the main welcome screen image
+			settingImageButton = (ImageView) rootView
+					.findViewById(R.id.welcomeScreenSetting);
+			settingImageButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					settingImageButton.setEnabled(false);
+					Intent intent = new Intent(selfRef, SettingsActivity.class);
+					startActivity(intent);
+				}
+			});
+			welcomeScreenImage = (ImageView) rootView
+					.findViewById(R.id.welcomeScreenImage);
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					// Prevent multiple click
 					welcomeScreenImage.setEnabled(false);
-					
+
 					// Call the action picker for selecting image
 					Intent i = new Intent(
 							Intent.ACTION_PICK,
@@ -95,21 +126,24 @@ public class WelcomeScreenActivity extends Activity {
 		}
 
 		// Method that will be call when the action pick is completed
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		public void onActivityResult(int requestCode, int resultCode,
+				Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
 			// Re-enable the button after result
 			welcomeScreenImage.setEnabled(true);
-			
 			// If the result is okay
-			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
+			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
+					&& data != null) {
 				// Get the image path of the image
 				Uri pickedImage = data.getData();
 				String[] filePath = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getContentResolver().query(pickedImage, filePath, null, null, null);
+				Cursor cursor = getContentResolver().query(pickedImage,
+						filePath, null, null, null);
 				cursor.moveToFirst();
-				String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+				String imagePath = cursor.getString(cursor
+						.getColumnIndex(filePath[0]));
 				cursor.close();
-				
+
 				// Forward the image path to the next activity
 				forwardImagePath(imagePath, SaveResultImageActivity.class);
 			}
