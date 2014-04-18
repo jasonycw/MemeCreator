@@ -146,9 +146,7 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	private void shareHelper() {
-		
 	
-		
 		Log.i("path:", path);
 		Log.i("Uri:", uriToImage.toString());
 		
