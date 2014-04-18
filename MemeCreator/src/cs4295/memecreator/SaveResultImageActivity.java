@@ -1,7 +1,6 @@
 package cs4295.memecreator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import android.app.ActionBar;
@@ -24,8 +23,7 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,18 +119,14 @@ public class SaveResultImageActivity extends Activity {
 		// Share button on click
 		share = (ImageView) findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View arg0) {
 				// Disable share button to prevent multiple on click
 				share.setEnabled(false);
-
-				saveAndShare = setting.getBoolean("example_checkbox", false);
-
-				if (saveAndShare) {
-					saveImageHelper();
-				} else {
-					shareHelper();
-				}
+//				setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
+//				saveAndShare = setting.getBoolean("example_checkbox", false);
+				shareHelper();
 			}
 		});
 
@@ -143,14 +137,16 @@ public class SaveResultImageActivity extends Activity {
 			public void onClick(View arg0) {
 				// Disable save button to prevent multiple on click
 				save.setEnabled(false);
-
 				saveImageHelper();
 			}
 		});
 	}
 
 	private void shareHelper() {
-
+		
+		if (saveAndShare) 
+			saveImageHelper();
+		
 		Log.i("path:", path);
 		Log.i("Uri:", uriToImage.toString());
 		
@@ -172,6 +168,7 @@ public class SaveResultImageActivity extends Activity {
 //		saveTempImageForSharing();
 
 		// startActivity(imageIntent);
+		Log.i("Running share", " 11");
 		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
 		 
 //		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -207,10 +204,8 @@ public class SaveResultImageActivity extends Activity {
 
 	private void saveImageHelper() {
 		
-		// setting = PreferenceManager.getDefaultSharedPreferences(this);
-				setting = getSharedPreferences("path", Context.MODE_PRIVATE);
-				path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
-				Log.i("preference", setting.toString());
+		
+		Log.i("preference", setting.toString());
 				
 		// save Image in Internal with own Folder
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -234,7 +229,6 @@ public class SaveResultImageActivity extends Activity {
 								// if this button is clicked, close
 								// current activity
 								saveImage(tempImage, input.getText() + ".png");
-								shareHelper();
 							}
 						})
 				.setNegativeButton("Cancel",
@@ -362,7 +356,12 @@ public class SaveResultImageActivity extends Activity {
 		// Re-enable the share and save buttons
 		share.setEnabled(true);
 		save.setEnabled(true);
-
+		
+		setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
+		saveAndShare = setting.getBoolean("example_checkbox", false);
+		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
+		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
+		
 		File temp = new File(new File(path), "temp.png");
 
 		// if (temp.exists())
