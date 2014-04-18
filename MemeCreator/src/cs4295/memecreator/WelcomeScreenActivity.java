@@ -21,6 +21,7 @@ import android.widget.ImageView;
 public class WelcomeScreenActivity extends Activity {
 	private static int LOAD_IMAGE_RESULTS = 1;
 	private WelcomeScreenActivity selfRef;
+	private ImageView settingImageButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,12 @@ public class WelcomeScreenActivity extends Activity {
 
 		}
 	}
+	@Override
+	protected void onResume()
+	{
+		settingImageButton.setEnabled(true);
+		super.onResume();
+	}
 
 	// Method for forwarding a image path to the next class
 	private void forwardImagePath(String imagePath, Class<?> targetClass) {
@@ -61,6 +68,8 @@ public class WelcomeScreenActivity extends Activity {
 		forward.putExtra("cs4295.memcreator.imagePath", imagePath);
 		startActivity(forward);
 	}
+	
+	
 
 	/**
 	 * A placeholder fragment containing a simple view.
@@ -76,7 +85,17 @@ public class WelcomeScreenActivity extends Activity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_welcome_screen_acivity, container, false);
 			
-			// Set the onClick for teh main welcome screen image
+			// Set the onClick for the main welcome screen image
+			settingImageButton = (ImageView) rootView.findViewById(R.id.welcomeScreenSetting);
+			settingImageButton.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					settingImageButton.setEnabled(false);
+					Intent intent = new Intent(selfRef, SettingsActivity.class);
+					startActivity(intent);	
+				}				
+			});
 			welcomeScreenImage = (ImageView) rootView.findViewById(R.id.welcomeScreenImage);
 			welcomeScreenImage.setOnClickListener(new OnClickListener() {
 				@Override
@@ -99,7 +118,6 @@ public class WelcomeScreenActivity extends Activity {
 			super.onActivityResult(requestCode, resultCode, data);
 			// Re-enable the button after result
 			welcomeScreenImage.setEnabled(true);
-			
 			// If the result is okay
 			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
 				// Get the image path of the image

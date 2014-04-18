@@ -201,6 +201,8 @@ public class MemeEditorActivity extends Activity {
 			sandboxView.reset();
 			return true;
 		case R.id.action_settings:
+			Intent intent = new Intent(selfRef, SettingsActivity.class);
+			startActivity(intent);
 			return true;
 		case android.R.id.home:
 			// When the action bar icon on the top right is clicked, finish this
