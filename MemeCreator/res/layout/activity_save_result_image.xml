@@ -30,46 +30,30 @@
                 android:background="@drawable/border"
                 android:padding="5dp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/activity_horizontal_margin" >
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:gravity="center"
+                android:orientation="horizontal" >
 
-                <cs4295.customView.ResizableImageView
+                <ImageView
                     android:id="@+id/shareButton"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="75dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:src="@drawable/share_chalk" />
 
-                <!-- <Button -->
-                <!-- android:id="@+id/shareButton" -->
-                <!-- android:layout_width="wrap_content" -->
-                <!-- android:layout_height="wrap_content" -->
-                <!-- android:text="Share" /> -->
-
-
-                <!-- <Button -->
-                <!-- android:id="@+id/saveButton" -->
-                <!-- android:layout_width="wrap_content" -->
-                <!-- android:layout_height="wrap_content" -->
-                <!-- android:text="Save" /> -->
-
-
-                <!-- android:layout_width="190dp" -->
-                <!-- android:layout_height="75dp" -->
-
-                <cs4295.customView.ResizableImageView
+                <ImageView
                     android:id="@+id/saveButton"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="75dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:src="@drawable/save_chalk2" />
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
