@@ -20,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -112,9 +113,11 @@ public class MemeEditorActivity extends Activity {
 		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
 		
 		// Create the SandboxView
-		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
-		int memeSize = Integer.parseInt(setting.getString("image_size", "720"));
+		setting = PreferenceManager.getDefaultSharedPreferences(MemeEditorActivity.this);
+		final int memeSize = Integer.valueOf(setting.getString("image_size","720"));
 		Log.i("meme","memeSize = "+memeSize);
+		// Nexus 4: 990 max
+		// Nexus 7: 1080 ok
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -134,7 +137,7 @@ public class MemeEditorActivity extends Activity {
 						.removeGlobalOnLayoutListener(this);
 				memeEditorLayoutWidth = memeEditorLayout.getHeight();
 				memeEditorLayoutHeight = memeEditorLayout.getWidth();
-				float scalingFactor = memeEditorLayoutWidth / 720f;
+				float scalingFactor = memeEditorLayoutWidth / (float)memeSize;
 				Log.i("memeEditorLayoutWidth",
 						Float.toString(memeEditorLayoutWidth));
 				Log.i("ScaleFactor", Float.toString(scalingFactor));

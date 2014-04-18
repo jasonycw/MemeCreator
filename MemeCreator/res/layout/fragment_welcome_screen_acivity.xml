@@ -16,14 +16,12 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:visibility="visible" >
 
-        <TextView
+        <cs4295.customView.ResizableImageView
             android:id="@+id/welcome_tutorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_tutorial"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="40sp" />
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:src="@drawable/welcome_tutorial" />
     </LinearLayout>
 
     <LinearLayout
