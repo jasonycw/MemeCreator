@@ -42,6 +42,7 @@ public class MemeEditorActivity extends Activity {
 	private LinearLayout linlaHeaderProgress;
 	private float memeEditorLayoutWidth;
 	private float memeEditorLayoutHeight;
+	private LinearLayout tutorial;
 	private LinearLayout memeEditorLayout;
 	private SandboxView sandboxView;
 	private ImageView forwardButtonImageView;
@@ -80,6 +81,17 @@ public class MemeEditorActivity extends Activity {
 		// Initialize progress bar
 		linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
 		linlaHeaderProgress.bringToFront();
+		
+		// Initialize tutorial
+		tutorial = (LinearLayout)findViewById(R.id.meme_editor_tutorial);
+		tutorial.bringToFront();
+		tutorial.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				tutorial.setVisibility(View.GONE);
+				tutorial.setEnabled(false);
+			}
+		});
 
 		// Get the data directory for the app
 		PackageManager m = getPackageManager();
