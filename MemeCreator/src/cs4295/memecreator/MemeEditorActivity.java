@@ -166,6 +166,12 @@ public class MemeEditorActivity extends Activity {
 	}
 
 	@Override
+	protected void onResume() {
+		sandboxView.setEnabled(true);
+		super.onResume();
+	}
+
+	@Override
 	protected void onDestroy() {
 		// Try to delete cache if possible
 		Log.i("myDir", myDir.toString()
