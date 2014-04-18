@@ -7,7 +7,7 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- API 11 theme customizations can go here. -->
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@color/dark_gray</item>
+        <item name="android:windowBackground">@color/background_color</item>
     </style>
 
 </resources>
