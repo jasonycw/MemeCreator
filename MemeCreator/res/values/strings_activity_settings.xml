@@ -11,7 +11,7 @@
     <string name="pref_description_save_and_share">Hello World</string>
     <string name="pref_change_save_path">Change Saving Path</string>
     <string name="pref_default_save_path">/sdcard/DCIM/Meme/Media/</string>
-    <string name="pref_default_image_size">720px</string>
+    <string name="pref_default_image_size">720</string>
     <string name="pref_title_image_size">Change Image size</string>
    <!--  <string name="pref_title_add_friends_to_messages">Add friends to messages</string> -->
 

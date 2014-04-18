@@ -28,6 +28,7 @@
         android:id="@+id/meme_editor_tutorial"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/transparent_gray"
         android:gravity="center"
         android:orientation="vertical"
