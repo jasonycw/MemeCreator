@@ -30,6 +30,7 @@ public class WelcomeScreenActivity extends Activity {
 	private ImageView welcomeScreenImage;
 	private ImageView settingImageButton;
 	private boolean firsttimes;
+	private boolean tutorialPreference;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +90,18 @@ public class WelcomeScreenActivity extends Activity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 
-			SharedPreferences prefre = PreferenceManager
+			SharedPreferences setting = PreferenceManager
 					.getDefaultSharedPreferences(WelcomeScreenActivity.this);
-			firsttimes = prefre.getBoolean("First_Time_Tutorial", true);
-			SharedPreferences.Editor editere = prefre.edit();
+			
+			SharedPreferences 
+			prefre=getSharedPreferences("task_Pref",Context.MODE_PRIVATE); 
 
-			Log.i("FirstTime?", "Here: " + firsttimes);
+			firsttimes = prefre.getBoolean("task_Pref", true);
+			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
+			SharedPreferences.Editor firstTimeEditor = prefre.edit();		// used for first time
+			SharedPreferences.Editor tutPrefEditor = setting.edit();		// used for checkbox preference
+
+//			Log.i("FirstTime?", "Here: " + firsttimes);
 
 			View rootView = inflater.inflate(
 					R.layout.fragment_welcome_screen_acivity, container, false);
@@ -103,11 +110,18 @@ public class WelcomeScreenActivity extends Activity {
 					.findViewById(R.id.welcome_screen_tutorial);
 			if (firsttimes) {
 				tutorial.bringToFront();
-				editere.putBoolean("First_Time_Tutorial", false);
-				editere.commit();
-				Log.i("ChangeFlag?", "Here: " + firsttimes);
+				firstTimeEditor.putBoolean("task_Pref", false);
+				firstTimeEditor.commit();
 
-			} else {
+			} 
+			else if(tutorialPreference)
+			{
+				tutorial.bringToFront();
+				tutPrefEditor.putBoolean("Tutor_Preference", false);
+				tutPrefEditor.commit();
+			}
+			
+			else {
 				tutorial.setVisibility(View.GONE);
 				tutorial.setEnabled(false);
 			}

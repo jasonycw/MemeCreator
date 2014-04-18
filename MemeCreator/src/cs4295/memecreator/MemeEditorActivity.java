@@ -52,6 +52,8 @@ public class MemeEditorActivity extends Activity {
 	private File cacheImage_forPassing;
 	private File myDir;
 	private String dataDir;
+	private boolean firsttimes;
+	private boolean tutorialPreference;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +90,37 @@ public class MemeEditorActivity extends Activity {
 		linlaHeaderProgress.bringToFront();
 		
 		// Initialize tutorial
+		
+		SharedPreferences setting = PreferenceManager
+				.getDefaultSharedPreferences(MemeEditorActivity.this);
+		
+		SharedPreferences 
+		prefre=getSharedPreferences("Meme_Pref",Context.MODE_PRIVATE); 
+
+		firsttimes = prefre.getBoolean("Meme_Pref", true);
+		tutorialPreference = setting.getBoolean("Tutor_Preference", false);
+		SharedPreferences.Editor firstTimeEditor = prefre.edit();		// used for first time
+		SharedPreferences.Editor tutPrefEditor = setting.edit();		// used for checkbox preference
+		
+		
 		tutorial = (LinearLayout)findViewById(R.id.meme_editor_tutorial);
-		tutorial.bringToFront();
+		if (firsttimes) {
+			tutorial.bringToFront();
+			firstTimeEditor.putBoolean("Meme_Pref", false);
+			firstTimeEditor.commit();
+
+		} 
+		else if(tutorialPreference)
+		{
+			tutorial.bringToFront();
+			tutPrefEditor.putBoolean("Tutor_Preference", false);
+			tutPrefEditor.commit();
+		}
+		
+		else {
+			tutorial.setVisibility(View.GONE);
+			tutorial.setEnabled(false);
+		}
 		tutorial.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View view) {
