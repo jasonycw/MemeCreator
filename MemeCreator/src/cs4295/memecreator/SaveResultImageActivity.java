@@ -234,6 +234,7 @@ public class SaveResultImageActivity extends Activity {
 								// if this button is clicked, close
 								// current activity
 								saveImage(tempImage, input.getText() + ".png");
+								share.setEnabled(true);
 								shareHelper();
 							}
 						})
@@ -242,6 +243,7 @@ public class SaveResultImageActivity extends Activity {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, just close
 								// the dialog box and do nothing
+								share.setEnabled(true);
 								dialog.cancel();
 							}
 						});
@@ -277,6 +279,7 @@ private void saveImageHelper2() {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, close
 								// current activity
+								save.setEnabled(true);
 								saveImage(tempImage, input.getText() + ".png");
 							}
 						})
@@ -285,6 +288,7 @@ private void saveImageHelper2() {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, just close
 								// the dialog box and do nothing
+								save.setEnabled(true);
 								dialog.cancel();
 							}
 						});
@@ -407,7 +411,7 @@ private void saveImageHelper2() {
 		save.setEnabled(true);
 		
 		setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
-		saveAndShare = setting.getBoolean("example_checkbox", false);
+		saveAndShare = setting.getBoolean("saveAndShare", false);
 		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
 		
