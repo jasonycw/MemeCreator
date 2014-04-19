@@ -83,15 +83,12 @@ public class SettingsActivity extends PreferenceActivity implements
 
 		final EditTextPreference editText = (EditTextPreference) getPreferenceScreen()
 				.findPreference("image_size");
-		// Dialog handler = editText.getDialog();
 		editText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
 			@Override
 			public boolean onPreferenceChange(Preference preference,
 					Object newValue) {
-				// Log.i("Before", "124326413164tt31413");
 				Long value = Long.valueOf((String) newValue);
-				// Log.i("YOYOY", value.toString());
 
 				if (value > 1080) {
 
@@ -181,7 +178,6 @@ public class SettingsActivity extends PreferenceActivity implements
 		// to reflect the new value, per the Android Design guidelines.
 
 		bindPreferenceSummaryToValue(findPreference("image_size"));
-		// bindPreferenceSummaryToValue(findPreference("image_path"));
 
 	}
 
@@ -290,15 +286,8 @@ public class SettingsActivity extends PreferenceActivity implements
 			// guidelines.
 
 			bindPreferenceSummaryToValue(findPreference("image_size"));
-			// bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
-		// @Override
-		// public void onResume()
-		// {
-		//
-		// bindPreferenceSummaryToValue(findPreference("image_size"));
-		// super.onResume();
-		// }
+		
 	}
 
 }
