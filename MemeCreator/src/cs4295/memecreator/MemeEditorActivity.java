@@ -91,7 +91,7 @@ public class MemeEditorActivity extends Activity {
 
 		// Initialize tutorial
 
-		SharedPreferences setting = PreferenceManager
+		setting = PreferenceManager
 				.getDefaultSharedPreferences(MemeEditorActivity.this);
 
 		SharedPreferences prefre = getSharedPreferences("Meme_Pref",
@@ -137,7 +137,7 @@ public class MemeEditorActivity extends Activity {
 			PackageInfo p = m.getPackageInfo(dataDir, 0);
 			dataDir = p.applicationInfo.dataDir;
 			myDir = new File(dataDir + "/cache");
-			if (myDir.exists())
+			if (!myDir.exists())
 				myDir.mkdirs();
 			if (myDir.setWritable(true))
 				Log.i("meme", "myDir is writable");
