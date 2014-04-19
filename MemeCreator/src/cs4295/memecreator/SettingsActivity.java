@@ -32,8 +32,7 @@ import android.widget.Toast;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity implements
-		OnSharedPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity {
 	/**
 	 * Determines whether to always show the simplified settings UI, where
 	 * settings are presented in a single list. When false, settings are shown
@@ -62,52 +61,52 @@ public class SettingsActivity extends PreferenceActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void restartActivity() {
-		Intent intent = getIntent();
-		finish();
-		startActivity(intent);
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		restartActivity();
-	}
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 
 		settings = getSharedPreferences("path", Context.MODE_PRIVATE);
 		setupSimplePreferencesScreen();
-
+		
 		final EditTextPreference editText = (EditTextPreference) getPreferenceScreen()
 				.findPreference("image_size");
 		editText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
 			@Override
 			public boolean onPreferenceChange(Preference preference,
 					Object newValue) {
 				Long value = Long.valueOf((String) newValue);
+<<<<<<< HEAD
 
 				if (value > 1080) {
 
+=======
+				if (value > 720) {
+>>>>>>> origin/master
 					Toast.makeText(SettingsActivity.this,
-							"The number should smaller than 1080px",
+							"The number should smaller than 720px",
 							Toast.LENGTH_LONG).show();
 					return false;
-				} else {
-					Log.i("Come Here", "Yo");
+				} 
+				else if(value < 300)
+				{
+					Toast.makeText(SettingsActivity.this,
+							"The number should larger than 100px",
+							Toast.LENGTH_LONG).show();
+					return false;
+				}
+				else {
 					preference.setSummary(value.toString());
-					Log.i("AAAAAAAAAAAAe", "AAAAAA");
 					return true;
 				}
 			}
 		});
 
+		//get the preference for image path
 		final Preference pathSelector = findPreference("image_path");
 		pathSelector.setSummary(settings.getString("image_path",
 				"/sdcard/DCIM/Meme/Media/"));
+		
+		// set the onClickListener for path selection
 		pathSelector
 				.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -151,7 +150,6 @@ public class SettingsActivity extends PreferenceActivity implements
 						// directory selection.
 						DirectoryChooser.chooseDirectory(m_chosenDir);
 						m_newFolderEnabled = !m_newFolderEnabled;
-						Log.i("cs", "scuuess");
 						return false;
 					}
 				});
@@ -173,12 +171,15 @@ public class SettingsActivity extends PreferenceActivity implements
 
 		// Add 'general' preferences.
 		addPreferencesFromResource(R.xml.pref_general);
-		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
-		// their values. When their values change, their summaries are updated
+		// When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
 
 		bindPreferenceSummaryToValue(findPreference("image_size"));
+<<<<<<< HEAD
 
+=======
+		// bindPreferenceSummaryToValue(findPreference("image_path"));
+>>>>>>> origin/master
 	}
 
 	/** {@inheritDoc} */
@@ -280,14 +281,16 @@ public class SettingsActivity extends PreferenceActivity implements
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.pref_general);
 
-			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
-			// to their values. When their values change, their summaries are
+			// When their values change, their summaries are
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
 
 			bindPreferenceSummaryToValue(findPreference("image_size"));
 		}
+<<<<<<< HEAD
 		
+=======
+>>>>>>> origin/master
 	}
 
 }
