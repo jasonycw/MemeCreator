@@ -35,12 +35,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-<<<<<<< HEAD
 import android.widget.Toast;
-import cs4295.customView.SandboxView;
-=======
 import cs4295.customView.MemeEditorView;
->>>>>>> origin/master
 
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
@@ -154,37 +150,39 @@ public class MemeEditorActivity extends Activity {
 		Log.i("meme", "memeSize = " + memeSize);
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
-<<<<<<< HEAD
-		try
-		{
+		try {
 			Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 			Log.i("path", bitmap.toString());
-			sandboxView = new SandboxView(this, bitmap);
-			sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
-	
+			memeEditorView = new MemeEditorView(this, bitmap);
+			memeEditorView
+					.setLayoutParams(new LayoutParams(memeSize, memeSize));
+
 			// Scale the sand box and add it into the layout
 			ViewTreeObserver viewTreeObserver = memeEditorLayout
 					.getViewTreeObserver();
-			// For getting the width and height of a dynamic layout during onCreate
+			// For getting the width and height of a dynamic layout during
+			// onCreate
 			viewTreeObserver
 					.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 						@Override
 						public void onGlobalLayout() {
 							memeEditorLayout.getViewTreeObserver()
 									.removeGlobalOnLayoutListener(this);
-							memeEditorLayoutWidth = memeEditorLayout.getHeight();
-							memeEditorLayoutHeight = memeEditorLayout.getWidth();
+							memeEditorLayoutWidth = memeEditorLayout
+									.getHeight();
+							memeEditorLayoutHeight = memeEditorLayout
+									.getWidth();
 							float scalingFactor = memeEditorLayoutWidth
 									/ (float) memeSize;
 							Log.i("memeEditorLayoutWidth",
 									Float.toString(memeEditorLayoutWidth));
 							Log.i("ScaleFactor", Float.toString(scalingFactor));
-							sandboxView.setScaleX(scalingFactor);
-							sandboxView.setScaleY(scalingFactor);
+							memeEditorView.setScaleX(scalingFactor);
+							memeEditorView.setScaleY(scalingFactor);
 						}
 					});
-			memeEditorLayout.addView(sandboxView);
-	
+			memeEditorLayout.addView(memeEditorView);
+
 			// Set save button on click method
 			forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
 			forwardButtonImageView.setOnClickListener(new OnClickListener() {
@@ -194,50 +192,10 @@ public class MemeEditorActivity extends Activity {
 					Forward forward = new Forward();
 					forward.execute();
 				}
-=======
-		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-		Log.i("path", bitmap.toString());
-		memeEditorView = new MemeEditorView(this, bitmap);
-		memeEditorView.setLayoutParams(new LayoutParams(memeSize, memeSize));
-
-		// Scale the sand box and add it into the layout
-		ViewTreeObserver viewTreeObserver = memeEditorLayout
-				.getViewTreeObserver();
-		// For getting the width and height of a dynamic layout during onCreate
-		viewTreeObserver
-				.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
-						memeEditorLayout.getViewTreeObserver()
-								.removeGlobalOnLayoutListener(this);
-						memeEditorLayoutWidth = memeEditorLayout.getHeight();
-						memeEditorLayoutHeight = memeEditorLayout.getWidth();
-						float scalingFactor = memeEditorLayoutWidth
-								/ (float) memeSize;
-						Log.i("memeEditorLayoutWidth",
-								Float.toString(memeEditorLayoutWidth));
-						Log.i("ScaleFactor", Float.toString(scalingFactor));
-						memeEditorView.setScaleX(scalingFactor);
-						memeEditorView.setScaleY(scalingFactor);
-					}
-				});
-		memeEditorLayout.addView(memeEditorView);
-
-		// Set save button on click method
-		forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
-		forwardButtonImageView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				forwardButtonImageView.setEnabled(false);
-				Forward forward = new Forward();
-				forward.execute();
-			}
->>>>>>> origin/master
-		});
-		}
-		catch(OutOfMemoryError e)
-		{
-			Toast.makeText(selfRef, "Your device is out of memory.", Toast.LENGTH_LONG).show();
+			});
+		} catch (OutOfMemoryError e) {
+			Toast.makeText(selfRef, "Your device is out of memory.",
+					Toast.LENGTH_LONG).show();
 			finish();
 		}
 	}
