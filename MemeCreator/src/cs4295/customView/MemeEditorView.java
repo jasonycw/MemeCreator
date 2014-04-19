@@ -23,18 +23,16 @@ import cs4295.gesture.TouchManager;
 import cs4295.math.Vector2D;
 import cs4295.memecreator.R;
 
-public class SandboxView extends View implements OnTouchListener {
-	private SandboxView selfRef = this;
+public class MemeEditorView extends View implements OnTouchListener {
+	private MemeEditorView selfRef = this;
 
 	private Bitmap bitmap;
 	private int width;
 	private int height;
 	private Matrix transform = new Matrix();
-
 	private Vector2D position = new Vector2D();
 	private float scale = 1;
 	private float angle = 0;
-
 	private TouchManager touchManager = new TouchManager(2);
 	private boolean onePress = true;
 	private boolean noTranslate = true;
@@ -52,6 +50,7 @@ public class SandboxView extends View implements OnTouchListener {
 	private float lowerTextSize;
 	private String[] sample_memes = getResources().getStringArray(
 			R.array.sample_meme);
+	private int divideRegion = 3;
 
 	// Debug helpers to draw lines between the two touch points
 	private Vector2D vca = null;
@@ -60,7 +59,7 @@ public class SandboxView extends View implements OnTouchListener {
 	private Vector2D vpb = null;
 	private Vector2D middlePoint = null;
 
-	public SandboxView(Context context, Bitmap bitmap) {
+	public MemeEditorView(Context context, Bitmap bitmap) {
 		super(context);
 
 		setBitmap(bitmap);
@@ -69,7 +68,7 @@ public class SandboxView extends View implements OnTouchListener {
 		setOnTouchListener(this);
 	}
 
-	public SandboxView(Context context, Bitmap bitmap, int dp) {
+	public MemeEditorView(Context context, Bitmap bitmap, int dp) {
 		super(context);
 
 		setBitmap(bitmap, dp);
@@ -78,13 +77,13 @@ public class SandboxView extends View implements OnTouchListener {
 		setOnTouchListener(this);
 	}
 
+	// To reset all the property of the view
 	public void reset() {
 		this.transform = new Matrix();
 		this.position = new Vector2D();
 		this.scale = 1;
 		this.angle = 0;
 		this.onePress = true;
-
 		this.noTranslate = true;
 		this.isInitialized = false;
 		// this.showUpperText = false;
@@ -95,8 +94,8 @@ public class SandboxView extends View implements OnTouchListener {
 		this.invalidate();
 	}
 
+	// Initialize default paint style
 	public void setPaints() {
-		// Initialize default paint style
 		strokePaint = new Paint();
 		strokePaint.setDither(true);
 		strokePaint.setColor(0xFF000000);
@@ -115,12 +114,14 @@ public class SandboxView extends View implements OnTouchListener {
 		textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 	}
 
+	// Setup the bitmap and the related attributes
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 	}
 
+	// Setup the bitmap and the related attributes with a specific dp ratio
 	public void setBitmap(Bitmap bitmap, int dp) {
 		this.bitmap = bitmap;
 
@@ -136,10 +137,13 @@ public class SandboxView extends View implements OnTouchListener {
 		this.height = (int) (bitmap.getHeight() * scaleValue);
 	}
 
+	// Translate radian to degree
 	private static float getDegreesFromRadians(float angle) {
 		return (float) (angle * 180.0 / Math.PI);
 	}
 
+	// Calculate the maximum text size that can be used in a specified width and
+	// height
 	private int determineMaxTextSize(Paint paint, String str, float maxWidth,
 			float maxHeight) {
 		if (str != null) {
@@ -159,6 +163,7 @@ public class SandboxView extends View implements OnTouchListener {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		// Initialize
 		if (!isInitialized) {
 			int w = getWidth();
 			int h = getHeight();
@@ -166,11 +171,15 @@ public class SandboxView extends View implements OnTouchListener {
 			isInitialized = true;
 		}
 
+		// Set up the color and flags for the paint
 		Paint paint = new Paint();
 		paint.setColor(0xFF000000);
 		paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+		// Draw background
 		canvas.drawColor(R.color.meme_background_color);
 
+		// Calculate the matrix for tranformation
 		transform.reset();
 		transform.postTranslate(-width / 2.0f, -height / 2.0f);
 		if (middlePoint != null) {
@@ -182,6 +191,7 @@ public class SandboxView extends View implements OnTouchListener {
 			inverse.mapPoints(touchPoint);
 			transform.postRotate(getDegreesFromRadians(angle), 0, 0);
 
+			// // For debugging
 			// paint.setColor(0xFF00007F);
 			// canvas.drawCircle(position.getX(),position.getY(), 64, paint);
 		} else
@@ -189,6 +199,7 @@ public class SandboxView extends View implements OnTouchListener {
 		transform.postScale(scale, scale);
 		transform.postTranslate(position.getX(), position.getY());
 
+		// Draw the bitmap with the transform matrix
 		canvas.drawBitmap(bitmap, transform, paint);
 
 		// Add font to the canvas
@@ -211,7 +222,7 @@ public class SandboxView extends View implements OnTouchListener {
 					this.getHeight() - 30, strokePaint);
 		}
 
-		// For debugging
+		// // For debugging
 		// try {
 		// paint.setColor(0xFF007F00);
 		// canvas.drawCircle(vca.getX(), vca.getY(), 64, paint);
@@ -242,68 +253,88 @@ public class SandboxView extends View implements OnTouchListener {
 
 		try {
 			touchManager.update(event);
+			// If only one touching point is detected
 			if (touchManager.getPressCount() == 1) {
 				vca = touchManager.getPoint(0);
 				vpa = touchManager.getPreviousPoint(0);
+
+				// Add the drag distance vector to position vector
 				position.add(touchManager.moveDelta(0));
-				if (touchManager.moveDelta(0).getLength() > 0)
+
+				// If the drag distance is more than 1 pixel
+				// Set the flag for translation
+				if (touchManager.moveDelta(0).getLength() > 1)
 					noTranslate = false;
 			} else {
+				// If there is 2 touching points are detected
 				if (touchManager.getPressCount() == 2) {
 					onePress = false;
 					vca = touchManager.getPoint(0);
 					vpa = touchManager.getPreviousPoint(0);
 					vcb = touchManager.getPoint(1);
 					vpb = touchManager.getPreviousPoint(1);
-					position.add(touchManager.moveDelta());
-					if (touchManager.moveDelta(0).getLength() > 3)
-						noTranslate = false;
 
+					// Add the drag distance vector to position vector
+					position.add(touchManager.moveDelta());
+
+					// Find the scale of pinching
 					Vector2D current = touchManager.getVector(0, 1);
 					Vector2D previous = touchManager.getPreviousVector(0, 1);
 					float currentDistance = current.getLength();
 					float previousDistance = previous.getLength();
-
 					if (previousDistance != 0) {
 						scale *= currentDistance / previousDistance;
 					}
 
+					// Find the rotation angle
 					middlePoint = touchManager.getMiddlePoint();
 					angle -= Vector2D.getSignedAngleBetween(current, previous);
 				}
 			}
-
 			invalidate();
 		} catch (Throwable t) {
 			// So lazy...
 		}
+
+		// Codes for detecting onClick with 3 semaphores
+		// 1) Time of touching
+		// 2) Number of touching point
+		// 3) Translation distance
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 			startTime = System.nanoTime();
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			// Calculate the touching time
 			long elapseTime = System.nanoTime() - startTime;
 			Log.i("meme", "onTouchEvent time: " + elapseTime + " nanoseconds");
 			Log.i("meme", (onePress) ? "Only one touch point"
 					: "Two touch points");
+
+			// If all condition are matches, identify as onClick
 			if (elapseTime < 100000000 && onePress && noTranslate)
 				selfRef.onClick(event.getX(), event.getY());
+
+			// Reset the semaphores
 			onePress = true;
 			noTranslate = true;
 		}
+
 		return true;
 	}
 
+	// Get a random meme from all the sample memes
 	private String getRandomMeme() {
 		int randomIndex = new Random().nextInt(sample_memes.length);
-		// int resId = getResources().getIdentifier(sample_memes[randomIndex],
-		// "String", null);
 		return sample_memes[randomIndex];
 	}
 
+	// On click method to add meme on the view
 	private void onClick(float x, float y) {
-		int divideRegion = 3;
+		// Set up the text box for the dialog
 		final EditText input = new EditText(this.getContext());
 		input.setHint(getRandomMeme());
 		input.setSelectAllOnFocus(true);
+
+		// Enable keyboard if possible
 		input.postDelayed(new Runnable() {
 			@Override
 			public void run() {

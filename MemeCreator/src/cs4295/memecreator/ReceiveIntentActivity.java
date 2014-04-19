@@ -23,21 +23,24 @@ public class ReceiveIntentActivity extends Activity {
 		selfRef = this;
 		// Get the intent that started this activity
 	    Intent intent = getIntent();
-	    Uri imageURI = null;//intent.getData();
-	    //useless, always return null
-//	    Log.e("URI:", intent.getData() + ""); 
+	    Uri imageURI = null;
+	    
 	    Log.e("URI information:", intent.getExtras().getParcelable(Intent.EXTRA_STREAM).toString());
+	    
 	    if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND)) {
             Bundle extras = intent.getExtras();
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
                 imageURI = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-                
             }
-        } else {
-            imageURI = (Uri) intent.getParcelableExtra("image");
+        } 
+	    else {
+	    	imageURI = (Uri) intent.getParcelableExtra("image");
         }
+	    
 	    String imagePath = "";
 	    Log.i("imageURI", imageURI.toString());
+
+	    // Only for Whatsapp intent
 	    if(imageURI.toString().contains("file:///"))
 	    {
 	    	imagePath = imageURI.toString().substring(7);
@@ -67,8 +70,8 @@ public class ReceiveIntentActivity extends Activity {
 	    }
 	    
 	    Log.i("Path", imagePath);
+	    
 		// Forward the image path to the next activity
-//	    String a = Environment.getExternalStorageDirectory().getPath() + File.separator + "DCIM/Meme/Media/temp.png";
 		forwardImagePath(imagePath, MemeEditorActivity.class);
 		finish();
 	}

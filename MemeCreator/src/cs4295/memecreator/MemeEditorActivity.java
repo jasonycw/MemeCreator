@@ -16,7 +16,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -36,7 +35,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cs4295.customView.SandboxView;
+import android.widget.Toast;
+import cs4295.customView.MemeEditorView;
 
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
@@ -46,7 +46,7 @@ public class MemeEditorActivity extends Activity {
 	private float memeEditorLayoutHeight;
 	private LinearLayout tutorial;
 	private LinearLayout memeEditorLayout;
-	private SandboxView sandboxView;
+	private MemeEditorView memeEditorView;
 	private ImageView forwardButtonImageView;
 	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
@@ -58,19 +58,19 @@ public class MemeEditorActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		this.setProgressBarIndeterminateVisibility(true);
 		setContentView(R.layout.activity_meme_editor);
 		selfRef = this;
 
 		// Set the actioin bar style
 		ActionBar actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(Color
-				.parseColor("#003C3C3C")));
+		actionBar.setBackgroundDrawable(new ColorDrawable(getResources()
+				.getColor(R.color.action_bar_color)));
 		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView yourTextView = (TextView)findViewById(titleId);
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title",
+				"id", "android");
+		TextView yourTextView = (TextView) findViewById(titleId);
 		yourTextView.setTextColor(getResources().getColor(R.color.black));
 
 		// Transparent bar on android 4.4 or above
@@ -88,46 +88,37 @@ public class MemeEditorActivity extends Activity {
 		// Initialize progress bar
 		linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
 		linlaHeaderProgress.bringToFront();
-		
-		// Initialize tutorial
-		
-		SharedPreferences setting = PreferenceManager
-				.getDefaultSharedPreferences(MemeEditorActivity.this);
-		
-		SharedPreferences 
-		prefre=getSharedPreferences("Meme_Pref",Context.MODE_PRIVATE); 
 
+		// Initialize tutorial
+		setting = PreferenceManager
+				.getDefaultSharedPreferences(MemeEditorActivity.this);
+		SharedPreferences prefre = getSharedPreferences("Meme_Pref",
+				Context.MODE_PRIVATE);
 		firsttimes = prefre.getBoolean("Meme_Pref", true);
 		tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-		SharedPreferences.Editor firstTimeEditor = prefre.edit();		// used for first time
-		SharedPreferences.Editor tutPrefEditor = setting.edit();		// used for checkbox preference
-		
-		
-		tutorial = (LinearLayout)findViewById(R.id.meme_editor_tutorial);
-		if (firsttimes) {
-			tutorial.bringToFront();
-			firstTimeEditor.putBoolean("Meme_Pref", false);
-			firstTimeEditor.commit();
+		SharedPreferences.Editor firstTimeEditor = prefre.edit();
 
-		} 
-		else if(tutorialPreference)
-		{
-			tutorial.bringToFront();
-			tutPrefEditor.putBoolean("Tutor_Preference", false);
-			tutPrefEditor.commit();
-		}
-		
-		else {
-			tutorial.setVisibility(View.GONE);
-			tutorial.setEnabled(false);
-		}
-		tutorial.setOnClickListener(new OnClickListener(){
+		// See if tutorial is needed to be shown
+		tutorial = (LinearLayout) findViewById(R.id.meme_editor_tutorial);
+		tutorial.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				tutorial.setVisibility(View.GONE);
 				tutorial.setEnabled(false);
 			}
 		});
+		if (firsttimes) {
+			tutorial.bringToFront();
+			firstTimeEditor.putBoolean("Meme_Pref", false);
+			firstTimeEditor.commit();
+
+		} else if (tutorialPreference) {
+			tutorial.bringToFront();
+			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
+		} else {
+			tutorial.setVisibility(View.GONE);
+			tutorial.setEnabled(false);
+		}
 
 		// Get the data directory for the app
 		PackageManager m = getPackageManager();
@@ -136,6 +127,8 @@ public class MemeEditorActivity extends Activity {
 			PackageInfo p = m.getPackageInfo(dataDir, 0);
 			dataDir = p.applicationInfo.dataDir;
 			myDir = new File(dataDir + "/cache");
+			if (!myDir.exists())
+				myDir.mkdirs();
 			if (myDir.setWritable(true))
 				Log.i("meme", "myDir is writable");
 			else
@@ -146,53 +139,87 @@ public class MemeEditorActivity extends Activity {
 
 		// Get the intent and get the image path to be the meme image
 		Intent shareIntent = getIntent();
-		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
-		
+		String imagePath = shareIntent
+				.getStringExtra("cs4295.memcreator.imagePath");
+
 		// Create the SandboxView
-		setting = PreferenceManager.getDefaultSharedPreferences(MemeEditorActivity.this);
-		final int memeSize = Integer.valueOf(setting.getString("image_size","720"));
-		Log.i("meme","memeSize = "+memeSize);
-		// Nexus 4: 990 max
-		// Nexus 7: 1080 ok
+		setting = PreferenceManager
+				.getDefaultSharedPreferences(MemeEditorActivity.this);
+		final int memeSize = Integer.valueOf(setting.getString("image_size",
+				"720"));
+		Log.i("meme", "memeSize = " + memeSize);
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
-		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-		Log.i("path", bitmap.toString());
-		sandboxView = new SandboxView(this, bitmap);
-//		sandboxView.setLayoutParams(new LayoutParams(720, 720));
-		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
+		try {
+			Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+			Log.i("path", bitmap.toString());
+			memeEditorView = new MemeEditorView(this, bitmap);
+			memeEditorView
+					.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
-		// Scale the sand box and add it into the layout
-		ViewTreeObserver vto2 = memeEditorLayout.getViewTreeObserver();
-		vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				// For getting the width and height of a dynamic layout during
-				// onCreate
-				memeEditorLayout.getViewTreeObserver()
-						.removeGlobalOnLayoutListener(this);
-				memeEditorLayoutWidth = memeEditorLayout.getHeight();
-				memeEditorLayoutHeight = memeEditorLayout.getWidth();
-				float scalingFactor = memeEditorLayoutWidth / (float)memeSize;
-				Log.i("memeEditorLayoutWidth",
-						Float.toString(memeEditorLayoutWidth));
-				Log.i("ScaleFactor", Float.toString(scalingFactor));
-				sandboxView.setScaleX(scalingFactor);
-				sandboxView.setScaleY(scalingFactor);
-			}
-		});
-		memeEditorLayout.addView(sandboxView);
+			// Scale the sand box and add it into the layout
+			ViewTreeObserver viewTreeObserver = memeEditorLayout
+					.getViewTreeObserver();
+			// For getting the width and height of a dynamic layout during
+			// onCreate
+			viewTreeObserver
+					.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+						@Override
+						public void onGlobalLayout() {
+							memeEditorLayout.getViewTreeObserver()
+									.removeGlobalOnLayoutListener(this);
+							memeEditorLayoutWidth = memeEditorLayout
+									.getHeight();
+							memeEditorLayoutHeight = memeEditorLayout
+									.getWidth();
+							float scalingFactor = memeEditorLayoutWidth
+									/ (float) memeSize;
+							Log.i("memeEditorLayoutWidth",
+									Float.toString(memeEditorLayoutWidth));
+							Log.i("ScaleFactor", Float.toString(scalingFactor));
+							memeEditorView.setScaleX(scalingFactor);
+							memeEditorView.setScaleY(scalingFactor);
+						}
+					});
+			memeEditorLayout.addView(memeEditorView);
 
-		// Set save button on click method
-		forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
-		forwardButtonImageView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				forwardButtonImageView.setEnabled(false);
-				Forward forward = new Forward();
-				forward.execute();
+			// Set save button on click method
+			forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
+			forwardButtonImageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					forwardButtonImageView.setEnabled(false);
+					Forward forward = new Forward();
+					forward.execute();
+				}
+			});
+		} catch (OutOfMemoryError e) {
+			Toast.makeText(selfRef, "Your device is out of memory.",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+	}
+
+	// Delete a files
+	private void deleteFile(File file) {
+		Log.i("deleteFile", file.toString()
+				+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
+
+		// Check if the file exist
+		if (file.exists())
+			// Clear the file inside if it is a directory
+			if (file.isDirectory()) {
+				String[] children = file.list();
+				for (int i = 0; i < children.length; i++) {
+					File f = new File(file, children[i]);
+					if (f.delete())
+						Log.i("deleteFile", f.getAbsolutePath()
+								+ " is deleted....");
+					else
+						Log.i("deleteFile", f.getAbsolutePath()
+								+ " is not deleted!!!!");
+				}
 			}
-		});
 	}
 
 	@Override
@@ -201,33 +228,20 @@ public class MemeEditorActivity extends Activity {
 		linlaHeaderProgress.setVisibility(View.GONE);
 		forwardButtonImageView.setEnabled(true);
 
-		// Try to delete cache if possible
-		Log.i("myDir", myDir.toString()
-				+ ((myDir.exists()) ? " is Exist" : "is not exist"));
-		if (myDir.exists())
-			if (myDir.delete())
-				Log.i("myDir", "myDir is deleted");
-			else
-				Log.i("myDir", "myDir is not deleted");
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		sandboxView.setEnabled(true);
+		memeEditorView.setEnabled(true);
 	}
 
 	@Override
 	protected void onDestroy() {
 		// Try to delete cache if possible
-		Log.i("myDir", myDir.toString()
-				+ ((myDir.exists()) ? " is Exist" : " is not exist"));
-		if (myDir.exists())
-			if (myDir.delete())
-				Log.i("myDir", "myDir is deleted");
-			else
-				Log.i("myDir", "myDir is not deleted");
+		deleteFile(myDir);
+		bp_release();
 		super.onDestroy();
 	}
 
@@ -245,7 +259,7 @@ public class MemeEditorActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case R.id.reset_sandbox:
-			sandboxView.reset();
+			memeEditorView.reset();
 			return true;
 		case R.id.action_settings:
 			Intent intent = new Intent(selfRef, SettingsActivity.class);
@@ -300,14 +314,14 @@ public class MemeEditorActivity extends Activity {
 		@Override
 		protected String doInBackground(Object... arg0) {
 			Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
-			sandboxView.setDrawingCacheEnabled(true);
-			sandboxView.buildDrawingCache();
-			memeBitmap = Bitmap.createBitmap(sandboxView.getDrawingCache());
+			memeEditorView.setDrawingCacheEnabled(true);
+			memeEditorView.buildDrawingCache();
+			memeBitmap = Bitmap.createBitmap(memeEditorView.getDrawingCache());
 			saveImage();
 			forward.putExtra("cs4295.memcreator.memeImageCache",
 					cacheImage_forPassing.getPath());
 			startActivity(forward);
-			sandboxView.setDrawingCacheEnabled(false);
+			memeEditorView.setDrawingCacheEnabled(false);
 			return "DONE";
 		}
 
@@ -316,6 +330,14 @@ public class MemeEditorActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			linlaHeaderProgress.setVisibility(View.GONE);
 			super.onPostExecute(result);
+		}
+	}
+
+	// Clear the Bitmap from memory
+	private void bp_release() {
+		if (memeBitmap != null && !memeBitmap.isRecycled()) {
+			memeBitmap.recycle();
+			memeBitmap = null;
 		}
 	}
 }

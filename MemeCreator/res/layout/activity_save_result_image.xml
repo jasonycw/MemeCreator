@@ -38,21 +38,36 @@
                 android:gravity="center"
                 android:orientation="horizontal" >
 
-                <ImageView
-                    android:id="@+id/shareButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_gravity="center"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/share_chalk" />
+                    android:gravity="center" >
 
-                <ImageView
-                    android:id="@+id/saveButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_gravity="center"
+                    <cs4295.customView.ResizableImageView
+                        android:id="@+id/shareButton"
+                        android:layout_width="150dp"
+                        android:layout_height="75dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/share_chalk" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/save_chalk2" />
+                    android:gravity="center" >
+
+                    <cs4295.customView.ResizableImageView
+                        android:id="@+id/saveButton"
+                        android:layout_width="150dp"
+                        android:layout_height="75dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/save_chalk2" />
+
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
