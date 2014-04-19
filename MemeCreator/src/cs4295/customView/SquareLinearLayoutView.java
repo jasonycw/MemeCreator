@@ -20,6 +20,7 @@ public class SquareLinearLayoutView extends LinearLayout {
 
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		// Set the size of this view to be the smallest square that possible to fit
 		super.onMeasure(widthMeasureSpec, widthMeasureSpec);
 	    int width = MeasureSpec.getSize(widthMeasureSpec);
 	    int height = MeasureSpec.getSize(heightMeasureSpec);

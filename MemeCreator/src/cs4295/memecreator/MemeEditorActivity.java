@@ -35,7 +35,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cs4295.customView.SandboxView;
+import cs4295.customView.MemeEditorView;
 
 public class MemeEditorActivity extends Activity {
 	private MemeEditorActivity selfRef;
@@ -45,7 +45,7 @@ public class MemeEditorActivity extends Activity {
 	private float memeEditorLayoutHeight;
 	private LinearLayout tutorial;
 	private LinearLayout memeEditorLayout;
-	private SandboxView sandboxView;
+	private MemeEditorView memeEditorView;
 	private ImageView forwardButtonImageView;
 	private Bitmap memeBitmap;
 	private File cacheImage_forPassing;
@@ -151,8 +151,8 @@ public class MemeEditorActivity extends Activity {
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		Log.i("path", bitmap.toString());
-		sandboxView = new SandboxView(this, bitmap);
-		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
+		memeEditorView = new MemeEditorView(this, bitmap);
+		memeEditorView.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
 		// Scale the sand box and add it into the layout
 		ViewTreeObserver viewTreeObserver = memeEditorLayout
@@ -171,11 +171,11 @@ public class MemeEditorActivity extends Activity {
 						Log.i("memeEditorLayoutWidth",
 								Float.toString(memeEditorLayoutWidth));
 						Log.i("ScaleFactor", Float.toString(scalingFactor));
-						sandboxView.setScaleX(scalingFactor);
-						sandboxView.setScaleY(scalingFactor);
+						memeEditorView.setScaleX(scalingFactor);
+						memeEditorView.setScaleY(scalingFactor);
 					}
 				});
-		memeEditorLayout.addView(sandboxView);
+		memeEditorLayout.addView(memeEditorView);
 
 		// Set save button on click method
 		forwardButtonImageView = (ImageView) findViewById(R.id.forwardButtonImage);
@@ -223,7 +223,7 @@ public class MemeEditorActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		sandboxView.setEnabled(true);
+		memeEditorView.setEnabled(true);
 	}
 
 	@Override
@@ -248,7 +248,7 @@ public class MemeEditorActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case R.id.reset_sandbox:
-			sandboxView.reset();
+			memeEditorView.reset();
 			return true;
 		case R.id.action_settings:
 			Intent intent = new Intent(selfRef, SettingsActivity.class);
@@ -303,14 +303,14 @@ public class MemeEditorActivity extends Activity {
 		@Override
 		protected String doInBackground(Object... arg0) {
 			Intent forward = new Intent(selfRef, SaveResultImageActivity.class);
-			sandboxView.setDrawingCacheEnabled(true);
-			sandboxView.buildDrawingCache();
-			memeBitmap = Bitmap.createBitmap(sandboxView.getDrawingCache());
+			memeEditorView.setDrawingCacheEnabled(true);
+			memeEditorView.buildDrawingCache();
+			memeBitmap = Bitmap.createBitmap(memeEditorView.getDrawingCache());
 			saveImage();
 			forward.putExtra("cs4295.memcreator.memeImageCache",
 					cacheImage_forPassing.getPath());
 			startActivity(forward);
-			sandboxView.setDrawingCacheEnabled(false);
+			memeEditorView.setDrawingCacheEnabled(false);
 			return "DONE";
 		}
 
