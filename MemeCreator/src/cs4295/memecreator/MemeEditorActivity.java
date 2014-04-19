@@ -16,7 +16,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,14 +57,14 @@ public class MemeEditorActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		this.setProgressBarIndeterminateVisibility(true);
 		setContentView(R.layout.activity_meme_editor);
 		selfRef = this;
 
 		// Set the actioin bar style
 		ActionBar actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
+		actionBar.setBackgroundDrawable(new ColorDrawable(getResources()
+				.getColor(R.color.action_bar_color)));
 		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
 		int titleId = Resources.getSystem().getIdentifier("action_bar_title",
@@ -90,23 +89,23 @@ public class MemeEditorActivity extends Activity {
 		linlaHeaderProgress.bringToFront();
 
 		// Initialize tutorial
-
 		setting = PreferenceManager
 				.getDefaultSharedPreferences(MemeEditorActivity.this);
-
 		SharedPreferences prefre = getSharedPreferences("Meme_Pref",
 				Context.MODE_PRIVATE);
-
 		firsttimes = prefre.getBoolean("Meme_Pref", true);
 		tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-		SharedPreferences.Editor firstTimeEditor = prefre.edit(); // used for
-																	// first
-																	// time
-		SharedPreferences.Editor tutPrefEditor = setting.edit(); // used for
-																	// checkbox
-																	// preference
+		SharedPreferences.Editor firstTimeEditor = prefre.edit();
 
+		// See if tutorial is needed to be shown
 		tutorial = (LinearLayout) findViewById(R.id.meme_editor_tutorial);
+		tutorial.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				tutorial.setVisibility(View.GONE);
+				tutorial.setEnabled(false);
+			}
+		});
 		if (firsttimes) {
 			tutorial.bringToFront();
 			firstTimeEditor.putBoolean("Meme_Pref", false);
@@ -115,20 +114,10 @@ public class MemeEditorActivity extends Activity {
 		} else if (tutorialPreference) {
 			tutorial.bringToFront();
 			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-		//	tutPrefEditor.commit();
-		}
-
-		else {
+		} else {
 			tutorial.setVisibility(View.GONE);
 			tutorial.setEnabled(false);
 		}
-		tutorial.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				tutorial.setVisibility(View.GONE);
-				tutorial.setEnabled(false);
-			}
-		});
 
 		// Get the data directory for the app
 		PackageManager m = getPackageManager();
@@ -158,26 +147,21 @@ public class MemeEditorActivity extends Activity {
 		final int memeSize = Integer.valueOf(setting.getString("image_size",
 				"720"));
 		Log.i("meme", "memeSize = " + memeSize);
-		// Nexus 4: 990 max
-		// Nexus 7: 1080 ok
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		Log.i("path", bitmap.toString());
 		sandboxView = new SandboxView(this, bitmap);
-		// sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
 		// Scale the sand box and add it into the layout
 		ViewTreeObserver viewTreeObserver = memeEditorLayout
 				.getViewTreeObserver();
+		// For getting the width and height of a dynamic layout during onCreate
 		viewTreeObserver
 				.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 					@Override
 					public void onGlobalLayout() {
-						// For getting the width and height of a dynamic layout
-						// during
-						// onCreate
 						memeEditorLayout.getViewTreeObserver()
 								.removeGlobalOnLayoutListener(this);
 						memeEditorLayoutWidth = memeEditorLayout.getHeight();
