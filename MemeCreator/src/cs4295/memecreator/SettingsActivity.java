@@ -73,7 +73,13 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceChange(Preference preference,
 					Object newValue) {
 				Long value = Long.valueOf((String) newValue);
+<<<<<<< HEAD
+
+				if (value > 1080) {
+
+=======
 				if (value > 720) {
+>>>>>>> origin/master
 					Toast.makeText(SettingsActivity.this,
 							"The number should smaller than 720px",
 							Toast.LENGTH_LONG).show();
@@ -167,7 +173,11 @@ public class SettingsActivity extends PreferenceActivity {
 		// to reflect the new value, per the Android Design guidelines.
 
 		bindPreferenceSummaryToValue(findPreference("image_size"));
+<<<<<<< HEAD
+
+=======
 		// bindPreferenceSummaryToValue(findPreference("image_path"));
+>>>>>>> origin/master
 	}
 
 	/** {@inheritDoc} */
@@ -274,8 +284,11 @@ public class SettingsActivity extends PreferenceActivity {
 			// guidelines.
 
 			bindPreferenceSummaryToValue(findPreference("image_size"));
-			// bindPreferenceSummaryToValue(findPreference("image_path"));
 		}
+<<<<<<< HEAD
+		
+=======
+>>>>>>> origin/master
 	}
 
 }
