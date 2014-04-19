@@ -149,12 +149,18 @@ public class SaveResultImageActivity extends Activity {
 
 		Log.i("path:", path);
 		Log.i("Uri:", uriToImage.toString());
-
-		imageIntent = new Intent(Intent.ACTION_SEND);
-		imageIntent.setType("image/*");
-		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-
-		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
+		try
+		{
+			imageIntent = new Intent(Intent.ACTION_SEND);
+			imageIntent.setType("image/*");
+			imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+	
+			startActivity(Intent.createChooser(imageIntent, "Share Image!"));
+		}
+		catch(Exception e)
+		{
+			Toast.makeText(selfRef, "This application is not availabled.", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	// Helper method for save image first before sharing image
