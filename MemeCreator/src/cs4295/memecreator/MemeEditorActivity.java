@@ -168,24 +168,28 @@ public class MemeEditorActivity extends Activity {
 		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
 		// Scale the sand box and add it into the layout
-		ViewTreeObserver vto2 = memeEditorLayout.getViewTreeObserver();
-		vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				// For getting the width and height of a dynamic layout during
-				// onCreate
-				memeEditorLayout.getViewTreeObserver()
-						.removeGlobalOnLayoutListener(this);
-				memeEditorLayoutWidth = memeEditorLayout.getHeight();
-				memeEditorLayoutHeight = memeEditorLayout.getWidth();
-				float scalingFactor = memeEditorLayoutWidth / (float) memeSize;
-				Log.i("memeEditorLayoutWidth",
-						Float.toString(memeEditorLayoutWidth));
-				Log.i("ScaleFactor", Float.toString(scalingFactor));
-				sandboxView.setScaleX(scalingFactor);
-				sandboxView.setScaleY(scalingFactor);
-			}
-		});
+		ViewTreeObserver viewTreeObserver = memeEditorLayout
+				.getViewTreeObserver();
+		viewTreeObserver
+				.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						// For getting the width and height of a dynamic layout
+						// during
+						// onCreate
+						memeEditorLayout.getViewTreeObserver()
+								.removeGlobalOnLayoutListener(this);
+						memeEditorLayoutWidth = memeEditorLayout.getHeight();
+						memeEditorLayoutHeight = memeEditorLayout.getWidth();
+						float scalingFactor = memeEditorLayoutWidth
+								/ (float) memeSize;
+						Log.i("memeEditorLayoutWidth",
+								Float.toString(memeEditorLayoutWidth));
+						Log.i("ScaleFactor", Float.toString(scalingFactor));
+						sandboxView.setScaleX(scalingFactor);
+						sandboxView.setScaleY(scalingFactor);
+					}
+				});
 		memeEditorLayout.addView(sandboxView);
 
 		// Set save button on click method
@@ -200,20 +204,35 @@ public class MemeEditorActivity extends Activity {
 		});
 	}
 
+	// Delete a file
+	private void deleteFile(File file) {
+		Log.i("deleteFile", file.toString()
+				+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
+
+		// Check if the file exist
+		if (file.exists()) {
+			// Clear the file inside if it is a directory
+			if (file.isDirectory()) {
+				String[] children = file.list();
+				for (int i = 0; i < children.length; i++)
+					new File(file, children[i]).delete();
+			}
+
+			// Delete the file
+			if (file.delete())
+				Log.i("deleteFile", file.getAbsolutePath() + " is deleted....");
+			else
+				Log.i("deleteFile", file.getAbsolutePath()
+						+ " is not deleted!!!!");
+		}
+	}
+
 	@Override
 	protected void onPause() {
 		// Hide the progress bar
 		linlaHeaderProgress.setVisibility(View.GONE);
 		forwardButtonImageView.setEnabled(true);
 
-		// Try to delete cache if possible
-		Log.i("myDir", myDir.toString()
-				+ ((myDir.exists()) ? " is Exist" : "is not exist"));
-		if (myDir.exists())
-			if (myDir.delete())
-				Log.i("myDir", "myDir is deleted");
-			else
-				Log.i("myDir", "myDir is not deleted");
 		super.onPause();
 	}
 
@@ -226,13 +245,7 @@ public class MemeEditorActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		// Try to delete cache if possible
-		Log.i("myDir", myDir.toString()
-				+ ((myDir.exists()) ? " is Exist" : " is not exist"));
-		if (myDir.exists())
-			if (myDir.delete())
-				Log.i("myDir", "myDir is deleted");
-			else
-				Log.i("myDir", "myDir is not deleted");
+		deleteFile(myDir);
 		bp_release();
 		super.onDestroy();
 	}
