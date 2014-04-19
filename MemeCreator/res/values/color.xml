@@ -8,5 +8,5 @@
     <color name="border_color">#FF000000</color>
     <color name="meme_background_color">#FF000000</color>
     <color name="path_title_text_color">#FF33B5E5</color>
-    <color name="action_bar_color">#FFC3C3C3</color>
+    <color name="action_bar_color">#00C0C0C0</color>
 </resources>

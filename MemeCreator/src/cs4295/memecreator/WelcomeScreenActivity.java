@@ -117,8 +117,8 @@ public class WelcomeScreenActivity extends Activity {
 			else if(tutorialPreference)
 			{
 				tutorial.bringToFront();
-				tutPrefEditor.putBoolean("Tutor_Preference", false);
-				tutPrefEditor.commit();
+				tutorialPreference = setting.getBoolean("Tutor_Preference", false);
+				//tutPrefEditor.commit();
 			}
 			
 			else {
