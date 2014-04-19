@@ -109,12 +109,14 @@ public class WelcomeScreenActivity extends Activity {
 
 	// Delete a files
 	private void deleteFile(File file) {
-		Log.i("deleteFile", file.toString()
-				+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
+		if (file != null) {
+			Log.i("deleteFile", file.toString()
+					+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
 
-		// Check if the file exist for deletion
-		if (file.exists())
-			file.delete();
+			// Check if the file exist for deletion
+			if (file.exists())
+				file.delete();
+		}
 	}
 
 	// Method for forwarding a image path to the next class

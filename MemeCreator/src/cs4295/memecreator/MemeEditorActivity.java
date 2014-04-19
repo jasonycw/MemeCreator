@@ -151,7 +151,7 @@ public class MemeEditorActivity extends Activity {
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		try {
-			Log.i("imagePath",imagePath);
+			Log.i("imagePath", imagePath);
 			Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 			memeEditorView = new MemeEditorView(this, bitmap);
 			memeEditorView
@@ -202,24 +202,26 @@ public class MemeEditorActivity extends Activity {
 
 	// Delete a files
 	private void deleteFile(File file) {
-		Log.i("deleteFile", file.toString()
-				+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
+		if (file != null) {
+			Log.i("deleteFile", file.toString()
+					+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
 
-		// Check if the file exist
-		if (file.exists())
-			// Clear the file inside if it is a directory
-			if (file.isDirectory()) {
-				String[] children = file.list();
-				for (int i = 0; i < children.length; i++) {
-					File f = new File(file, children[i]);
-					if (f.delete())
-						Log.i("deleteFile", f.getAbsolutePath()
-								+ " is deleted....");
-					else
-						Log.i("deleteFile", f.getAbsolutePath()
-								+ " is not deleted!!!!");
+			// Check if the file exist
+			if (file.exists())
+				// Clear the file inside if it is a directory
+				if (file.isDirectory()) {
+					String[] children = file.list();
+					for (int i = 0; i < children.length; i++) {
+						File f = new File(file, children[i]);
+						if (f.delete())
+							Log.i("deleteFile", f.getAbsolutePath()
+									+ " is deleted....");
+						else
+							Log.i("deleteFile", f.getAbsolutePath()
+									+ " is not deleted!!!!");
+					}
 				}
-			}
+		}
 	}
 
 	@Override
