@@ -14,7 +14,8 @@
         android:background="@color/transparent_gray"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone"
+        tools:ignore="MergeRootFrame" >
 
         <ProgressBar
             android:id="@+id/pbHeaderProgress"
