@@ -3,7 +3,6 @@ package cs4295.customView;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class ResizableImageView extends ImageView {
@@ -19,7 +18,9 @@ public class ResizableImageView extends ImageView {
 		if (d != null) {
 			// Set the height of the view to fit content width
 			final int width = MeasureSpec.getSize(widthMeasureSpec);
-			final int height = (int) Math.ceil((float) width * (float) d.getIntrinsicHeight() / (float) d.getIntrinsicWidth());
+			final int height = (int) Math.ceil((float) width
+					* (float) d.getIntrinsicHeight()
+					/ (float) d.getIntrinsicWidth());
 			this.setMeasuredDimension(width, height);
 		} else {
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
