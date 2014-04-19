@@ -44,12 +44,5 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_change_save_path" />
      
-     <Preference
-        android:defaultValue="@string/pref_default_save_path"
-        android:summary="@string/pref_default_save_path"
-        android:key="image_path"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_change_save_path" />
  
 </PreferenceScreen>
