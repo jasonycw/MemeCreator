@@ -137,6 +137,8 @@ public class MemeEditorActivity extends Activity {
 			PackageInfo p = m.getPackageInfo(dataDir, 0);
 			dataDir = p.applicationInfo.dataDir;
 			myDir = new File(dataDir + "/cache");
+			if (myDir.exists())
+				myDir.mkdirs();
 			if (myDir.setWritable(true))
 				Log.i("meme", "myDir is writable");
 			else
@@ -203,27 +205,26 @@ public class MemeEditorActivity extends Activity {
 		});
 	}
 
-	// Delete a file
+	// Delete a files
 	private void deleteFile(File file) {
 		Log.i("deleteFile", file.toString()
 				+ ((file.exists()) ? " is Exist." : "is not exist!!!!"));
 
 		// Check if the file exist
-		if (file.exists()) {
+		if (file.exists())
 			// Clear the file inside if it is a directory
 			if (file.isDirectory()) {
 				String[] children = file.list();
-				for (int i = 0; i < children.length; i++)
-					new File(file, children[i]).delete();
+				for (int i = 0; i < children.length; i++) {
+					File f = new File(file, children[i]);
+					if (f.delete())
+						Log.i("deleteFile", f.getAbsolutePath()
+								+ " is deleted....");
+					else
+						Log.i("deleteFile", f.getAbsolutePath()
+								+ " is not deleted!!!!");
+				}
 			}
-
-			// Delete the file
-			if (file.delete())
-				Log.i("deleteFile", file.getAbsolutePath() + " is deleted....");
-			else
-				Log.i("deleteFile", file.getAbsolutePath()
-						+ " is not deleted!!!!");
-		}
 	}
 
 	@Override
