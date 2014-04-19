@@ -151,9 +151,7 @@ public class MemeEditorActivity extends Activity {
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
 		try {
-			Log.i("path", imagePath);
 			Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-			Log.i("path", bitmap.toString());
 			memeEditorView = new MemeEditorView(this, bitmap);
 			memeEditorView
 					.setLayoutParams(new LayoutParams(memeSize, memeSize));

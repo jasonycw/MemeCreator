@@ -27,8 +27,8 @@ public class MemeEditorView extends View implements OnTouchListener {
 	private MemeEditorView selfRef = this;
 
 	private Bitmap bitmap;
-	private int width;
-	private int height;
+	private int bitmapWidth;
+	private int bitmapHeight;
 	private Matrix transform = new Matrix();
 	private Vector2D position = new Vector2D();
 	private float scale = 1;
@@ -117,8 +117,8 @@ public class MemeEditorView extends View implements OnTouchListener {
 	// Setup the bitmap and the related attributes
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
-		this.width = bitmap.getWidth();
-		this.height = bitmap.getHeight();
+		this.bitmapWidth = bitmap.getWidth();
+		this.bitmapHeight = bitmap.getHeight();
 	}
 
 	// Setup the bitmap and the related attributes with a specific dp ratio
@@ -133,8 +133,8 @@ public class MemeEditorView extends View implements OnTouchListener {
 			scaleValue = ((float) dp) / bitmap.getHeight();
 
 		Log.i("scaleValue", Float.toString(scaleValue));
-		this.width = (int) (bitmap.getWidth() * scaleValue);
-		this.height = (int) (bitmap.getHeight() * scaleValue);
+		this.bitmapWidth = (int) (bitmap.getWidth() * scaleValue);
+		this.bitmapHeight = (int) (bitmap.getHeight() * scaleValue);
 	}
 
 	// Translate radian to degree
@@ -165,9 +165,15 @@ public class MemeEditorView extends View implements OnTouchListener {
 
 		// Initialize
 		if (!isInitialized) {
-			int w = getWidth();
-			int h = getHeight();
-			position.set(w / 2, h / 2);
+			int viewWidth = this.getWidth();
+			int viewHeight = this.getHeight();
+
+			float widthScale = (float) viewWidth / (float) bitmapWidth;
+			float heightScale = (float) viewHeight / (float) bitmapHeight;
+
+			position.set(viewWidth / 2, viewHeight / 2);
+			scale = (widthScale > heightScale) ? heightScale : widthScale;
+
 			isInitialized = true;
 		}
 
@@ -181,7 +187,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 
 		// Calculate the matrix for tranformation
 		transform.reset();
-		transform.postTranslate(-width / 2.0f, -height / 2.0f);
+		transform.postTranslate(-bitmapWidth / 2.0f, -bitmapHeight / 2.0f);
 		if (middlePoint != null) {
 			Matrix inverse = new Matrix();
 			transform.invert(inverse);
