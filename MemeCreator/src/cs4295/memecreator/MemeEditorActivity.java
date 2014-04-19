@@ -65,8 +65,7 @@ public class MemeEditorActivity extends Activity {
 
 		// Set the actioin bar style
 		ActionBar actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(Color
-				.parseColor("#003C3C3C")));
+		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
 		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
 		int titleId = Resources.getSystem().getIdentifier("action_bar_title",
