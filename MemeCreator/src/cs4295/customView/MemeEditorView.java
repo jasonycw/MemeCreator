@@ -90,7 +90,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 		// this.showLowerText = false;
 		// this.upperText = null;
 		// this.lowerText = null;
-
+		this.initialize();
 		this.invalidate();
 	}
 
@@ -159,23 +159,26 @@ public class MemeEditorView extends View implements OnTouchListener {
 		return 0;
 	}
 
+	private void initialize() {
+		int viewWidth = this.getWidth();
+		int viewHeight = this.getHeight();
+
+		float widthScale = (float) viewWidth / (float) bitmapWidth;
+		float heightScale = (float) viewHeight / (float) bitmapHeight;
+
+		position.set(viewWidth / 2, viewHeight / 2);
+		scale = (widthScale > heightScale) ? heightScale : widthScale;
+
+		isInitialized = true;
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
 		// Initialize
-		if (!isInitialized) {
-			int viewWidth = this.getWidth();
-			int viewHeight = this.getHeight();
-
-			float widthScale = (float) viewWidth / (float) bitmapWidth;
-			float heightScale = (float) viewHeight / (float) bitmapHeight;
-
-			position.set(viewWidth / 2, viewHeight / 2);
-			scale = (widthScale > heightScale) ? heightScale : widthScale;
-
-			isInitialized = true;
-		}
+		if (!isInitialized)
+			initialize();
 
 		// Set up the color and flags for the paint
 		Paint paint = new Paint();
