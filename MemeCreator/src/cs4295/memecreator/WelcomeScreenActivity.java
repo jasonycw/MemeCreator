@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -79,7 +78,7 @@ public class WelcomeScreenActivity extends Activity {
 	}
 
 	/**
-	 * A placeholder fragment containing a simple view.
+	 * A fragment containing a simple view.
 	 */
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
@@ -89,43 +88,22 @@ public class WelcomeScreenActivity extends Activity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-
+			// Get the settings
 			SharedPreferences setting = PreferenceManager
 					.getDefaultSharedPreferences(WelcomeScreenActivity.this);
-			
-			SharedPreferences 
-			prefre=getSharedPreferences("task_Pref",Context.MODE_PRIVATE); 
-
+			SharedPreferences prefre = getSharedPreferences("task_Pref",
+					Context.MODE_PRIVATE);
 			firsttimes = prefre.getBoolean("task_Pref", true);
 			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-			SharedPreferences.Editor firstTimeEditor = prefre.edit();		// used for first time
-			SharedPreferences.Editor tutPrefEditor = setting.edit();		// used for checkbox preference
+			SharedPreferences.Editor firstTimeEditor = prefre.edit();
 
-//			Log.i("FirstTime?", "Here: " + firsttimes);
-
+			// Update the views
 			View rootView = inflater.inflate(
 					R.layout.fragment_welcome_screen_acivity, container, false);
 
+			// Show tutorial only in some conditions
 			tutorial = (LinearLayout) rootView
 					.findViewById(R.id.welcome_screen_tutorial);
-			if (firsttimes) {
-				tutorial.bringToFront();
-				firstTimeEditor.putBoolean("task_Pref", false);
-				firstTimeEditor.commit();
-
-			} 
-			else if(tutorialPreference)
-			{
-				tutorial.bringToFront();
-				tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-				//tutPrefEditor.commit();
-			}
-			
-			else {
-				tutorial.setVisibility(View.GONE);
-				tutorial.setEnabled(false);
-			}
-
 			tutorial.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -133,6 +111,19 @@ public class WelcomeScreenActivity extends Activity {
 					tutorial.setEnabled(false);
 				}
 			});
+			if (firsttimes) {
+				tutorial.bringToFront();
+				firstTimeEditor.putBoolean("task_Pref", false);
+				firstTimeEditor.commit();
+
+			} else if (tutorialPreference) {
+				tutorial.bringToFront();
+				tutorialPreference = setting.getBoolean("Tutor_Preference",
+						false);
+			} else {
+				tutorial.setVisibility(View.GONE);
+				tutorial.setEnabled(false);
+			}
 
 			// Set the onClick for the setting image
 			settingImageButton = (ImageView) rootView
@@ -171,6 +162,7 @@ public class WelcomeScreenActivity extends Activity {
 			super.onActivityResult(requestCode, resultCode, data);
 			// Re-enable the button after result
 			welcomeScreenImage.setEnabled(true);
+
 			// If the result is okay
 			if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK
 					&& data != null) {
