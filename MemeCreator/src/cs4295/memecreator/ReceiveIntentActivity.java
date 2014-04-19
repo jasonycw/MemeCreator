@@ -56,7 +56,7 @@ public class ReceiveIntentActivity extends Activity {
 				Log.i("filePath", filePath[0]);
 				cursor.moveToFirst();
 				imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-				Log.i("After!", imagePath);
+//				Log.i("After!", imagePath);
 				cursor.close();
 			}
 			// if cursor = null, that means the image is inside our Meme file

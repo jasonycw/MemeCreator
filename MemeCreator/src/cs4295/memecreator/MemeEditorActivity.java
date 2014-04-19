@@ -58,7 +58,7 @@ public class MemeEditorActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+//		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		this.setProgressBarIndeterminateVisibility(true);
 		setContentView(R.layout.activity_meme_editor);
 		selfRef = this;
