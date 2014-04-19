@@ -55,7 +55,7 @@ public class SaveResultImageActivity extends Activity {
 	private String imagePath;
 	private ImageView share;
 	private ImageView save;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,8 +67,9 @@ public class SaveResultImageActivity extends Activity {
 				.parseColor("#003C3C3C")));
 		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView yourTextView = (TextView)findViewById(titleId);
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title",
+				"id", "android");
+		TextView yourTextView = (TextView) findViewById(titleId);
 		yourTextView.setTextColor(getResources().getColor(R.color.black));
 
 		// Transparent bar on android 4.4 or above
@@ -111,27 +112,27 @@ public class SaveResultImageActivity extends Activity {
 		resultImage.buildDrawingCache();
 
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
-		
-		
+
 		// Prepare the sharing image here
-//		String photoUri = MediaStore.Images.Media.insertImage(
-//		        getContentResolver(), tempImage, null, null);
-//		uriToImage = Uri.parse(photoUri);
+		// String photoUri = MediaStore.Images.Media.insertImage(
+		// getContentResolver(), tempImage, null, null);
+		// uriToImage = Uri.parse(photoUri);
 		saveTempImageForSharing();
 		File imageFileToShare = new File(path + "/temp.png");
 		uriToImage = Uri.fromFile(imageFileToShare);
-		
+
 		// Share button on click
 		share = (ImageView) findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// Disable share button to prevent multiple on click
 				share.setEnabled(false);
-//				setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
-//				saveAndShare = setting.getBoolean("example_checkbox", false);
-				if(saveAndShare)
+				// setting =
+				// PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
+				// saveAndShare = setting.getBoolean("example_checkbox", false);
+				if (saveAndShare)
 					saveImageHelper();
 				else
 					shareHelper();
@@ -151,47 +152,47 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	private void shareHelper() {
-	
+
 		Log.i("path:", path);
 		Log.i("Uri:", uriToImage.toString());
-		
+
 		imageIntent = new Intent(Intent.ACTION_SEND);
 		imageIntent.setType("image/*");
 
 		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-//		File imageFileToShare = new File(path + "/temp.png");
+		// File imageFileToShare = new File(path + "/temp.png");
 
-//		uriToImage = Uri.fromFile(imageFileToShare);
+		// uriToImage = Uri.fromFile(imageFileToShare);
 		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 
 		// Verify it resolves
-//		PackageManager packageManager = getPackageManager();
-//		List<ResolveInfo> activities = packageManager.queryIntentActivities(
-//				imageIntent, 0);
-//		isIntentSafe = activities.size() > 0;
+		// PackageManager packageManager = getPackageManager();
+		// List<ResolveInfo> activities = packageManager.queryIntentActivities(
+		// imageIntent, 0);
+		// isIntentSafe = activities.size() > 0;
 
-//		saveTempImageForSharing();
+		// saveTempImageForSharing();
 
 		// startActivity(imageIntent);
 		Log.i("Running share", " 11");
 		startActivity(Intent.createChooser(imageIntent, "Share Image!"));
-		 
-//		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//		tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-//		File f = new File(new File(path), "temp.png");
-//		try {
-//			f.createNewFile();
-//			FileOutputStream fo = new FileOutputStream(f);
-//			fo.write(bytes.toByteArray());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		Log.i("See Path ", uriToImage.toString());
-//		imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
-//		imageIntent.putExtra(Intent.EXTRA_TITLE,
-//				"my awesome caption in the EXTRA_TITLE field");
-//
-//		startActivity(Intent.createChooser(imageIntent, "Share Image"));
+
+		// ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		// tempImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+		// File f = new File(new File(path), "temp.png");
+		// try {
+		// f.createNewFile();
+		// FileOutputStream fo = new FileOutputStream(f);
+		// fo.write(bytes.toByteArray());
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// Log.i("See Path ", uriToImage.toString());
+		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+		// imageIntent.putExtra(Intent.EXTRA_TITLE,
+		// "my awesome caption in the EXTRA_TITLE field");
+		//
+		// startActivity(Intent.createChooser(imageIntent, "Share Image"));
 
 		// imageIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
 		//
@@ -208,10 +209,9 @@ public class SaveResultImageActivity extends Activity {
 	}
 
 	private void saveImageHelper() {
-		
-		
+
 		Log.i("preference", setting.toString());
-				
+
 		// save Image in Internal with own Folder
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -252,12 +252,11 @@ public class SaveResultImageActivity extends Activity {
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
 	}
-	
-private void saveImageHelper2() {
-		
-		
+
+	private void saveImageHelper2() {
+
 		Log.i("preference", setting.toString());
-				
+
 		// save Image in Internal with own Folder
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -409,12 +408,13 @@ private void saveImageHelper2() {
 		// Re-enable the share and save buttons
 		share.setEnabled(true);
 		save.setEnabled(true);
-		
-		setting = PreferenceManager.getDefaultSharedPreferences(SaveResultImageActivity.this);
+
+		setting = PreferenceManager
+				.getDefaultSharedPreferences(SaveResultImageActivity.this);
 		saveAndShare = setting.getBoolean("saveAndShare", false);
 		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
 		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
-		
+
 		File temp = new File(new File(path), "temp.png");
 
 		// if (temp.exists())
@@ -444,9 +444,10 @@ private void saveImageHelper2() {
 
 		if (temp.exists())
 			temp.delete();
-	
-//		Log.i("Delete URI", uriToImage.toString());
-//		getContentResolver().delete(uriToImage, null,null);
+
+		// Log.i("Delete URI", uriToImage.toString());
+		// getContentResolver().delete(uriToImage, null,null);
+		bp_release();
 		super.onDestroy();
 	}
 
@@ -470,6 +471,14 @@ private void saveImageHelper2() {
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	// Clear the Bitmap from memory
+	private void bp_release() {
+		if (tempImage != null && !tempImage.isRecycled()) {
+			tempImage.recycle();
+			tempImage = null;
 		}
 	}
 }

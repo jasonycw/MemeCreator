@@ -69,8 +69,9 @@ public class MemeEditorActivity extends Activity {
 				.parseColor("#003C3C3C")));
 		actionBar.setIcon(R.drawable.back_icon_black);
 		actionBar.setHomeButtonEnabled(true);
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView yourTextView = (TextView)findViewById(titleId);
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title",
+				"id", "android");
+		TextView yourTextView = (TextView) findViewById(titleId);
 		yourTextView.setTextColor(getResources().getColor(R.color.black));
 
 		// Transparent bar on android 4.4 or above
@@ -88,40 +89,41 @@ public class MemeEditorActivity extends Activity {
 		// Initialize progress bar
 		linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
 		linlaHeaderProgress.bringToFront();
-		
+
 		// Initialize tutorial
-		
+
 		SharedPreferences setting = PreferenceManager
 				.getDefaultSharedPreferences(MemeEditorActivity.this);
-		
-		SharedPreferences 
-		prefre=getSharedPreferences("Meme_Pref",Context.MODE_PRIVATE); 
+
+		SharedPreferences prefre = getSharedPreferences("Meme_Pref",
+				Context.MODE_PRIVATE);
 
 		firsttimes = prefre.getBoolean("Meme_Pref", true);
 		tutorialPreference = setting.getBoolean("Tutor_Preference", false);
-		SharedPreferences.Editor firstTimeEditor = prefre.edit();		// used for first time
-		SharedPreferences.Editor tutPrefEditor = setting.edit();		// used for checkbox preference
-		
-		
-		tutorial = (LinearLayout)findViewById(R.id.meme_editor_tutorial);
+		SharedPreferences.Editor firstTimeEditor = prefre.edit(); // used for
+																	// first
+																	// time
+		SharedPreferences.Editor tutPrefEditor = setting.edit(); // used for
+																	// checkbox
+																	// preference
+
+		tutorial = (LinearLayout) findViewById(R.id.meme_editor_tutorial);
 		if (firsttimes) {
 			tutorial.bringToFront();
 			firstTimeEditor.putBoolean("Meme_Pref", false);
 			firstTimeEditor.commit();
 
-		} 
-		else if(tutorialPreference)
-		{
+		} else if (tutorialPreference) {
 			tutorial.bringToFront();
 			tutPrefEditor.putBoolean("Tutor_Preference", false);
 			tutPrefEditor.commit();
 		}
-		
+
 		else {
 			tutorial.setVisibility(View.GONE);
 			tutorial.setEnabled(false);
 		}
-		tutorial.setOnClickListener(new OnClickListener(){
+		tutorial.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				tutorial.setVisibility(View.GONE);
@@ -146,12 +148,15 @@ public class MemeEditorActivity extends Activity {
 
 		// Get the intent and get the image path to be the meme image
 		Intent shareIntent = getIntent();
-		String imagePath = shareIntent.getStringExtra("cs4295.memcreator.imagePath");
-		
+		String imagePath = shareIntent
+				.getStringExtra("cs4295.memcreator.imagePath");
+
 		// Create the SandboxView
-		setting = PreferenceManager.getDefaultSharedPreferences(MemeEditorActivity.this);
-		final int memeSize = Integer.valueOf(setting.getString("image_size","720"));
-		Log.i("meme","memeSize = "+memeSize);
+		setting = PreferenceManager
+				.getDefaultSharedPreferences(MemeEditorActivity.this);
+		final int memeSize = Integer.valueOf(setting.getString("image_size",
+				"720"));
+		Log.i("meme", "memeSize = " + memeSize);
 		// Nexus 4: 990 max
 		// Nexus 7: 1080 ok
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
@@ -159,7 +164,7 @@ public class MemeEditorActivity extends Activity {
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 		Log.i("path", bitmap.toString());
 		sandboxView = new SandboxView(this, bitmap);
-//		sandboxView.setLayoutParams(new LayoutParams(720, 720));
+		// sandboxView.setLayoutParams(new LayoutParams(720, 720));
 		sandboxView.setLayoutParams(new LayoutParams(memeSize, memeSize));
 
 		// Scale the sand box and add it into the layout
@@ -173,7 +178,7 @@ public class MemeEditorActivity extends Activity {
 						.removeGlobalOnLayoutListener(this);
 				memeEditorLayoutWidth = memeEditorLayout.getHeight();
 				memeEditorLayoutHeight = memeEditorLayout.getWidth();
-				float scalingFactor = memeEditorLayoutWidth / (float)memeSize;
+				float scalingFactor = memeEditorLayoutWidth / (float) memeSize;
 				Log.i("memeEditorLayoutWidth",
 						Float.toString(memeEditorLayoutWidth));
 				Log.i("ScaleFactor", Float.toString(scalingFactor));
@@ -228,6 +233,7 @@ public class MemeEditorActivity extends Activity {
 				Log.i("myDir", "myDir is deleted");
 			else
 				Log.i("myDir", "myDir is not deleted");
+		bp_release();
 		super.onDestroy();
 	}
 
@@ -316,6 +322,14 @@ public class MemeEditorActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			linlaHeaderProgress.setVisibility(View.GONE);
 			super.onPostExecute(result);
+		}
+	}
+
+	// Clear the Bitmap from memory
+	private void bp_release() {
+		if (memeBitmap != null && !memeBitmap.isRecycled()) {
+			memeBitmap.recycle();
+			memeBitmap = null;
 		}
 	}
 }
