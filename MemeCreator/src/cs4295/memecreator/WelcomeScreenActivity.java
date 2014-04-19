@@ -212,7 +212,7 @@ public class WelcomeScreenActivity extends Activity {
 							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //					startActivityForResult(i, LOAD_IMAGE_RESULTS);
 					Intent c = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					Intent chooserIntent = Intent.createChooser(i, R.string.chooser_intent_title);
+					Intent chooserIntent = Intent.createChooser(i, getResources().getText(R.string.chooser_intent_title));
 					chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { c });
 					startActivityForResult(chooserIntent,LOAD_IMAGE_RESULTS);
 				}
