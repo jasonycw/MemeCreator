@@ -25,13 +25,8 @@ public class FileExplorerActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_explorer);
-		
-		//Intent a = getIntent();
-		
 		myPath = (TextView) findViewById(R.id.path);
-
 		root = Environment.getExternalStorageDirectory().getPath();
-
 		getDir(root);
 	}
 
@@ -41,7 +36,7 @@ public class FileExplorerActivity extends ListActivity {
 		path = new ArrayList<String>();
 		File f = new File(dirPath);
 		File[] files = f.listFiles();
-
+		
 		if (!dirPath.equals(root)) {
 			item.add(root);
 			path.add(root);
