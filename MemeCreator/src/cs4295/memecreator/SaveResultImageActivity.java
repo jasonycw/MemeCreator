@@ -16,7 +16,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
@@ -24,6 +23,7 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -44,12 +44,9 @@ public class SaveResultImageActivity extends Activity {
 	private SaveResultImageActivity selfRef = this;
 	private SharedPreferences setting;
 	private boolean saveAndShare = false;
-	private boolean shareButtonPressed = false;
-	private String path = "/sdcard/DCIM/Meme/Media/";
-	private boolean isIntentSafe;
+	private String path;
 	private Intent imageIntent;
 	private Uri uriToImage;
-	private File cacheImage_forPassing;
 	private String dataDir;
 	private File myDir;
 	private String imagePath;
@@ -111,6 +108,12 @@ public class SaveResultImageActivity extends Activity {
 		tempImage = ((BitmapDrawable) resultImage.getDrawable()).getBitmap();
 
 		// Prepare the sharing image here
+		setting = PreferenceManager
+				.getDefaultSharedPreferences(SaveResultImageActivity.this);
+		saveAndShare = setting.getBoolean("saveAndShare", false);
+		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
+		path = setting.getString("image_path", Environment
+				.getExternalStorageDirectory().getPath() + "/DCIM/Meme/Media/");
 		saveTempImageForSharing();
 		File imageFileToShare = new File(path + "/temp.png");
 		uriToImage = Uri.fromFile(imageFileToShare);
@@ -345,7 +348,8 @@ public class SaveResultImageActivity extends Activity {
 				.getDefaultSharedPreferences(SaveResultImageActivity.this);
 		saveAndShare = setting.getBoolean("saveAndShare", false);
 		setting = getSharedPreferences("path", Context.MODE_PRIVATE);
-		path = setting.getString("image_path", "/sdcard/DCIM/Meme/Media/");
+		path = setting.getString("image_path", Environment
+				.getExternalStorageDirectory().getPath() + "/DCIM/Meme/Media/");
 
 		super.onResume();
 	}
