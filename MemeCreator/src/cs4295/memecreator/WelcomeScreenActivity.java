@@ -199,10 +199,11 @@ public class WelcomeScreenActivity extends Activity {
 							Intent.ACTION_PICK,
 							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-					// Intent for calling camera and store the image at
-					// setImageUri()
+					// Intent for calling camera
 					Intent importFromCameraIntent = new Intent(
 							MediaStore.ACTION_IMAGE_CAPTURE);
+					// Add a property that it will store full-size output to
+					// makeCacheImageUri() which return Uri of the cache image
 					importFromCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
 							makeCacheImageUri());
 
@@ -231,101 +232,40 @@ public class WelcomeScreenActivity extends Activity {
 
 		// Method that will be call when the action pick is completed
 		public void onActivityResult(int requestCode, int resultCode,
-				Intent data) {
-			super.onActivityResult(requestCode, resultCode, data);
+				Intent intent) {
+			super.onActivityResult(requestCode, resultCode, intent);
 			// Re-enable the button after result
 			welcomeScreenImage.setEnabled(true);
-			// Log.i("a", "0");
-			// Log.i("a", "0");
-			// Log.i("a", "0");
-			// Log.i("a", "0");
-			// Log.i("a", "0");
-			// Log.i("a", Boolean.toString(requestCode == IMPORT_IMAGE_RESULT));
 
-			// If the result is okay
 			if (requestCode == IMPORT_IMAGE_RESULT && resultCode == RESULT_OK) {
-				if (data != null) {
-					// Get the image path of the image
-					if (data.getData() != null) {
-						Log.i("a", data.getData().toString());
-
-						Uri pickedImage = data.getData();
+				// If there is intent
+				if (intent != null) {
+					// If there is data inside the intent
+					if (intent.getData() != null) {
+						// Get the image path of the image
+						String imagePath;
+						Uri pickedImage = intent.getData();
 						String[] filePath = { MediaStore.Images.Media.DATA };
 						Cursor cursor = getContentResolver().query(pickedImage,
 								filePath, null, null, null);
 						cursor.moveToFirst();
-						String imagePath = cursor.getString(cursor
+						imagePath = cursor.getString(cursor
 								.getColumnIndex(filePath[0]));
 						cursor.close();
-
-						Log.i("a", "0");
-						Log.i("a", "0");
-						Log.i("a", "0");
-						Log.i("a", "0");
-						Log.i("a", "0");
-						Log.i("a", imagePath);
 
 						// Forward the image path to the next activity
 						forwardImagePath(imagePath, MemeEditorActivity.class);
 					}
-					// else {
-					// Bundle extras = data.getExtras();
-					//
-					// Log.i("a", extras.toString());
-					// Log.i("a", extras.get("data").toString());
-					// for (int i = 0; i < extras.keySet().toArray().length;
-					// i++)
-					// Log.i("a", extras.keySet().toArray()[i].toString());
-					//
-					// // cameraBitmap = (Bitmap) extras.get("data");
-					// // saveImage();
-					// Log.i("a", cacheImage_forPassing.toString());
-					// forwardImagePath(cacheImage_forPassing.toString(),
-					// MemeEditorActivity.class);
-					// }
 				}
-
+				// If there is no intent being past back
 				else if (cacheImage_forPassing != null)
 					forwardImagePath(cacheImage_forPassing.toString(),
 							MemeEditorActivity.class);
-
+				// Show error toast if there is no image being imported
 				else
 					Toast.makeText(selfRef, "Image import is failed.",
 							Toast.LENGTH_LONG);
 			}
 		}
 	}
-
-	// // save image to a specific places
-	// private void saveImage() {
-	// // Create the file path and file name
-	// String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-	// .format(new Date());
-	// String fname = timeStamp + ".png";
-	// cacheImage_forPassing = new File(myDir, fname);
-	//
-	// // Remove duplicates
-	// if (cacheImage_forPassing.exists())
-	// cacheImage_forPassing.delete();
-	//
-	// // Try save the bitmap
-	// try {
-	// FileOutputStream out = new FileOutputStream(cacheImage_forPassing);
-	// cameraBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-	// out.flush();
-	// out.close();
-	// Log.i("memeCacheLocation", cacheImage_forPassing.toString());
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-
-	// // Clear the Bitmap from memory
-	// private void bp_release() {
-	// if (cameraBitmap != null && !cameraBitmap.isRecycled()) {
-	// cameraBitmap.recycle();
-	// cameraBitmap = null;
-	// }
-	// }
 }
