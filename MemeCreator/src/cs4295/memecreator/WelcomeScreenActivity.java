@@ -201,7 +201,7 @@ public class WelcomeScreenActivity extends Activity {
 
 					// Intent for calling camera and store the image at setImageUri()
 					Intent importFromCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					importFromCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, makeCacheImageUri());
+					importFromCameraIntent.putExtra(MediaStore.ACTION_IMAGE_CAPTURE, makeCacheImageUri());
 
 					// Intent to include camera and image intents
 					Intent chooserIntent = Intent.createChooser(
@@ -259,14 +259,14 @@ public class WelcomeScreenActivity extends Activity {
 					} else {
 						Bundle extras = data.getExtras();
 
-						Log.i("a", extras.toString());
-						Log.i("a", extras.get("data").toString());
+						Log.i("b", extras.toString());
+						Log.i("c", extras.get("data").toString());
 						for (int i = 0; i < extras.keySet().toArray().length; i++)
-							Log.i("a", extras.keySet().toArray()[i].toString());
+							Log.i("d", extras.keySet().toArray()[i].toString());
 
 						// cameraBitmap = (Bitmap) extras.get("data");
 						// saveImage();
-						Log.i("a", cacheImage_forPassing.toString());
+						Log.i("e", cacheImage_forPassing.toString());
 						forwardImagePath(cacheImage_forPassing.toString(),
 								MemeEditorActivity.class);
 					}
