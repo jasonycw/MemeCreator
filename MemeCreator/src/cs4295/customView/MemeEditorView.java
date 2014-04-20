@@ -37,6 +37,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 	private boolean onePress = true;
 	private boolean noTranslate = true;
 	private boolean isTouching = false;
+	private boolean pause = false;
 	private long startTime;
 	private boolean isInitialized = false;
 	private boolean showUpperText = false;
@@ -230,13 +231,15 @@ public class MemeEditorView extends View implements OnTouchListener {
 					this.getHeight() - 30, strokePaint);
 		}
 
-		// Delay for continue refresh
-		try {
-			Thread.sleep(15);
-		} catch (InterruptedException e) {
+		// Delay for continue refresh if not paused
+		if (!pause) {
+			try {
+				Thread.sleep(15);
+			} catch (InterruptedException e) {
+			}
+			Log.i("memeEditor", "onDraw is called.");
+			invalidate();
 		}
-		Log.i("memeEditor", "onDraw is called.");
-		invalidate();
 	}
 
 	// Scaling animation
@@ -442,5 +445,9 @@ public class MemeEditorView extends View implements OnTouchListener {
 								}
 							}).show();
 		}
+	}
+
+	public void pause() {
+		pause = true;
 	}
 }

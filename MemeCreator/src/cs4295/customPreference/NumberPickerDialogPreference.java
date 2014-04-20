@@ -79,6 +79,8 @@ public class NumberPickerDialogPreference extends DialogPreference
         mNumberPicker.setMinValue(mMinValue);
         mNumberPicker.setMaxValue(mMaxValue);
         mNumberPicker.setValue(mValue);
+        mNumberPicker.setWrapSelectorWheel(false);
+        mNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
  
     public int getMinValue()

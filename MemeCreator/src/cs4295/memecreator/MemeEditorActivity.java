@@ -145,8 +145,8 @@ public class MemeEditorActivity extends Activity {
 		// Create the SandboxView
 		setting = PreferenceManager
 				.getDefaultSharedPreferences(MemeEditorActivity.this);
-		final int memeSize = Integer.valueOf(setting.getString("image_size",
-				"720"));
+//		final int memeSize = Integer.valueOf(setting.getString("image_size","720"));
+		final int memeSize = setting.getInt("image_size",720);
 		Log.i("meme", "memeSize = " + memeSize);
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
@@ -310,6 +310,8 @@ public class MemeEditorActivity extends Activity {
 			super.onPreExecute();
 			linlaHeaderProgress.setVisibility(View.VISIBLE);
 			linlaHeaderProgress.bringToFront();
+			memeEditorView.pause();
+			memeEditorView.invalidate();
 		}
 
 		// Forwarding
