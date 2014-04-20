@@ -240,16 +240,26 @@ public class WelcomeScreenActivity extends Activity {
 				if (intent != null) {
 					// If there is data inside the intent
 					if (intent.getData() != null) {
-						// Get the image path of the image
 						String imagePath;
-						Uri pickedImage = intent.getData();
-						String[] filePath = { MediaStore.Images.Media.DATA };
-						Cursor cursor = getContentResolver().query(pickedImage,
-								filePath, null, null, null);
-						cursor.moveToFirst();
-						imagePath = cursor.getString(cursor
-								.getColumnIndex(filePath[0]));
-						cursor.close();
+						// Get the image path of the image
+						if(intent.getData().toString().contains("file:///"))
+						{
+							Log.i("cameraURI", intent.getData().toString());
+							imagePath = intent.getData().toString();
+							imagePath = imagePath.substring(7);
+						}
+						else
+						{
+							Uri pickedImage = intent.getData();
+							Log.i("Uri", pickedImage.toString());
+							String[] filePath = { MediaStore.Images.Media.DATA };
+							Cursor cursor = getContentResolver().query(pickedImage,
+									filePath, null, null, null);
+							cursor.moveToFirst();
+							imagePath = cursor.getString(cursor
+									.getColumnIndex(filePath[0]));
+							cursor.close();
+						}
 
 						// Forward the image path to the next activity
 						forwardImagePath(imagePath, MemeEditorActivity.class);
