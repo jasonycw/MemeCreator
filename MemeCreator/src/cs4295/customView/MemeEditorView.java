@@ -450,4 +450,8 @@ public class MemeEditorView extends View implements OnTouchListener {
 	public void pause() {
 		pause = true;
 	}
+	
+	public void resume(){
+		pause = false;
+	}
 }

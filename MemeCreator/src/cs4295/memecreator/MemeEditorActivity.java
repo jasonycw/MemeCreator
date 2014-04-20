@@ -237,6 +237,7 @@ public class MemeEditorActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		memeEditorView.setEnabled(true);
+		memeEditorView.resume();
 	}
 
 	@Override
