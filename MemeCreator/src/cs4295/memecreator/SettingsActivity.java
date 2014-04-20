@@ -71,30 +71,16 @@ public class SettingsActivity extends PreferenceActivity {
 				.findPreference("image_size");
 		numberPicker.setMinValue(300);
 		numberPicker.setOrder(Preference.DEFAULT_ORDER);
-		numberPicker.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference,
-					Object newValue) {
-				Integer value = (Integer) newValue;
-//				Long value = Long.valueOf((String) newValue);
-//
-//				if (value > 720) {
-//
-//					Toast.makeText(SettingsActivity.this,
-//							"The number should smaller than 720px",
-//							Toast.LENGTH_LONG).show();
-//					return false;
-//				} else if (value < 300) {
-//					Toast.makeText(SettingsActivity.this,
-//							"The number should larger than 100px",
-//							Toast.LENGTH_LONG).show();
-//					return false;
-//				} else {
-					preference.setSummary(value.toString());
-					return true;
-//				}
-			}
-		});
+		numberPicker
+				.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+						Integer value = (Integer) newValue;
+						preference.setSummary(value.toString());
+						return true;
+					}
+				});
 
 		// get the preference for image path
 		final Preference pathSelector = findPreference("image_path");
@@ -254,7 +240,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		// Trigger the listener immediately with the preference's
 		// current value.
-		Log.i("setting",preference.getKey());
+		Log.i("setting", preference.getKey());
 		sBindPreferenceSummaryToValueListener.onPreferenceChange(
 				preference,
 				PreferenceManager.getDefaultSharedPreferences(
