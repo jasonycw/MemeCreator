@@ -19,4 +19,6 @@
     <string name="set_meme_text_dialog_message">Please input some funny phase.  :)</string>
     <string name="meme_image_reset">Reset background image</string>
     <string name="chooser_intent_title">Import image</string>
+    <string name="pref_message_image_size">Please select pixel for image size:</string>
+
 </resources>

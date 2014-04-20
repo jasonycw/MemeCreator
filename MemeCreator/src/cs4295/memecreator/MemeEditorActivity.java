@@ -100,6 +100,7 @@ public class MemeEditorActivity extends Activity {
 
 		// See if tutorial is needed to be shown
 		tutorial = (LinearLayout) findViewById(R.id.meme_editor_tutorial);
+		tutorial.setEnabled(false);
 		tutorial.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -108,12 +109,16 @@ public class MemeEditorActivity extends Activity {
 			}
 		});
 		if (firsttimes) {
+			tutorial.setVisibility(View.VISIBLE);
 			tutorial.bringToFront();
+			tutorial.setEnabled(true);
 			firstTimeEditor.putBoolean("Meme_Pref", false);
 			firstTimeEditor.commit();
 
 		} else if (tutorialPreference) {
+			tutorial.setVisibility(View.VISIBLE);
 			tutorial.bringToFront();
+			tutorial.setEnabled(true);
 			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
 		} else {
 			tutorial.setVisibility(View.GONE);
@@ -145,8 +150,8 @@ public class MemeEditorActivity extends Activity {
 		// Create the SandboxView
 		setting = PreferenceManager
 				.getDefaultSharedPreferences(MemeEditorActivity.this);
-		final int memeSize = Integer.valueOf(setting.getString("image_size",
-				"720"));
+//		final int memeSize = Integer.valueOf(setting.getString("image_size","720"));
+		final int memeSize = setting.getInt("image_size",720);
 		Log.i("meme", "memeSize = " + memeSize);
 		memeEditorLayout = (LinearLayout) findViewById(R.id.memeEditorLayout);
 		memeEditorLayout.setGravity(Gravity.CENTER);
@@ -197,6 +202,11 @@ public class MemeEditorActivity extends Activity {
 			Toast.makeText(selfRef, "Your device is out of memory.",
 					Toast.LENGTH_LONG).show();
 			finish();
+		} catch (Exception e){
+			Log.i("Meme Editor Activity",e.toString());
+			Toast.makeText(selfRef, "Ops, something went wrong.",
+					Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 
@@ -237,6 +247,7 @@ public class MemeEditorActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		memeEditorView.setEnabled(true);
+		memeEditorView.resume();
 	}
 
 	@Override
@@ -244,6 +255,7 @@ public class MemeEditorActivity extends Activity {
 		// Try to delete cache if possible
 		deleteFile(myDir);
 		bp_release();
+		memeEditorView.destroyDrawingCache();
 		super.onDestroy();
 	}
 
@@ -310,6 +322,8 @@ public class MemeEditorActivity extends Activity {
 			super.onPreExecute();
 			linlaHeaderProgress.setVisibility(View.VISIBLE);
 			linlaHeaderProgress.bringToFront();
+			memeEditorView.pause();
+			memeEditorView.invalidate();
 		}
 
 		// Forwarding
