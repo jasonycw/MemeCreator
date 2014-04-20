@@ -242,7 +242,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 	// Scaling animation
 	private void scaling() {
 		if (!isTouching) {
-			if (scale < 0.2)
+			if (scale < 0.3)
 				scale *= 1.25;
 			else if (scale > 3)
 				scale *= 0.85;
