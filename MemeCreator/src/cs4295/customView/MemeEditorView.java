@@ -36,6 +36,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 	private TouchManager touchManager = new TouchManager(2);
 	private boolean onePress = true;
 	private boolean noTranslate = true;
+	private boolean isTouching = false;
 	private long startTime;
 	private boolean isInitialized = false;
 	private boolean showUpperText = false;
@@ -169,6 +170,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 		position.set(viewWidth / 2, viewHeight / 2);
 		scale = (widthScale > heightScale) ? heightScale : widthScale;
 
+		setWillNotDraw(false);
 		isInitialized = true;
 	}
 
@@ -199,12 +201,9 @@ public class MemeEditorView extends View implements OnTouchListener {
 			float[] touchPoint = new float[] { x, y };
 			inverse.mapPoints(touchPoint);
 			transform.postRotate(getDegreesFromRadians(angle), 0, 0);
-
-			// // For debugging
-			// paint.setColor(0xFF00007F);
-			// canvas.drawCircle(position.getX(),position.getY(), 64, paint);
 		} else
 			transform.postRotate(getDegreesFromRadians(angle));
+		scaling();
 		transform.postScale(scale, scale);
 		transform.postTranslate(position.getX(), position.getY());
 
@@ -231,25 +230,23 @@ public class MemeEditorView extends View implements OnTouchListener {
 					this.getHeight() - 30, strokePaint);
 		}
 
-		// // For debugging
-		// try {
-		// paint.setColor(0xFF007F00);
-		// canvas.drawCircle(vca.getX(), vca.getY(), 64, paint);
-		// paint.setColor(0xFF7F0000);
-		// canvas.drawCircle(vcb.getX(), vcb.getY(), 64, paint);
-		// paint.setColor(0xFF00007F);
-		// canvas.drawCircle(position.getX(),position.getY(), 64, paint);
-		//
-		// paint.setColor(0xFFFF0000);
-		// canvas.drawLine(vpa.getX(), vpa.getY(), vpb.getX(), vpb.getY(),
-		// paint);
-		// paint.setColor(0xFF00FF00);
-		// canvas.drawLine(vca.getX(), vca.getY(), vcb.getX(), vcb.getY(),
-		// paint);
-		// }
-		// catch(NullPointerException e) {
-		// // Just being lazy here...
-		// }
+		// Delay for continue refresh
+		try {
+			Thread.sleep(15);
+		} catch (InterruptedException e) {
+		}
+		Log.i("memeEditor", "onDraw is called.");
+		invalidate();
+	}
+
+	// Scaling animation
+	private void scaling() {
+		if (!isTouching) {
+			if (scale < 0.2)
+				scale *= 1.25;
+			else if (scale > 3)
+				scale *= 0.85;
+		}
 	}
 
 	@Override
@@ -300,18 +297,20 @@ public class MemeEditorView extends View implements OnTouchListener {
 					angle -= Vector2D.getSignedAngleBetween(current, previous);
 				}
 			}
-			invalidate();
+			// invalidate();
 		} catch (Throwable t) {
 			// So lazy...
 		}
 
-		// Codes for detecting onClick with 3 semaphores
+		// Codes for detecting onClick with 4 semaphores
 		// 1) Time of touching
 		// 2) Number of touching point
 		// 3) Translation distance
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		// 4) If it is touching
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			startTime = System.nanoTime();
-		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			isTouching = true;
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			// Calculate the touching time
 			long elapseTime = System.nanoTime() - startTime;
 			Log.i("meme", "onTouchEvent time: " + elapseTime + " nanoseconds");
@@ -325,6 +324,7 @@ public class MemeEditorView extends View implements OnTouchListener {
 			// Reset the semaphores
 			onePress = true;
 			noTranslate = true;
+			isTouching = false;
 		}
 
 		return true;

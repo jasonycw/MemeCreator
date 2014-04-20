@@ -236,6 +236,15 @@ public class WelcomeScreenActivity extends Activity {
 			welcomeScreenImage.setEnabled(true);
 
 			if (requestCode == IMPORT_IMAGE_RESULT && resultCode == RESULT_OK) {
+				
+//				
+//				Log.i("a", "intent not null?"+(intent != null));
+//				Log.i("a", "intent not null?"+(intent != null));
+//				Log.i("a", "intent not null?"+(intent != null));
+//				Log.i("a", "intent not null?"+(intent != null));
+//				Log.i("a", "intent not null?"+(intent != null));
+//				
+				
 				// If there is intent
 				if (intent != null) {
 					// If there is data inside the intent
