@@ -151,6 +151,7 @@ public class WelcomeScreenActivity extends Activity {
 			// Show tutorial only in some conditions
 			tutorial = (LinearLayout) rootView
 					.findViewById(R.id.welcome_screen_tutorial);
+			tutorial.setEnabled(false);
 			tutorial.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -159,11 +160,15 @@ public class WelcomeScreenActivity extends Activity {
 				}
 			});
 			if (firsttimes) {
+				tutorial.setVisibility(View.VISIBLE);
 				tutorial.bringToFront();
+				tutorial.setEnabled(true);
 				firstTimeEditor.putBoolean("task_Pref", false);
 				firstTimeEditor.commit();
 			} else if (tutorialPreference) {
+				tutorial.setVisibility(View.VISIBLE);
 				tutorial.bringToFront();
+				tutorial.setEnabled(true);
 				tutorialPreference = setting.getBoolean("Tutor_Preference",
 						false);
 			} else {

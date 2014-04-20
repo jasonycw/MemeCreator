@@ -100,6 +100,7 @@ public class MemeEditorActivity extends Activity {
 
 		// See if tutorial is needed to be shown
 		tutorial = (LinearLayout) findViewById(R.id.meme_editor_tutorial);
+		tutorial.setEnabled(false);
 		tutorial.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -108,12 +109,16 @@ public class MemeEditorActivity extends Activity {
 			}
 		});
 		if (firsttimes) {
+			tutorial.setVisibility(View.VISIBLE);
 			tutorial.bringToFront();
+			tutorial.setEnabled(true);
 			firstTimeEditor.putBoolean("Meme_Pref", false);
 			firstTimeEditor.commit();
 
 		} else if (tutorialPreference) {
+			tutorial.setVisibility(View.VISIBLE);
 			tutorial.bringToFront();
+			tutorial.setEnabled(true);
 			tutorialPreference = setting.getBoolean("Tutor_Preference", false);
 		} else {
 			tutorial.setVisibility(View.GONE);
@@ -197,6 +202,11 @@ public class MemeEditorActivity extends Activity {
 			Toast.makeText(selfRef, "Your device is out of memory.",
 					Toast.LENGTH_LONG).show();
 			finish();
+		} catch (Exception e){
+			Log.i("Meme Editor Activity",e.toString());
+			Toast.makeText(selfRef, "Ops, something went wrong.",
+					Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 
@@ -245,6 +255,7 @@ public class MemeEditorActivity extends Activity {
 		// Try to delete cache if possible
 		deleteFile(myDir);
 		bp_release();
+		memeEditorView.destroyDrawingCache();
 		super.onDestroy();
 	}
 
