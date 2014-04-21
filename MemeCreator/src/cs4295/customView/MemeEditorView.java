@@ -36,12 +36,14 @@ public class MemeEditorView extends View implements OnTouchListener
 	private Matrix			transform		= new Matrix();
 	private Vector2D		position		= new Vector2D();
 	private float			scale			= 1;
+	private float			defaultScale;
 	private float			angle			= 0;
 	private TouchManager	touchManager	= new TouchManager(2);
 	private boolean			onePress		= true;
 	private boolean			noTranslate		= true;
 	private boolean			isTouching		= false;
 	private boolean			pause			= false;
+	private boolean			valueChanged;
 	private long			startTime;
 	private boolean			isInitialized	= false;
 	private boolean			showUpperText	= false;
@@ -192,8 +194,10 @@ public class MemeEditorView extends View implements OnTouchListener
 		
 		position.set(viewWidth/2, viewHeight/2);
 		scale = (widthScale>heightScale)?heightScale:widthScale;
+		defaultScale = scale;
 		
 		setWillNotDraw(false);
+		valueChanged = true;
 		isInitialized = true;
 	}
 	
@@ -263,8 +267,12 @@ public class MemeEditorView extends View implements OnTouchListener
 				Thread.sleep(15);
 			}catch(InterruptedException e)
 			{}
-			Log.i("memeEditor", "onDraw is called.");
-			invalidate();
+			if(valueChanged)
+			{
+				Log.i("memeEditor", "onDraw is called.");
+				invalidate();
+				valueChanged = false;
+			}
 		}
 	}
 	
@@ -274,10 +282,16 @@ public class MemeEditorView extends View implements OnTouchListener
 	{
 		if(!isTouching)
 		{
-			if(scale<0.3)
+			if(scale<defaultScale)
+			{
 				scale *= 1.25;
-			else if(scale>3)
+				valueChanged = true;
+			}
+			else if(scale>defaultScale*10&&scale>1)
+			{
 				scale *= 0.85;
+				valueChanged = true;
+			}
 		}
 	}
 	
@@ -302,7 +316,6 @@ public class MemeEditorView extends View implements OnTouchListener
 				
 				// Add the drag distance vector to position vector
 				position.add(touchManager.moveDelta(0));
-				
 				// If the drag distance is more than 1 pixel
 				// Set the flag for translation
 				if(touchManager.moveDelta(0).getLength()>1)
@@ -337,7 +350,7 @@ public class MemeEditorView extends View implements OnTouchListener
 					angle -= Vector2D.getSignedAngleBetween(current, previous);
 				}
 			}
-			// invalidate();
+			invalidate();
 		}catch(Throwable t)
 		{
 			// So lazy...
@@ -352,6 +365,7 @@ public class MemeEditorView extends View implements OnTouchListener
 		{
 			startTime = System.nanoTime();
 			isTouching = true;
+			valueChanged = true;
 		}
 		else if(event.getAction()==MotionEvent.ACTION_UP)
 		{
@@ -368,6 +382,7 @@ public class MemeEditorView extends View implements OnTouchListener
 			onePress = true;
 			noTranslate = true;
 			isTouching = false;
+			valueChanged = false;
 		}
 		
 		return true;
