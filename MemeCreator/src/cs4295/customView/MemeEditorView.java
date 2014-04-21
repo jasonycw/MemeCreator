@@ -373,9 +373,10 @@ public class MemeEditorView extends View implements OnTouchListener
 			long elapseTime = System.nanoTime()-startTime;
 			Log.i("meme", "onTouchEvent time: "+elapseTime+" nanoseconds");
 			Log.i("meme", (onePress)?"Only one touch point":"Two touch points");
+			Log.i("meme", (noTranslate)?"No translate":"Translated");
 			
 			// If all condition are matches, identify as onClick
-			if(elapseTime<100000000&&onePress&&noTranslate)
+			if(elapseTime<130000000&&onePress&&noTranslate)
 				selfRef.onClick(event.getX(), event.getY());
 			
 			// Reset the semaphores
@@ -400,6 +401,7 @@ public class MemeEditorView extends View implements OnTouchListener
 	// On click method to add meme on the view
 	private void onClick(float x, float y)
 	{
+		Log.i("meme", "onClick is called");
 		// Set up the text box for the dialog
 		final EditText input = new EditText(this.getContext());
 		input.setHint(getRandomMeme());
