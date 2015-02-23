@@ -5,7 +5,7 @@ Simply use any image to make your own Meme! Simple! Easy!
 
 ![Meme](http://i.imgur.com/oeHziYm.png)
 
-### Download
+### Download and Check it out
 https://github.com/jasonycw/MemeCreator/blob/master/MemeCreator/bin/MemeCreator.apk
 
 ## Screenshots
