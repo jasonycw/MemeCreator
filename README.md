@@ -3,7 +3,7 @@ Android application for creating meme
 
 Simply use any image to make your own Meme! Simple! Easy!
 
-![Meme](http://i.imgur.com/oeHziYm.png)
+![Meme](http://i.imgur.com/7F9UTVK.png)
 
 ### Download and Check it out
 https://github.com/jasonycw/MemeCreator/blob/master/MemeCreator/bin/MemeCreator.apk
