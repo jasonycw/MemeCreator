@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/welcome_tutorial.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/welcome_tutorial.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/ic_menu_refresh2.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/ic_menu_refresh2.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/background.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/background.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/done_chalk2.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/done_chalk2.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/save_chalk2.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/save_chalk2.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/setting_icon_white.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/setting_icon_white.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/back_icon_white.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/back_icon_white.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/secondbackground.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/secondbackground.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/back_icon.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/back_icon.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/welcome_screen_image3.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/welcome_screen_image3.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/meme_editor_tutorial.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/meme_editor_tutorial.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/back_icon_black.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/back_icon_black.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/border.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/border.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/share_chalk.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/share_chalk.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/welcome_screen_setting.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/welcome_screen_setting.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable/meme_creator_icon8.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable/meme_creator_icon8.png"
+    }
+]

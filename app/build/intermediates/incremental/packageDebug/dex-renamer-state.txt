@@ -1,0 +1,7 @@
+#Thu Feb 02 18:38:32 CET 2017
+base.0=/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_50206e12a70fbd70dc0c754ed65ec79eeb1c5dd4
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_44bbd5079f24c9baa410d7569345949dcb59892d/classes.dex
+base.1=/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_44bbd5079f24c9baa410d7569345949dcb59892d
+file.0=/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_50206e12a70fbd70dc0c754ed65ec79eeb1c5dd4/classes.dex

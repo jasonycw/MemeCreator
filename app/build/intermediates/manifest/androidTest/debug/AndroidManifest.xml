@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cs4295.memecreator.test">
+
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
+
+    <application>
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+                     android:targetPackage="cs4295.memecreator"
+                     android:handleProfiling="false"
+                     android:functionalTest="false"
+                     android:label="Tests for cs4295.memecreator"/>
+</manifest>
