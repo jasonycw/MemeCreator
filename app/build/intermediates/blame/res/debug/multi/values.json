@@ -1,0 +1,792 @@
+[
+    {
+        "outputFile": "/home/anonymous/MemeCreator1/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 61,
+                    "endColumn": 19,
+                    "endOffset": 1923
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/sample_meme.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endLine": 62,
+                        "endColumn": 19,
+                        "endOffset": 1924
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 1928,
+                    "endColumn": 52,
+                    "endOffset": 1976
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 480,
+                        "endColumn": 52,
+                        "endOffset": 528
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 63,
+                    "startColumn": 4,
+                    "startOffset": 1981,
+                    "endColumn": 69,
+                    "endOffset": 2046
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 2,
+                        "startOffset": 152,
+                        "endColumn": 67,
+                        "endOffset": 217
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 64,
+                    "startColumn": 4,
+                    "startOffset": 2051,
+                    "endColumn": 41,
+                    "endOffset": 2088
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 273,
+                        "endColumn": 41,
+                        "endOffset": 310
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 65,
+                    "startColumn": 4,
+                    "startOffset": 2093,
+                    "endColumn": 48,
+                    "endOffset": 2137
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 315,
+                        "endColumn": 48,
+                        "endOffset": 359
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 2142,
+                    "endColumn": 45,
+                    "endOffset": 2183
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 2,
+                        "startOffset": 108,
+                        "endColumn": 43,
+                        "endOffset": 149
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 67,
+                    "startColumn": 4,
+                    "startOffset": 2188,
+                    "endColumn": 57,
+                    "endOffset": 2241
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 364,
+                        "endColumn": 57,
+                        "endOffset": 417
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 68,
+                    "startColumn": 4,
+                    "startOffset": 2246,
+                    "endColumn": 57,
+                    "endOffset": 2299
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 422,
+                        "endColumn": 57,
+                        "endOffset": 475
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 69,
+                    "startColumn": 4,
+                    "startOffset": 2304,
+                    "endColumn": 52,
+                    "endOffset": 2352
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/color.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 2,
+                        "startOffset": 220,
+                        "endColumn": 50,
+                        "endOffset": 268
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 71,
+                    "startColumn": 4,
+                    "startOffset": 2498,
+                    "endColumn": 57,
+                    "endOffset": 2551
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 89,
+                        "endColumn": 57,
+                        "endOffset": 142
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 72,
+                    "startColumn": 4,
+                    "startOffset": 2556,
+                    "endColumn": 55,
+                    "endOffset": 2607
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 147,
+                        "endColumn": 55,
+                        "endOffset": 198
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 73,
+                    "startColumn": 4,
+                    "startOffset": 2612,
+                    "endColumn": 52,
+                    "endOffset": 2660
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 375,
+                        "endColumn": 52,
+                        "endOffset": 423
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 74,
+                    "startColumn": 4,
+                    "startOffset": 2665,
+                    "endColumn": 49,
+                    "endOffset": 2710
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 49,
+                        "endOffset": 101
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 75,
+                    "startColumn": 4,
+                    "startOffset": 2715,
+                    "endColumn": 61,
+                    "endOffset": 2772
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1242,
+                        "endColumn": 61,
+                        "endOffset": 1299
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 76,
+                    "startColumn": 4,
+                    "startOffset": 2777,
+                    "endColumn": 61,
+                    "endOffset": 2834
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 494,
+                        "endColumn": 61,
+                        "endOffset": 551
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 77,
+                    "startColumn": 4,
+                    "startOffset": 2839,
+                    "endColumn": 64,
+                    "endOffset": 2899
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 556,
+                        "endColumn": 64,
+                        "endOffset": 616
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 78,
+                    "startColumn": 4,
+                    "startOffset": 2904,
+                    "endColumn": 52,
+                    "endOffset": 2952
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 106,
+                        "endColumn": 52,
+                        "endOffset": 154
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 79,
+                    "startColumn": 4,
+                    "startOffset": 2957,
+                    "endColumn": 133,
+                    "endOffset": 3086
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 241,
+                        "endColumn": 133,
+                        "endOffset": 370
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 80,
+                    "startColumn": 4,
+                    "startOffset": 3091,
+                    "endColumn": 67,
+                    "endOffset": 3154
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1174,
+                        "endColumn": 67,
+                        "endOffset": 1237
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 81,
+                    "startColumn": 4,
+                    "startOffset": 3159,
+                    "endColumn": 68,
+                    "endOffset": 3223
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 372,
+                        "endColumn": 68,
+                        "endOffset": 436
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 82,
+                    "startColumn": 4,
+                    "startOffset": 3228,
+                    "endColumn": 55,
+                    "endOffset": 3279
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 517,
+                        "endColumn": 55,
+                        "endOffset": 568
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 83,
+                    "startColumn": 4,
+                    "startOffset": 3284,
+                    "endColumn": 75,
+                    "endOffset": 3355
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 441,
+                        "endColumn": 75,
+                        "endOffset": 512
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 84,
+                    "startColumn": 4,
+                    "startOffset": 3360,
+                    "endColumn": 92,
+                    "endOffset": 3448
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endColumn": 92,
+                        "endOffset": 367
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 85,
+                    "startColumn": 4,
+                    "startOffset": 3453,
+                    "endColumn": 72,
+                    "endOffset": 3521
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 641,
+                        "endColumn": 72,
+                        "endOffset": 709
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 86,
+                    "startColumn": 4,
+                    "startOffset": 3526,
+                    "endColumn": 55,
+                    "endOffset": 3577
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 160,
+                        "endColumn": 55,
+                        "endOffset": 211
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 87,
+                    "startColumn": 4,
+                    "startOffset": 3582,
+                    "endColumn": 87,
+                    "endOffset": 3665
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1304,
+                        "endColumn": 87,
+                        "endOffset": 1387
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 88,
+                    "startColumn": 4,
+                    "startOffset": 3670,
+                    "endColumn": 62,
+                    "endOffset": 3728
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 216,
+                        "endColumn": 62,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 89,
+                    "startColumn": 4,
+                    "startOffset": 3733,
+                    "endColumn": 67,
+                    "endOffset": 3796
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 573,
+                        "endColumn": 67,
+                        "endOffset": 636
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 3801,
+                    "endColumn": 37,
+                    "endOffset": 3834
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 751,
+                        "endColumn": 37,
+                        "endOffset": 784
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 91,
+                    "startColumn": 4,
+                    "startOffset": 3839,
+                    "endColumn": 73,
+                    "endOffset": 3908
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1008,
+                        "endColumn": 73,
+                        "endOffset": 1077
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 92,
+                    "startColumn": 4,
+                    "startOffset": 3913,
+                    "endColumn": 91,
+                    "endOffset": 4000
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1082,
+                        "endColumn": 91,
+                        "endOffset": 1169
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 93,
+                    "startColumn": 4,
+                    "startOffset": 4005,
+                    "endColumn": 73,
+                    "endOffset": 4074
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 934,
+                        "endColumn": 73,
+                        "endOffset": 1003
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 94,
+                    "startColumn": 4,
+                    "startOffset": 4079,
+                    "endColumn": 66,
+                    "endOffset": 4141
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 789,
+                        "endColumn": 66,
+                        "endOffset": 851
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 95,
+                    "startColumn": 4,
+                    "startOffset": 4146,
+                    "endColumn": 77,
+                    "endOffset": 4219
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 856,
+                        "endColumn": 77,
+                        "endOffset": 929
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 96,
+                    "startColumn": 4,
+                    "startOffset": 4224,
+                    "endColumn": 59,
+                    "endOffset": 4279
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 691,
+                        "endColumn": 59,
+                        "endOffset": 746
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 97,
+                    "startColumn": 4,
+                    "startOffset": 4284,
+                    "endColumn": 69,
+                    "endOffset": 4349
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 621,
+                        "endColumn": 69,
+                        "endOffset": 686
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 98,
+                    "startColumn": 4,
+                    "startOffset": 4354,
+                    "endColumn": 65,
+                    "endOffset": 4415
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 428,
+                        "endColumn": 65,
+                        "endOffset": 489
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 99,
+                    "startColumn": 4,
+                    "startOffset": 4420,
+                    "endColumn": 60,
+                    "endOffset": 4476
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings_activity_settings.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endColumn": 60,
+                        "endOffset": 73
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 100,
+                    "startColumn": 4,
+                    "startOffset": 4481,
+                    "endColumn": 81,
+                    "endOffset": 4558
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 159,
+                        "endColumn": 81,
+                        "endOffset": 236
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 101,
+                    "startColumn": 4,
+                    "startOffset": 4563,
+                    "endLine": 112,
+                    "endColumn": 12,
+                    "endOffset": 5082
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/styles.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 193,
+                        "endLine": 18,
+                        "endColumn": 12,
+                        "endOffset": 722
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 113,
+                    "startColumn": 4,
+                    "startOffset": 5087,
+                    "endLine": 115,
+                    "endColumn": 12,
+                    "endOffset": 5242
+                },
+                "from": {
+                    "file": "/home/anonymous/MemeCreator1/app/src/main/res/values/styles.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 763,
+                        "endLine": 23,
+                        "endColumn": 12,
+                        "endOffset": 920
+                    }
+                }
+            }
+        ]
+    }
+]

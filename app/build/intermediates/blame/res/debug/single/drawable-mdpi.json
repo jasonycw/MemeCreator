@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_menu_refresh.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable-mdpi/ic_menu_refresh.png"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_launcher.png",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/drawable-mdpi/ic_launcher.png"
+    }
+]

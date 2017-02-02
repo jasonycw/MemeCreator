@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--     <color name="dark_gray">#FF008FCA</color> -->
+ 	<color name="dark_gray">#FF3C3C3C</color>
+ 	<color name="background_color">@drawable/secondbackground</color>
+ 	<color name="transparent_gray">#902B2B2B</color>
+    <color name="black">#FF2B2B2B</color>
+    <color name="border_color">#FF000000</color>
+    <color name="meme_background_color">#FF000000</color>
+    <color name="path_title_text_color">#FF33B5E5</color>
+    <color name="action_bar_color">#00C0C0C0</color>
+</resources>

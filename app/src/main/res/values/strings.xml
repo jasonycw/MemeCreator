@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Meme Creator</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="welcome_tutorial">Click "Meme Creator" to choose image</string>
+    <string name="meme_editor_tutorial">Click the top or bottome to add meme\'s sentences.\nYou can drag and zoom the image.</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_save_result_image">Back</string>
+    <string name="error_no_image">No image is found!</string>
+    <string name="getUserFile">Access user file storage</string>
+    <string name="title_activity_receive_intent">Create Meme</string>
+    <string name="title_activity_meme_editor">Back</string>
+    <string name="save">save</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="title_activity_file_explorer">FileExplorerActivity</string>
+    <string name="set_upper_text_dialog_title">Input Upper Text:</string>
+    <string name="set_lower_text_dialog_title">Input Lower Text:</string>
+    <string name="set_meme_text_dialog_message">Please input some funny phase.  :)</string>
+    <string name="meme_image_reset">Reset background image</string>
+    <string name="chooser_intent_title">Import image</string>
+    <string name="pref_message_image_size">Please select pixel for image size:</string>
+
+</resources>

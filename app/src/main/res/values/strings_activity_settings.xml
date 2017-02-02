@@ -1,0 +1,31 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+    <string name="pref_save_and_share">Save and Share</string>
+    <string name="pref_description_save_and_share">Allow you to save before sharing</string>
+    <string name="pref_change_save_path">Change Saving Path</string>
+    <string name="pref_default_save_path">/sdcard/DCIM/Meme/Media/</string>
+    <string name="pref_default_image_size">720</string>
+    <string name="pref_title_image_size">Change Image size</string>
+    <string name="pref_first_time_tutorial">First Time Tutorial</string>
+   <!--  <string name="pref_title_add_friends_to_messages">Add friends to messages</string> -->
+
+   <!--  <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array> -->
+    
+
+</resources>

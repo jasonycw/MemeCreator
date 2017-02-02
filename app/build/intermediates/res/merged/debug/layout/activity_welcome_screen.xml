@@ -1,0 +1,11 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcomeScreenActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/background"
+    tools:context="cs4295.memecreator.WelcomeScreenAcivity"
+    tools:ignore="MergeRootFrame" >
+
+</FrameLayout>
