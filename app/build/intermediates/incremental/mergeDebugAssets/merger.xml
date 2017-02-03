@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/anonymous/MemeCreator1/app/src/main/assets"><file name="impact.ttf" path="/home/anonymous/MemeCreator1/app/src/main/assets/impact.ttf"/></source><source path="/home/anonymous/MemeCreator1/app/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/home/anonymous/MemeCreator1/app/src/debug/assets"/></dataSet></merger>

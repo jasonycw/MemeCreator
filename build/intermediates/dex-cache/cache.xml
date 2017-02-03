@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/anonymous/MemeCreator1/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="74816fad8b6a9721ddd6b50e29ee45501a60ff1f">
+        <dex dex="/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_44bbd5079f24c9baa410d7569345949dcb59892d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/anonymous/MemeCreator1/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ac34d3e167a4717f781e0ab3b15c0d93a61cd96d">
+        <dex dex="/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_50206e12a70fbd70dc0c754ed65ec79eeb1c5dd4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/anonymous/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/home/anonymous/MemeCreator1/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-19.1.0_cbc05d0dc82697077e6de13d408b21888e242962/classes.dex" />
+    </item>
+
+</items>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="armeabi-v7a,armeabi"
+    api-level="25"
+    density="xxhdpi"
+    format="8"
+    plugin-version="2.2.3"
+    timestamp="5294801332391"
+    token="6129662455503199000"
+    verifier="COMPATIBLE" >
+
+    <task
+        name="javac"
+        duration="110" />
+    <task
+        name="instant-run-dex"
+        duration="630" />
+    <task
+        name="instant-run-transform"
+        duration="18" />
+    <task
+        name="verifier"
+        duration="2" />
+
+    <artifact
+        location="/home/anonymous/MemeCreator1/app/build/intermediates/reload-dex/debug/classes.dex"
+        type="RELOAD_DEX" />
+
+    <build
+        timestamp="5234023492331"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="/home/anonymous/MemeCreator1/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="5273463618121"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="/home/anonymous/MemeCreator1/app/build/intermediates/builds/debug/5273463618121/classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="5294801332391"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="/home/anonymous/MemeCreator1/app/build/intermediates/reload-dex/debug/classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+
+</instant-run>

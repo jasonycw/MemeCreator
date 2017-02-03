@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/xml/pref_headers.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/xml/pref_headers.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/xml/pref_general.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/xml/pref_general.xml"
+    }
+]

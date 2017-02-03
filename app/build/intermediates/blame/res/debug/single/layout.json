@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/row.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/row.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/activity_save_result_image.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/activity_save_result_image.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/activity_file_explorer.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/activity_file_explorer.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/activity_welcome_screen.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/activity_welcome_screen.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/fragment_welcome_screen_acivity.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/fragment_welcome_screen_acivity.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/preference_number_picker_dialog.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/preference_number_picker_dialog.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/activity_meme_editor.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/activity_meme_editor.xml"
+    },
+    {
+        "merged": "/home/anonymous/MemeCreator1/app/build/intermediates/res/merged/debug/layout/activity_receive_intent.xml",
+        "source": "/home/anonymous/MemeCreator1/app/src/main/res/layout/activity_receive_intent.xml"
+    }
+]
