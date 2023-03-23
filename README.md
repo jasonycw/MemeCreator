@@ -18,3 +18,4 @@ You can use any photo and use the share button to directly make your Meme! Prett
 
 ![](http://i.imgur.com/s6KFTzK.png) 
 
+[![Visualization of the codebase](./diagram.svg)](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=jasonycw%2FMemeCreator)
